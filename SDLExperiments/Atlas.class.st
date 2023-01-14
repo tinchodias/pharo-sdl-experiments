@@ -125,29 +125,3 @@ Atlas >> renderTileAt: srcRect to: dstRect [
 			srcRect: srcRect
 			dstRectF: dstRect
 ]
-
-{ #category : #debugging }
-Atlas >> showAsBlSpace [
-
-	| size aspect aSpace random scale |
-	aspect := pixelExtent x / pixelExtent y.
-	size := 500.
-	scale := size / pixelExtent y.
-	
-	aSpace := BlSpace new.
-	aSpace extent: (size * aspect) @ size.
-	aSpace root background: Color paleYellow.
-	aSpace root transformDo: [ :t |
-		t topLeftOrigin; scaleBy: scale ].
-
-	random := Random seed: 7.
-
-	tiles do: [ :each |
-		aSpace addChild: (BlElement new
-			relocate: each srcRect origin;
-			size: each srcRect extent;
-			background: (Color random: random);
-			yourself) ].
-	
-	aSpace show.
-]

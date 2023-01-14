@@ -154,32 +154,6 @@ SkylinePacker >> resetExtent: aPoint [
 	extent := aPoint
 ]
 
-{ #category : #'as yet unclassified' }
-SkylinePacker >> showAsBlSpace [
-
-	| aspect size aSpace random scale |
-	aspect := extent x / extent y.
-	size := 500.
-	scale := size / extent y.
-
-	aSpace := BlSpace new.
-	aSpace extent: (size * aspect) @ size.
-	aSpace root background: Color paleYellow.
-	aSpace root transformDo: [ :t |
-		t topLeftOrigin; scaleBy: scale ].
-
-	random := Random seed: 7.
-
-	nodes do: [ :each |
-		aSpace addChild: (BlElement new
-			relocate: each x @ each y;
-			size: each width @ (extent y - each y);
-			background: (Color random: random);
-			yourself) ].
-	
-	aSpace show.
-]
-
 { #category : #private }
 SkylinePacker >> shrinkOrDeleteToTheRightOf: insertedNode at: indexOfInsertedNode [
 	"After insertion, we may need to shrink or remove following nodes."
