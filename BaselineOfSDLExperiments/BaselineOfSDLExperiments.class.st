@@ -23,7 +23,7 @@ BaselineOfSDLExperiments >> baseline: spec [
 
 { #category : #'external projects' }
 BaselineOfSDLExperiments >> declareAlexandrieOn: spec [
-	spec
+	spec 
 		baseline: 'Alexandrie'
-		with: [ spec repository: 'github://tinchodias/pharo-sdl-experiments:main/' ]
+		with: [ spec repository: 'github://pharo-graphics/Alexandrie:master/src' ]
 ]
