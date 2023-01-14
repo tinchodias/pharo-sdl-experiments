@@ -1,5 +1,9 @@
+"
+I'm a demo where multiple circles translate, and only some of them are animated.
+
+"
 Class {
-	#name : #SceneWindowDemo,
+	#name : #AnimatedCirclesDemo,
 	#superclass : #Object,
 	#instVars : [
 		'windowExtent',
@@ -13,13 +17,13 @@ Class {
 }
 
 { #category : #accessing }
-SceneWindowDemo >> durationMS: anObject [
+AnimatedCirclesDemo >> durationMS: anObject [
 
 	durationMS := anObject
 ]
 
 { #category : #initialization }
-SceneWindowDemo >> initialize [
+AnimatedCirclesDemo >> initialize [
 
 	super initialize.
 	
@@ -32,25 +36,25 @@ SceneWindowDemo >> initialize [
 ]
 
 { #category : #accessing }
-SceneWindowDemo >> numberOfAnimatedCircles: anObject [
+AnimatedCirclesDemo >> numberOfAnimatedCircles: anObject [
 
 	numberOfAnimatedCircles := anObject
 ]
 
 { #category : #accessing }
-SceneWindowDemo >> numberOfCircles: anObject [
+AnimatedCirclesDemo >> numberOfCircles: anObject [
 
 	numberOfCircles := anObject
 ]
 
 { #category : #accessing }
-SceneWindowDemo >> random: anObject [
+AnimatedCirclesDemo >> random: anObject [
 
 	random := anObject
 ]
 
 { #category : #running }
-SceneWindowDemo >> reportOnTranscript [
+AnimatedCirclesDemo >> reportOnTranscript [
 
 	(String streamContents: [ :stream |
 		stream << 'Frames: '.
@@ -72,7 +76,7 @@ SceneWindowDemo >> reportOnTranscript [
 ]
 
 { #category : #running }
-SceneWindowDemo >> run [
+AnimatedCirclesDemo >> run [
 	<script: 'self new run; reportOnTranscript; inspect'>
 
 	sceneWindow := SceneWindow new
@@ -119,13 +123,13 @@ SceneWindowDemo >> run [
 ]
 
 { #category : #accessing }
-SceneWindowDemo >> sceneWindow [
+AnimatedCirclesDemo >> sceneWindow [
 
 	^ sceneWindow
 ]
 
 { #category : #accessing }
-SceneWindowDemo >> windowExtent: anObject [
+AnimatedCirclesDemo >> windowExtent: anObject [
 
 	windowExtent := anObject
 ]
