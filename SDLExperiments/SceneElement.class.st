@@ -23,14 +23,6 @@ Class {
 	#category : #'SDLExperiments-Core'
 }
 
-{ #category : #private }
-SceneElement >> createTile [
-	
-	tile := sceneWindow atlas addTileOf: extent.
-	
-	tile cairoContextToOverrideDo: renderBlock
-]
-
 { #category : #accessing }
 SceneElement >> extent [
 
