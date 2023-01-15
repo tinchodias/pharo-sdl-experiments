@@ -98,7 +98,7 @@ AnimatedCirclesDemo >> run [
 		anElement := sceneWindow addElement.
 		
 		anElement
-			isAnimated: index >= (numberOfCircles - numberOfAnimatedCircles);
+			isAnimated: index > (numberOfCircles - numberOfAnimatedCircles);
 			position: from;
 			extent: ((circleRadius + padding) *2) asPoint;
 			stepBlock: [ :deltaMS :totalMS |
