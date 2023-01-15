@@ -104,6 +104,17 @@ SceneWindow >> addElement [
 	^ newElement 
 ]
 
+{ #category : #'tile management' }
+SceneWindow >> addTileOf: aLogicalExtent [
+
+	^ atlas
+		addTileOf: aLogicalExtent
+		ifNoSpaceDo: [
+			"Should handle this case, maybe try
+			creation of another atlas"
+			self notYetImplemented ]
+]
+
 { #category : #accessing }
 SceneWindow >> atlas [
 	^ atlas
@@ -184,7 +195,9 @@ SceneWindow >> open [
 	atlas deviceScalePoint: deviceScalePoint.
 
 	"Trick for animations"
-	transientsTile := atlas addTileOf: sdlRenderer outputExtent.
+	transientsTile := atlas
+		addTileOf: sdlRenderer outputExtent
+		ifNoSpaceDo: [ self error ].
 
 	"Backgorund color"
 	sdlRenderer drawColorR: 255 g: 255 b: 255 a: 255.
@@ -279,7 +292,7 @@ SceneWindow >> totalSeconds [
 	^ (lastMS - startMS) / 1000.0
 ]
 
-{ #category : #private }
+{ #category : #'tile management' }
 SceneWindow >> transientTileOf: aLogicalExtent [
 
 	| aPixelExtent |

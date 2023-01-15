@@ -25,7 +25,7 @@ Atlas class >> newWithRenderer: aSDLRenderer pixelExtent: aPoint [
 ]
 
 { #category : #'instance creation' }
-Atlas >> addTileOf: aLogicalExtent [
+Atlas >> addTileOf: aLogicalExtent ifNoSpaceDo: noSpaceBlock [
 
 	| aPixelExtent |
 	aPixelExtent := aLogicalExtent * deviceScalePoint.
@@ -46,7 +46,7 @@ Atlas >> addTileOf: aLogicalExtent [
 
 			^ newTile ]
 		ifFailure: [
-			self notYetImplemented ].
+			^ noSpaceBlock value ].
 
 	
 ]

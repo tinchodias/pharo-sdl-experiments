@@ -151,7 +151,7 @@ SceneElement >> stepBlock: aBlock [
 SceneElement >> tile [
 
 	^ tile ifNil: [
-		tile := sceneWindow atlas addTileOf: extent.
+		tile := sceneWindow addTileOf: extent.
 		tile cairoContextToOverrideDo: renderBlock.
 		tile ]
 
