@@ -35,12 +35,9 @@ Atlas >> addTileOf: aLogicalExtent ifNoSpaceDo: noSpaceBlock [
 		ifSuccess: [ :aPixelPosition |
 			| newTile |
 			newTile :=
-				Tile new
-					atlas: self;
-					srcRect: (SDL_Rect
-						autoReleasingNewOrigin: aPixelPosition
-						extent: aPixelExtent);
-					yourself.
+				Tile
+					newFor: self
+					bounds: (aPixelPosition extent: aPixelExtent).
 
 			tiles add: newTile.
 

@@ -16,6 +16,14 @@ Class {
 	#category : #'SDLExperiments-Atlas'
 }
 
+{ #category : #'instance creation' }
+Tile class >> newFor: anAtlas bounds: aRectangle [ 
+	
+	^ self basicNew
+		initializeIn: anAtlas bounds: aRectangle;
+		yourself
+]
+
 { #category : #accessing }
 Tile >> bounds [
 	^ bounds
