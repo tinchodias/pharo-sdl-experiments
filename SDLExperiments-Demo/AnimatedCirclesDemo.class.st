@@ -17,9 +17,9 @@ Class {
 }
 
 { #category : #accessing }
-AnimatedCirclesDemo >> durationMS: anObject [
+AnimatedCirclesDemo >> durationMS: aDuration [
 
-	durationMS := anObject
+	durationMS := aDuration
 ]
 
 { #category : #initialization }
@@ -36,21 +36,21 @@ AnimatedCirclesDemo >> initialize [
 ]
 
 { #category : #accessing }
-AnimatedCirclesDemo >> numberOfAnimatedCircles: anObject [
+AnimatedCirclesDemo >> numberOfAnimatedCircles: aNumber [
 
-	numberOfAnimatedCircles := anObject
+	numberOfAnimatedCircles := aNumber
 ]
 
 { #category : #accessing }
-AnimatedCirclesDemo >> numberOfCircles: anObject [
+AnimatedCirclesDemo >> numberOfCircles: aNumber [
 
-	numberOfCircles := anObject
+	numberOfCircles := aNumber
 ]
 
 { #category : #accessing }
-AnimatedCirclesDemo >> random: anObject [
+AnimatedCirclesDemo >> random: aRandom [
 
-	random := anObject
+	random := aRandom
 ]
 
 { #category : #running }
@@ -129,7 +129,7 @@ AnimatedCirclesDemo >> sceneWindow [
 ]
 
 { #category : #accessing }
-AnimatedCirclesDemo >> windowExtent: anObject [
+AnimatedCirclesDemo >> windowExtent: aPoint [
 
-	windowExtent := anObject
+	windowExtent := aPoint
 ]

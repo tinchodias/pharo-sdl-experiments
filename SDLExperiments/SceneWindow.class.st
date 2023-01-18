@@ -300,12 +300,9 @@ SceneWindow >> transientTileOf: aLogicalExtent [
 
 	aPixelExtent := aLogicalExtent * deviceScalePoint.
 
+	"Copy with: same origin, adjust extent"
 	^ transientsTile copy
-		srcRect: (SDL_Rect
-			autoReleasingNewX: transientsTile srcRect x
-			y: transientsTile srcRect y
-			w: aPixelExtent x
-			h: aPixelExtent y);
+		bounds: (transientsTile bounds origin extent: aPixelExtent);
 		yourself
 ]
 

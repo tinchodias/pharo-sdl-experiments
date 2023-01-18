@@ -9,38 +9,47 @@ Class {
 	#name : #Tile,
 	#superclass : #Object,
 	#instVars : [
-		'srcRect',
-		'atlas'
+		'atlas',
+		'bounds',
+		'boundsAsSdlRect'
 	],
 	#category : #'SDLExperiments-Atlas'
 }
 
 { #category : #accessing }
-Tile >> atlas: anAtlas [
+Tile >> bounds [
+	^ bounds
+]
 
-	atlas := anAtlas
+{ #category : #initialization }
+Tile >> bounds: aRectangle [
+
+	bounds := aRectangle.
+	boundsAsSdlRect :=
+		SDL_Rect
+			autoReleasingNewOrigin: aRectangle origin
+			extent: aRectangle extent
+
 ]
 
 { #category : #enumerating }
 Tile >> cairoContextToOverrideDo: aBlock [
 
-	atlas cairoContextToOverride: srcRect do: aBlock
+	atlas cairoContextToOverride: boundsAsSdlRect do: aBlock
+]
+
+{ #category : #initialization }
+Tile >> initializeIn: anAtlas bounds: aRectangle [ 
+
+	self initialize.
+	
+	atlas := anAtlas.
+	self bounds: aRectangle
+
 ]
 
 { #category : #rendering }
 Tile >> renderTo: dstRect [
 
-	atlas renderTileAt: srcRect to: dstRect
-]
-
-{ #category : #accessing }
-Tile >> srcRect [
-
-	^ srcRect
-]
-
-{ #category : #accessing }
-Tile >> srcRect: aSDLRect [
-
-	srcRect := aSDLRect
+	atlas renderTileAt: boundsAsSdlRect to: dstRect
 ]
