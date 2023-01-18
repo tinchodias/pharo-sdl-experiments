@@ -15,7 +15,8 @@ Class {
 		'startMS',
 		'transientsTile',
 		'totalMS',
-		'deviceScalePoint'
+		'deviceScalePoint',
+		'animationTileStrategy'
 	],
 	#pools : [
 		'SDL2Constants',
@@ -62,7 +63,7 @@ SceneWindow class >> example1 [
 				anElement position: from + (relativeTo * amount) ];
 			renderBlock: [ :cairoContext |
 				cairoContext
-					sourceColorRGB: (Color random: random);
+					sourceColorRGB: Color random;
 					translateByX: padding y: padding;
 					lineWidth: lineWidth;
 					lineCap: AeCairoCapStyle square;

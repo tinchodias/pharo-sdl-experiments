@@ -28,7 +28,7 @@ AnimatedCirclesDemo >> initialize [
 	super initialize.
 	
 	windowExtent := 900 asPoint.
-	random := Random new.
+	random := Random seed: 7.
 	durationMS := 10000.0.
 	numberOfCircles := 200.
 	numberOfAnimatedCircles := 5.
