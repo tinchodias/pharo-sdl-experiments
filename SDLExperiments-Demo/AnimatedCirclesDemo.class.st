@@ -81,6 +81,7 @@ AnimatedCirclesDemo >> run [
 
 	sceneWindow := SceneWindow new
 		windowExtent: windowExtent;
+		useSameAtlasStrategy;
 		yourself.
 
 	1 to: numberOfCircles do: [ :index |

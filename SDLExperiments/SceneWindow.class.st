@@ -158,12 +158,26 @@ SceneWindow >> initialize [
 
 	elements := OrderedCollection new.
 
+	self useSameAtlasStrategy.
 ]
 
 { #category : #'accessing stats' }
 SceneWindow >> listOfDeltaMS [
 
 	^ listOfDeltaMS
+]
+
+{ #category : #'tile management' }
+SceneWindow >> newAtlasOf: aPixelExtent [
+
+	| newAtlas |
+	newAtlas := Atlas
+		newWithRenderer: sdlRenderer
+		pixelExtent: aPixelExtent.
+	newAtlas createTexture.
+	newAtlas deviceScalePoint: deviceScalePoint.
+	^ newAtlas
+
 ]
 
 { #category : #'life cycle' }
@@ -188,20 +202,14 @@ SceneWindow >> open [
 
 	sdlWindow title: 'Atlas Prototype Demo - ', info nameString.
 
-	atlas := Atlas
-		newWithRenderer: sdlRenderer
-		pixelExtent: info max_texture_width @ info max_texture_height.
-	atlas createTexture.
 	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
-	atlas deviceScalePoint: deviceScalePoint.
 
-	"Trick for animations"
-	transientsTile := atlas
-		addTileOf: sdlRenderer outputExtent
-		ifNoSpaceDo: [ self error ].
+	atlas := self newAtlasOf: info max_texture_width @ info max_texture_height.
 
 	"Backgorund color"
 	sdlRenderer drawColorR: 255 g: 255 b: 255 a: 255.
+
+	animationTileStrategy initializeOnOpenScene.
 
 	self startSteppingProcess.
 ]
@@ -297,14 +305,21 @@ SceneWindow >> totalSeconds [
 SceneWindow >> transientTileOf: aLogicalExtent [
 
 	| aPixelExtent |
-	self flag: #todo. "Ensure it fits!"
-
 	aPixelExtent := aLogicalExtent * deviceScalePoint.
 
-	"Copy with: same origin, adjust extent"
-	^ transientsTile copy
-		bounds: (transientsTile bounds origin extent: aPixelExtent);
-		yourself
+	^ animationTileStrategy tileOf: aPixelExtent
+]
+
+{ #category : #initialization }
+SceneWindow >> useOtherAtlasStrategy [
+
+	animationTileStrategy := OtherAtlasStrategy new sceneWindow: self; yourself.
+]
+
+{ #category : #initialization }
+SceneWindow >> useSameAtlasStrategy [
+
+	animationTileStrategy := SameAtlasStrategy new sceneWindow: self; yourself.
 ]
 
 { #category : #accessing }
