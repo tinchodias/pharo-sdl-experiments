@@ -3,7 +3,7 @@
 
 ## Installation
 
-Evaluate in Pharo:
+Evaluate in Pharo 11:
 
 ```Smalltalk
 
