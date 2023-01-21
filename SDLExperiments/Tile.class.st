@@ -17,27 +17,11 @@ Class {
 }
 
 { #category : #'instance creation' }
-Tile class >> newFor: anAtlas bounds: aRectangle [ 
+Tile class >> newFor: anAtlas pixelBounds: aPixelRectangle [ 
 	
 	^ self basicNew
-		initializeIn: anAtlas bounds: aRectangle;
+		initializeIn: anAtlas pixelBounds: aPixelRectangle;
 		yourself
-]
-
-{ #category : #accessing }
-Tile >> bounds [
-	^ bounds
-]
-
-{ #category : #initialization }
-Tile >> bounds: aRectangle [
-
-	bounds := aRectangle.
-	boundsAsSdlRect :=
-		SDL_Rect
-			autoReleasingNewOrigin: aRectangle origin
-			extent: aRectangle extent
-
 ]
 
 { #category : #enumerating }
@@ -47,12 +31,28 @@ Tile >> cairoContextToOverrideDo: aBlock [
 ]
 
 { #category : #initialization }
-Tile >> initializeIn: anAtlas bounds: aRectangle [ 
+Tile >> initializeIn: anAtlas pixelBounds: aPixelRectangle [ 
 
 	self initialize.
 	
 	atlas := anAtlas.
-	self bounds: aRectangle
+	self pixelBounds: aPixelRectangle
+
+]
+
+{ #category : #accessing }
+Tile >> pixelBounds [
+	^ bounds
+]
+
+{ #category : #initialization }
+Tile >> pixelBounds: aPixelRectangle [
+
+	bounds := aPixelRectangle.
+	boundsAsSdlRect :=
+		SDL_Rect
+			autoReleasingNewOrigin: aPixelRectangle origin
+			extent: aPixelRectangle extent
 
 ]
 

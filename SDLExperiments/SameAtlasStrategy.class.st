@@ -17,9 +17,9 @@ SameAtlasStrategy >> initializeOnOpenScene [
 SameAtlasStrategy >> tileOf: aPixelExtent [
 	"Answer a copy of my tile with same origin but adjusted extent."
 
-	Halt if: [ aPixelExtent > transientsTile bounds extent ].
+	Halt if: [ aPixelExtent > transientsTile pixelBounds extent ].
 
 	^ transientsTile copy
-		bounds: (transientsTile bounds origin extent: aPixelExtent);
+		pixelBounds: (transientsTile pixelBounds origin extent: aPixelExtent);
 		yourself
 ]

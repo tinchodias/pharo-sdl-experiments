@@ -37,7 +37,7 @@ Atlas >> addTileOf: aLogicalExtent ifNoSpaceDo: noSpaceBlock [
 			newTile :=
 				Tile
 					newFor: self
-					bounds: (aPixelPosition extent: aPixelExtent).
+					pixelBounds: (aPixelPosition extent: aPixelExtent).
 
 			tiles add: newTile.
 
@@ -112,6 +112,11 @@ Atlas >> initializeWithRenderer: aSDLRenderer pixelExtent: aPoint [
 	packer := SkylinePacker newWithExtent: aPoint.
 	tiles := OrderedCollection new.
 	deviceScalePoint := 1@1.
+]
+
+{ #category : #accessing }
+Atlas >> pixelExtent [
+	^ pixelExtent
 ]
 
 { #category : #private }

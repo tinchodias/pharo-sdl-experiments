@@ -2,7 +2,8 @@ Class {
 	#name : #OtherAtlasStrategy,
 	#superclass : #AnimationTileStrategy,
 	#instVars : [
-		'soleTile'
+		'soleTile',
+		'atlas'
 	],
 	#category : #'SDLExperiments-Core'
 }
@@ -10,15 +11,24 @@ Class {
 { #category : #initialization }
 OtherAtlasStrategy >> initializeOnOpenScene [
 
-	sceneWindow newAtlasOf: 1000 asPoint.
-	soleTile := sceneWindow addTileOf: 1000 asPoint.
+	| aLogicalExtent aPixelExtent |
+	aLogicalExtent := 1000 asPoint.
+	aPixelExtent := aLogicalExtent * sceneWindow deviceScalePoint.
+
+	atlas := sceneWindow newAtlasOf: aPixelExtent.
+	soleTile := 
+		atlas
+			addTileOf: aLogicalExtent
+			ifNoSpaceDo: [ self error: 'cant happen' ]
 ]
 
 { #category : #'as yet unclassified' }
 OtherAtlasStrategy >> tileOf: aPixelExtent [
 	"Answer a tile with adjusted extent."
 
+	Halt if: [ aPixelExtent > atlas pixelExtent ].
+
 	^ soleTile
-		bounds: (0@0 extent: aPixelExtent);
+		pixelBounds: (0@0 extent: aPixelExtent);
 		yourself
 ]

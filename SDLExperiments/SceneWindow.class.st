@@ -5,7 +5,6 @@ Class {
 		'windowExtent',
 		'sdlWindow',
 		'sdlRenderer',
-		'atlas',
 		'elements',
 		'session',
 		'steppingProcess',
@@ -16,7 +15,8 @@ Class {
 		'transientsTile',
 		'totalMS',
 		'deviceScalePoint',
-		'animationTileStrategy'
+		'animationTileStrategy',
+		'atlases'
 	],
 	#pools : [
 		'SDL2Constants',
@@ -108,7 +108,12 @@ SceneWindow >> addElement [
 { #category : #'tile management' }
 SceneWindow >> addTileOf: aLogicalExtent [
 
-	^ atlas
+	| aPixelExtent anAtlas |
+	aPixelExtent := aLogicalExtent * deviceScalePoint.
+	anAtlas := self newAtlasOf: aPixelExtent.
+	atlases add: anAtlas.
+
+	^ anAtlas
 		addTileOf: aLogicalExtent
 		ifNoSpaceDo: [
 			"Should handle this case, maybe try
@@ -116,17 +121,12 @@ SceneWindow >> addTileOf: aLogicalExtent [
 			self notYetImplemented ]
 ]
 
-{ #category : #accessing }
-SceneWindow >> atlas [
-	^ atlas
-]
-
 { #category : #'life cycle' }
 SceneWindow >> close [
 
 	self stopSteppingProcess.
 	
-	atlas destroyTexture.
+	atlases do: [ :each | each destroyTexture ].
 	sdlRenderer destroy.
 	sdlWindow destroy.
 
@@ -157,6 +157,7 @@ SceneWindow >> initialize [
 	windowExtent := 800 @ 600.
 
 	elements := OrderedCollection new.
+	atlases := OrderedCollection new.
 
 	self useSameAtlasStrategy.
 ]
@@ -204,7 +205,7 @@ SceneWindow >> open [
 
 	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
 
-	atlas := self newAtlasOf: info max_texture_width @ info max_texture_height.
+	atlases add: (self newAtlasOf: info max_texture_width @ info max_texture_height).
 
 	"Backgorund color"
 	sdlRenderer drawColorR: 255 g: 255 b: 255 a: 255.
