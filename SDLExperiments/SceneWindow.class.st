@@ -39,8 +39,9 @@ SceneWindow >> addTileOf: aLogicalExtent [
 
 	| aPixelExtent anAtlas |
 	aPixelExtent := aLogicalExtent * deviceScalePoint.
-	anAtlas := self newAtlasOf: aPixelExtent.
-	atlases add: anAtlas.
+	"anAtlas := self newAtlasOf: aPixelExtent.
+	atlases add: anAtlas."
+	anAtlas := atlases last.
 
 	^ anAtlas
 		addTileOf: aLogicalExtent
@@ -72,10 +73,9 @@ SceneWindow >> elements: aCollection [
 	elements := aCollection
 ]
 
-{ #category : #'accessing stats' }
-SceneWindow >> fps [
-
-	^ listOfDeltaMS size / self totalSeconds
+{ #category : #accessing }
+SceneWindow >> frameCounter [
+	^ frameCounter
 ]
 
 { #category : #initialization }
@@ -83,18 +83,20 @@ SceneWindow >> initialize [
 
 	super initialize.
 
-	windowExtent := 800 @ 600.
+	logicalExtent := 800 @ 600.
 
 	elements := OrderedCollection new.
 	atlases := OrderedCollection new.
 
-	self useSameAtlasStrategy.
+	self useAtlasTileStrategy.
+	
+	frameCounter := SceneFrameCounter new.
 ]
 
-{ #category : #'accessing stats' }
-SceneWindow >> listOfDeltaMS [
+{ #category : #accessing }
+SceneWindow >> logicalExtent: aPoint [
 
-	^ listOfDeltaMS
+	logicalExtent := aPoint
 ]
 
 { #category : #'tile management' }
@@ -122,8 +124,8 @@ SceneWindow >> open [
 	sdlWindow := SDL2 createWindow: 'Tiles'
 					x: 0
 					y: 0
-					width: windowExtent x
-					height: windowExtent y
+					width: logicalExtent x
+					height: logicalExtent y
 					flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI.
 	sdlRenderer := sdlWindow
 		createRenderer: -1
@@ -163,8 +165,8 @@ SceneWindow >> startSteppingProcess [
 { #category : #stepping }
 SceneWindow >> step [
 
+	frameCounter step.
 	self
-		stepTimeCounters;
 		stepElements;
 		stepRender;
 		stepWait
@@ -174,7 +176,7 @@ SceneWindow >> step [
 SceneWindow >> stepElements [
 	
 	elements do: [ :each |
-		each stepBlock cull: deltaMS cull: totalMS ]
+		each stepBlock cull: frameCounter deltaMS cull: frameCounter totalMS ]
 ]
 
 { #category : #stepping }
@@ -185,28 +187,6 @@ SceneWindow >> stepRender [
 	elements do: [ :each | each render ].
 
 	sdlRenderer present.
-
-]
-
-{ #category : #stepping }
-SceneWindow >> stepTimeCounters [
-
-	lastMS
-		ifNil: [
-			startMS := Time millisecondClockValue.
-			deltaMS := 0.
-			lastMS := startMS.
-			totalMS := 0.
-
-			listOfDeltaMS := OrderedCollection new: 10 * 250 ]
-		ifNotNil: [ 
-			| currentMS |
-			currentMS := Time millisecondClockValue.
-			deltaMS := currentMS - lastMS.
-			lastMS := currentMS.
-			totalMS := lastMS - startMS.
-
-			listOfDeltaMS add: deltaMS ]
 
 ]
 
@@ -225,12 +205,6 @@ SceneWindow >> stopSteppingProcess [
 	steppingProcess := nil.
 ]
 
-{ #category : #'accessing stats' }
-SceneWindow >> totalSeconds [
-
-	^ (lastMS - startMS) / 1000.0
-]
-
 { #category : #'tile management' }
 SceneWindow >> transientTileOf: aLogicalExtent [
 
@@ -241,25 +215,13 @@ SceneWindow >> transientTileOf: aLogicalExtent [
 ]
 
 { #category : #initialization }
-SceneWindow >> useOtherAtlasStrategy [
+SceneWindow >> useAtlasTileStrategy [
 
-	animationTileStrategy := OtherAtlasStrategy new sceneWindow: self; yourself.
+	animationTileStrategy := AtlasTileManager new sceneWindow: self; yourself.
 ]
 
 { #category : #initialization }
-SceneWindow >> useSameAtlasStrategy [
+SceneWindow >> useNaiveTileStrategy [
 
-	animationTileStrategy := SameAtlasStrategy new sceneWindow: self; yourself.
-]
-
-{ #category : #accessing }
-SceneWindow >> windowExtent [
-
-	^ windowExtent
-]
-
-{ #category : #accessing }
-SceneWindow >> windowExtent: aPoint [
-
-	windowExtent := aPoint
+	animationTileStrategy := NaiveTileManager new sceneWindow: self; yourself.
 ]

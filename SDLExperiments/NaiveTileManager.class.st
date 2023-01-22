@@ -1,6 +1,6 @@
 Class {
-	#name : #OtherAtlasStrategy,
-	#superclass : #AnimationTileStrategy,
+	#name : #NaiveTileManager,
+	#superclass : #TileManager,
 	#instVars : [
 		'soleTile',
 		'atlas'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #initialization }
-OtherAtlasStrategy >> initializeOnOpenScene [
+NaiveTileManager >> initializeOnOpenScene [
 
 	| aLogicalExtent aPixelExtent |
 	aLogicalExtent := 1000 asPoint.
@@ -23,7 +23,7 @@ OtherAtlasStrategy >> initializeOnOpenScene [
 ]
 
 { #category : #'as yet unclassified' }
-OtherAtlasStrategy >> tileOf: aPixelExtent [
+NaiveTileManager >> tileOf: aPixelExtent [
 	"Answer a tile with adjusted extent."
 
 	Halt if: [ aPixelExtent > atlas pixelExtent ].

@@ -1,5 +1,5 @@
 Class {
-	#name : #AnimationTileStrategy,
+	#name : #TileManager,
 	#superclass : #Object,
 	#instVars : [
 		'sceneWindow'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-AnimationTileStrategy >> sceneWindow: aSceneWindow [ 
+TileManager >> sceneWindow: aSceneWindow [ 
 	
 	sceneWindow := aSceneWindow
 ]

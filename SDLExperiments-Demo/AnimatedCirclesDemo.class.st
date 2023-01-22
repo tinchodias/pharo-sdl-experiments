@@ -6,12 +6,12 @@ Class {
 	#name : #AnimatedCirclesDemo,
 	#superclass : #Object,
 	#instVars : [
-		'windowExtent',
 		'random',
 		'durationMS',
 		'numberOfCircles',
 		'numberOfAnimatedCircles',
-		'sceneWindow'
+		'sceneWindow',
+		'windowLogicalExtent'
 	],
 	#category : #'SDLExperiments-Demo'
 }
@@ -27,7 +27,7 @@ AnimatedCirclesDemo >> initialize [
 
 	super initialize.
 	
-	windowExtent := 900 asPoint.
+	windowLogicalExtent := 900 asPoint.
 	random := Random seed: 7.
 	durationMS := 10000.0.
 	numberOfCircles := 200.
@@ -56,42 +56,26 @@ AnimatedCirclesDemo >> random: aRandom [
 { #category : #running }
 AnimatedCirclesDemo >> reportOnTranscript [
 
-	(String streamContents: [ :stream |
-		stream << 'Frames: '.
-
-"(From BlocBenchs)	
-
-		MeanConfidenceIntervalPrinter new
-			unitString: 'ms';
-			print: sceneWindow listOfDeltaMS
-				on: stream.
-		stream << ' ('."
-
-		sceneWindow fps
-			printOn: stream
-			showingDecimalPlaces: 1.
-		stream << ' per second'.
-
-		 ]) traceCr
+	sceneWindow frameCounter reportString traceCr
 ]
 
 { #category : #running }
 AnimatedCirclesDemo >> run [
-	<script: 'self new run; reportOnTranscript; inspect'>
+	<script: '[self new run; reportOnTranscript; inspect]fork'>
 
 	sceneWindow := SceneWindow new
-		windowExtent: windowExtent;
-		useSameAtlasStrategy;
+		logicalExtent: windowLogicalExtent;
+		useAtlasTileStrategy;
 		yourself.
 
 	1 to: numberOfCircles do: [ :index |
 		| circleRadius lineWidth padding from relativeTo anElement |
-		circleRadius := random nextIntegerBetween: 10 and: windowExtent x / 7.
+		circleRadius := random nextIntegerBetween: 10 and: windowLogicalExtent x / 7.
 		lineWidth := random nextIntegerBetween: 1 and: circleRadius/5.
 		padding := lineWidth.
 		from := Point
-			x: (random nextIntegerBetween: 0 and: windowExtent x - (circleRadius*2))
-			y: (random nextIntegerBetween: 0 and: windowExtent y - (circleRadius*2)).
+			x: (random nextIntegerBetween: 0 and: windowLogicalExtent x - (circleRadius*2))
+			y: (random nextIntegerBetween: 0 and: windowLogicalExtent y - (circleRadius*2)).
 		relativeTo := Point
 			x: (random nextIntegerBetween: -100 and: 100)
 			y: (random nextIntegerBetween: -100 and: 100).
@@ -130,7 +114,7 @@ AnimatedCirclesDemo >> sceneWindow [
 ]
 
 { #category : #accessing }
-AnimatedCirclesDemo >> windowExtent: aPoint [
+AnimatedCirclesDemo >> windowLogicalExtent: aPoint [
 
-	windowExtent := aPoint
+	windowLogicalExtent := aPoint
 ]
