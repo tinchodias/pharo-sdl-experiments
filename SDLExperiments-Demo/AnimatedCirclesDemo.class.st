@@ -16,6 +16,41 @@ Class {
 	#category : #'SDLExperiments-Demo'
 }
 
+{ #category : #running }
+AnimatedCirclesDemo class >> runAlternatives [
+	<script: '[ self runAlternatives ] fork'>
+
+	| managers driverNames |
+	managers := {
+		AtlasTileManager new.
+		TextureTileManager newStatic.
+		TextureTileManager newStreaming }.
+
+	driverNames := SDL2 renderDriverInfos collect: #nameString.
+	driverNames := driverNames copyWithout: 'software'.
+
+	managers do: [ :eachManager |
+		driverNames do: [ :eachDriverName |
+			| aDemo |
+			0.5 seconds wait.
+			Smalltalk garbageCollect.
+
+			aDemo := self new.
+			aDemo sceneWindow
+				tileManager: eachManager;
+				sdlRenderDriverName: eachDriverName.
+
+			(eachDriverName, ' ', eachManager asString) traceCr.
+
+			[	aDemo run.
+				aDemo reportOnTranscript ]
+					onErrorDo: [ :e | e description traceCr. ].
+
+			 ] ]
+	
+
+]
+
 { #category : #accessing }
 AnimatedCirclesDemo >> durationMS: aDuration [
 
@@ -26,12 +61,15 @@ AnimatedCirclesDemo >> durationMS: aDuration [
 AnimatedCirclesDemo >> initialize [
 
 	super initialize.
+
+	sceneWindow := SceneWindow new.
 	
-	windowLogicalExtent := 900 asPoint.
 	random := Random seed: 7.
 	durationMS := 10000.0.
 	numberOfCircles := 200.
-	numberOfAnimatedCircles := 5.
+	numberOfAnimatedCircles := 2.
+
+	self windowLogicalExtent: 900 asPoint.
 
 ]
 
@@ -47,35 +85,17 @@ AnimatedCirclesDemo >> numberOfCircles: aNumber [
 	numberOfCircles := aNumber
 ]
 
-{ #category : #accessing }
-AnimatedCirclesDemo >> random: aRandom [
-
-	random := aRandom
-]
-
 { #category : #running }
-AnimatedCirclesDemo >> reportOnTranscript [
-
-	sceneWindow frameCounter reportString traceCr
-]
-
-{ #category : #running }
-AnimatedCirclesDemo >> run [
-	<script: '[self new run; reportOnTranscript; inspect]fork'>
-
-	sceneWindow := SceneWindow new
-		logicalExtent: windowLogicalExtent;
-		useAtlasTileStrategy;
-		yourself.
+AnimatedCirclesDemo >> prepareSceneWindow [
 
 	1 to: numberOfCircles do: [ :index |
 		| circleRadius lineWidth padding from relativeTo anElement |
-		circleRadius := random nextIntegerBetween: 10 and: windowLogicalExtent x / 7.
+		circleRadius := random nextIntegerBetween: 10 and: sceneWindow logicalExtent x / 7.
 		lineWidth := random nextIntegerBetween: 1 and: circleRadius/5.
 		padding := lineWidth.
 		from := Point
-			x: (random nextIntegerBetween: 0 and: windowLogicalExtent x - (circleRadius*2))
-			y: (random nextIntegerBetween: 0 and: windowLogicalExtent y - (circleRadius*2)).
+			x: (random nextIntegerBetween: 0 and: sceneWindow logicalExtent x - (circleRadius*2))
+			y: (random nextIntegerBetween: 0 and: sceneWindow logicalExtent y - (circleRadius*2)).
 		relativeTo := Point
 			x: (random nextIntegerBetween: -100 and: 100)
 			y: (random nextIntegerBetween: -100 and: 100).
@@ -99,7 +119,27 @@ AnimatedCirclesDemo >> run [
 					dash: (AeCairoDoubleArray newFrom: { 0. (lineWidth*2) }) offset: 0;
 					circleRadius: circleRadius;
 					stroke ].
-		].
+		]
+
+]
+
+{ #category : #accessing }
+AnimatedCirclesDemo >> random: aRandom [
+
+	random := aRandom
+]
+
+{ #category : #running }
+AnimatedCirclesDemo >> reportOnTranscript [
+
+	sceneWindow frameCounter reportString traceCr
+]
+
+{ #category : #running }
+AnimatedCirclesDemo >> run [
+	<script: '[self new run; reportOnTranscript; inspect]fork'>
+
+	self prepareSceneWindow.
 
 	sceneWindow open.
 	(Delay forMilliseconds: durationMS) wait.
@@ -116,5 +156,5 @@ AnimatedCirclesDemo >> sceneWindow [
 { #category : #accessing }
 AnimatedCirclesDemo >> windowLogicalExtent: aPoint [
 
-	windowLogicalExtent := aPoint
+	sceneWindow logicalExtent: aPoint
 ]

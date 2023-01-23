@@ -1,6 +1,21 @@
 Extension { #name : #SDL2 }
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: width height: height [
+	"See: https://wiki.libsdl.org/SDL_CreateRGBSurfaceWithFormat"
+
+	^ self ffiCall: #(
+		SDL_Surface*
+		SDL_CreateRGBSurfaceWithFormat (
+			0, 
+			int width, 
+			int height, 
+			int depth, 
+			Uint32 aSDLPixelFormat) )
+
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> primGetNumRenderDrivers [
 
 	^ self ffiCall: #(

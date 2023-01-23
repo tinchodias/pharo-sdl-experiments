@@ -29,7 +29,21 @@ SDL_Rect >> extent [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Rect >> extent: aPoint [
+
+	self w: aPoint x.
+	self h: aPoint y
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Rect >> origin [
 
 	^ self x @ self y
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL_Rect >> origin: aPoint [
+
+	self x: aPoint x.
+	self y: aPoint y
 ]

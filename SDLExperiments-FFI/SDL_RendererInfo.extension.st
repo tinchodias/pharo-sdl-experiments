@@ -13,6 +13,12 @@ SDL_RendererInfo >> isXRGB8888Supported [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_RendererInfo >> maxTextureExtent [
+	
+	^ self max_texture_width @ self max_texture_height
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_RendererInfo >> nameString [
 
 	^ self name bytesFromCString utf8Decoded

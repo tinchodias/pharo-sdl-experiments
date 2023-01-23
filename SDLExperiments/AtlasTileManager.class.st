@@ -2,22 +2,52 @@ Class {
 	#name : #AtlasTileManager,
 	#superclass : #TileManager,
 	#instVars : [
-		'transientsTile'
+		'transientsTile',
+		'atlas',
+		'sceneWindow'
 	],
-	#category : #'SDLExperiments-Core'
+	#category : #'SDLExperiments-Atlas'
 }
 
-{ #category : #initializaiton }
-AtlasTileManager >> initializeOnOpenScene [
+{ #category : #lifecycle }
+AtlasTileManager >> finalize [
 
-	transientsTile := sceneWindow addTileOf: 1000 asPoint
+	atlas destroyTexture
 ]
 
-{ #category : #'as yet unclassified' }
-AtlasTileManager >> tileOf: aPixelExtent [
+{ #category : #lifecycle }
+AtlasTileManager >> prepareOn: aSceneWindow [
+
+	sceneWindow := aSceneWindow.
+
+	atlas := sceneWindow
+		newAtlasOf: sceneWindow sdlRenderer info maxTextureExtent.
+
+	transientsTile := self staticTileOf: 1000 asPoint
+]
+
+{ #category : #'tile creation' }
+AtlasTileManager >> staticTileOf: aPixelExtent [
+
+"	atlases add: anAtlas."
+"	anAtlas := atlases last."
+
+	| aLogicalExtent |
+	self flag: #todo. "Too messy"
+	aLogicalExtent := aPixelExtent / sceneWindow deviceScalePoint.
+
+	^ atlas
+		addTileOf: aLogicalExtent
+		ifNoSpaceDo: [
+			self notYetImplemented ]
+]
+
+{ #category : #'tile creation' }
+AtlasTileManager >> transientTileOf: aPixelExtent [
 	"Answer a copy of my tile with same origin but adjusted extent."
 
-	Halt if: [ aPixelExtent > transientsTile pixelBounds extent ].
+	(aPixelExtent > transientsTile pixelBounds extent) ifTrue: [
+		self notYetImplemented ].
 
 	^ transientsTile copy
 		pixelBounds: (transientsTile pixelBounds origin extent: aPixelExtent);

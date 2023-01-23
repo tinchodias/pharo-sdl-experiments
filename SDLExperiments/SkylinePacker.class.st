@@ -11,7 +11,7 @@ Class {
 		'nodes',
 		'extent'
 	],
-	#category : #'SDLExperiments-Skyline'
+	#category : #'SDLExperiments-Atlas-Skyline'
 }
 
 { #category : #'instance creation' }

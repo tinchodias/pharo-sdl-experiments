@@ -1,14 +1,29 @@
 Class {
 	#name : #TileManager,
 	#superclass : #Object,
-	#instVars : [
-		'sceneWindow'
-	],
 	#category : #'SDLExperiments-Core'
 }
 
-{ #category : #accessing }
-TileManager >> sceneWindow: aSceneWindow [ 
-	
-	sceneWindow := aSceneWindow
+{ #category : #lifecycle }
+TileManager >> finalize [
+
+	self subclassResponsibility
+]
+
+{ #category : #lifecycle }
+TileManager >> prepareOn: aSceneWindow [
+
+	self subclassResponsibility
+]
+
+{ #category : #'tile creation' }
+TileManager >> staticTileOf: aPixelExtent [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #'tile creation' }
+TileManager >> transientTileOf: aPixelExtent [
+
+	^ self subclassResponsibility
 ]

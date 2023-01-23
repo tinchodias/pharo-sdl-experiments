@@ -7,12 +7,11 @@ Class {
 		'elements',
 		'session',
 		'steppingProcess',
-		'transientsTile',
 		'deviceScalePoint',
-		'animationTileStrategy',
-		'atlases',
 		'logicalExtent',
-		'frameCounter'
+		'frameCounter',
+		'tileManager',
+		'sdlRenderDriverName'
 	],
 	#pools : [
 		'SDL2Constants',
@@ -37,18 +36,10 @@ SceneWindow >> addElement [
 { #category : #'tile management' }
 SceneWindow >> addTileOf: aLogicalExtent [
 
-	| aPixelExtent anAtlas |
+	| aPixelExtent |
 	aPixelExtent := aLogicalExtent * deviceScalePoint.
-	"anAtlas := self newAtlasOf: aPixelExtent.
-	atlases add: anAtlas."
-	anAtlas := atlases last.
-
-	^ anAtlas
-		addTileOf: aLogicalExtent
-		ifNoSpaceDo: [
-			"Should handle this case, maybe try
-			creation of another atlas"
-			self notYetImplemented ]
+	
+	^ tileManager staticTileOf: aPixelExtent
 ]
 
 { #category : #'life cycle' }
@@ -56,7 +47,7 @@ SceneWindow >> close [
 
 	self stopSteppingProcess.
 	
-	atlases do: [ :each | each destroyTexture ].
+	tileManager finalize.
 	sdlRenderer destroy.
 	sdlWindow destroy.
 
@@ -86,11 +77,16 @@ SceneWindow >> initialize [
 	logicalExtent := 800 @ 600.
 
 	elements := OrderedCollection new.
-	atlases := OrderedCollection new.
 
-	self useAtlasTileStrategy.
+	tileManager := AtlasTileManager new.
 	
 	frameCounter := SceneFrameCounter new.
+]
+
+{ #category : #accessing }
+SceneWindow >> logicalExtent [
+
+	^ logicalExtent
 ]
 
 { #category : #accessing }
@@ -115,11 +111,11 @@ SceneWindow >> newAtlasOf: aPixelExtent [
 { #category : #'life cycle' }
 SceneWindow >> open [
 
-	| info |
 	SDL2 initVideo.
 	SDL2 setHint: 'SDL_RENDER_BATCHING' value: '1'.
 	SDL2 setHint: 'SDL_FRAMEBUFFER_ACCELERATION' value: '1'.
-"	SDL2 setHint: 'SDL_RENDER_DRIVER' value: 'metal'."
+	sdlRenderDriverName ifNotNil: [
+		SDL2 setHint: 'SDL_RENDER_DRIVER' value: sdlRenderDriverName ].
 
 	sdlWindow := SDL2 createWindow: 'Tiles'
 					x: 0
@@ -130,20 +126,26 @@ SceneWindow >> open [
 	sdlRenderer := sdlWindow
 		createRenderer: -1
 		flags: SDL_RENDERER_ACCELERATED.
-	info := sdlRenderer info.
-
-	sdlWindow title: 'Atlas Prototype Demo - ', info nameString.
 
 	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
-
-	atlases add: (self newAtlasOf: info max_texture_width @ info max_texture_height).
 
 	"Backgorund color"
 	sdlRenderer drawColorR: 255 g: 255 b: 255 a: 255.
 
-	animationTileStrategy initializeOnOpenScene.
+	tileManager prepareOn: self.
 
 	self startSteppingProcess.
+]
+
+{ #category : #accessing }
+SceneWindow >> sdlRenderDriverName: anObject [
+
+	sdlRenderDriverName := anObject
+]
+
+{ #category : #accessing }
+SceneWindow >> sdlRenderer [
+	^ sdlRenderer
 ]
 
 { #category : #stepping }
@@ -205,23 +207,23 @@ SceneWindow >> stopSteppingProcess [
 	steppingProcess := nil.
 ]
 
+{ #category : #accessing }
+SceneWindow >> tileManager: aTileManager [ 
+	
+	tileManager := aTileManager
+]
+
+{ #category : #accessing }
+SceneWindow >> title: aString [
+
+	sdlWindow title: aString
+]
+
 { #category : #'tile management' }
 SceneWindow >> transientTileOf: aLogicalExtent [
 
 	| aPixelExtent |
 	aPixelExtent := aLogicalExtent * deviceScalePoint.
 
-	^ animationTileStrategy tileOf: aPixelExtent
-]
-
-{ #category : #initialization }
-SceneWindow >> useAtlasTileStrategy [
-
-	animationTileStrategy := AtlasTileManager new sceneWindow: self; yourself.
-]
-
-{ #category : #initialization }
-SceneWindow >> useNaiveTileStrategy [
-
-	animationTileStrategy := NaiveTileManager new sceneWindow: self; yourself.
+	^ tileManager transientTileOf: aPixelExtent
 ]

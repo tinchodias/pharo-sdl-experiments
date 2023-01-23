@@ -35,7 +35,7 @@ Atlas >> addTileOf: aLogicalExtent ifNoSpaceDo: noSpaceBlock [
 		ifSuccess: [ :aPixelPosition |
 			| newTile |
 			newTile :=
-				Tile
+				AtlasTile
 					newFor: self
 					pixelBounds: (aPixelPosition extent: aPixelExtent).
 
