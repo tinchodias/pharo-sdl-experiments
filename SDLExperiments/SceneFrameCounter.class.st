@@ -38,18 +38,16 @@ SceneFrameCounter >> reportString [
 	^ String streamContents: [ :stream |
 		stream << 'Frames: '.
 
-"(From BlocBenchs)	
-
 		MeanConfidenceIntervalPrinter new
 			unitString: 'ms';
-			print: sceneWindow listOfDeltaMS
+			print: listOfDeltaMS
 				on: stream.
-		stream << ' ('."
+		stream << ' ('.
 
 		self fps
 			printOn: stream
 			showingDecimalPlaces: 1.
-		stream << ' per second' ]
+		stream << ' per second)' ]
 ]
 
 { #category : #stepping }
