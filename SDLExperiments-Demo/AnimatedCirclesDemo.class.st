@@ -27,10 +27,12 @@ AnimatedCirclesDemo class >> runAlternatives [
 		TextureTileManager newStreaming }.
 
 	driverNames := SDL2 renderDriverInfos collect: #nameString.
+	driverNames := driverNames copyWithout: 'opengles2'.
 	driverNames := driverNames copyWithout: 'software'.
 
-	managers do: [ :eachManager |
-		driverNames do: [ :eachDriverName |
+	driverNames do: [ :eachDriverName |
+		eachDriverName traceCr.
+		managers do: [ :eachManager |
 			| aDemo |
 			0.5 seconds wait.
 			Smalltalk garbageCollect.
@@ -40,14 +42,13 @@ AnimatedCirclesDemo class >> runAlternatives [
 				tileManager: eachManager;
 				sdlRenderDriverName: eachDriverName.
 
-			(eachDriverName, ' ', eachManager asString) traceCr.
+			eachManager asString traceCr.
 
 			[	aDemo run.
 				aDemo reportOnTranscript ]
 					onErrorDo: [ :e | e description traceCr. ].
-
-			 ] ]
-	
+			 ] ].
+	'Done' traceCr.
 
 ]
 
