@@ -29,22 +29,25 @@ AnimatedCirclesDemo class >> runAlternatives [
 	driverNames := SDL2 renderDriverInfos collect: #nameString.
 	driverNames := driverNames copyWithout: 'opengles2'.
 	driverNames := driverNames copyWithout: 'software'.
+"	driverNames := #(metal)."
 
 	driverNames do: [ :eachDriverName |
 		eachDriverName traceCr.
 		managers do: [ :eachManager |
 			| aDemo |
-			0.5 seconds wait.
-			Smalltalk garbageCollect.
 
 			aDemo := self new.
+			aDemo durationMS: 2000.
 			aDemo sceneWindow
 				tileManager: eachManager;
 				sdlRenderDriverName: eachDriverName.
 
-			eachManager asString traceCr.
+			0.5 seconds wait.
+			Smalltalk garbageCollect.
+
 
 			[	aDemo run.
+				eachManager asString traceCr.
 				aDemo reportOnTranscript ]
 					onErrorDo: [ :e | e description traceCr. ].
 			 ] ].
@@ -91,12 +94,20 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 
 	1 to: numberOfCircles do: [ :index |
 		| circleRadius lineWidth padding from relativeTo anElement |
-		circleRadius := random nextIntegerBetween: 10 and: sceneWindow logicalExtent x / 7.
-		lineWidth := random nextIntegerBetween: 1 and: circleRadius/5.
+		circleRadius := random
+			nextIntegerBetween: 10
+			and: sceneWindow logicalExtent x / 7.
+		lineWidth := random
+			nextIntegerBetween: 1
+			and: circleRadius/5.
 		padding := lineWidth.
 		from := Point
-			x: (random nextIntegerBetween: 0 and: sceneWindow logicalExtent x - (circleRadius*2))
-			y: (random nextIntegerBetween: 0 and: sceneWindow logicalExtent y - (circleRadius*2)).
+			x: (random 
+					nextIntegerBetween: 0
+					and: sceneWindow logicalExtent x - (circleRadius*2))
+			y: (random
+					nextIntegerBetween: 0
+					and: sceneWindow logicalExtent y - (circleRadius*2)).
 		relativeTo := Point
 			x: (random nextIntegerBetween: -100 and: 100)
 			y: (random nextIntegerBetween: -100 and: 100).
@@ -117,7 +128,9 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 					translateByX: padding y: padding;
 					lineWidth: lineWidth;
 					lineCap: AeCairoCapStyle square;
-					dash: (AeCairoDoubleArray newFrom: { 0. (lineWidth*2) }) offset: 0;
+					dash: (AeCairoDoubleArray
+						newFrom: { 0. (lineWidth*2) })
+						offset: 0;
 					circleRadius: circleRadius;
 					stroke ].
 		]

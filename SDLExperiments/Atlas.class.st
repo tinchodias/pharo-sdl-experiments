@@ -119,6 +119,20 @@ Atlas >> pixelExtent [
 	^ pixelExtent
 ]
 
+{ #category : #printing }
+Atlas >> printOn: aStream [
+	"Generate a string representation of the receiver based on its instance variables."
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' pixelExtent: ';
+		print: pixelExtent.
+	aStream
+		nextPutAll: ' nº of tiles: ';
+		print: tiles size.
+
+]
+
 { #category : #private }
 Atlas >> renderTileAt: srcRect to: dstRect [
 

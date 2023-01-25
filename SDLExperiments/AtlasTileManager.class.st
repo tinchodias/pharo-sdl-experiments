@@ -26,6 +26,17 @@ AtlasTileManager >> prepareOn: aSceneWindow [
 	transientsTile := self staticTileOf: 1000 asPoint
 ]
 
+{ #category : #printing }
+AtlasTileManager >> printOn: aStream [
+	"Generate a string representation of the receiver based on its instance variables."
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' atlas: (';
+		print: atlas;
+		nextPut: $)
+]
+
 { #category : #'tile creation' }
 AtlasTileManager >> staticTileOf: aPixelExtent [
 
