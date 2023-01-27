@@ -2,9 +2,10 @@ Class {
 	#name : #StaticTextureTile,
 	#superclass : #TextureTile,
 	#instVars : [
-		'sdlSurface',
 		'cairoSurface',
-		'cairoContext'
+		'cairoContext',
+		'cairoSurfacePixels',
+		'cairoSurfaceStride'
 	],
 	#category : #'SDLExperiments-Texture'
 }
@@ -18,19 +19,13 @@ StaticTextureTile >> cairoContextToOverrideDo: aBlock [
 
 	sdlTexture
 		updateTextureRect: SDL_Rect null
-			pixels: sdlSurface pixels
-			pitch:  sdlSurface pitch.
+			pixels: cairoSurfacePixels
+			pitch:  cairoSurfaceStride.
 
 ]
 
 { #category : #'life cycle' }
 StaticTextureTile >> createTexture [
-
-	sdlSurface := SDL2
-		createRGBSurfaceWithFormat: SDL_PIXELFORMAT_ARGB8888
-		depth: 32
-		width: pixelExtent x
-		height: pixelExtent y.
 
 	sdlTexture := sdlRenderer
 		createTextureFormat: SDL_PIXELFORMAT_ARGB8888
@@ -40,12 +35,13 @@ StaticTextureTile >> createTexture [
 	sdlTexture blendMode: SDL_BLENDMODE_BLEND.
 	
 	cairoSurface := AeCairoImageSurface
-		newForData: sdlSurface pixels
 		extent: pixelExtent
-		stride: sdlSurface pitch
 		format: AeCairoSurfaceFormat argb32.
 	cairoSurface deviceScale: deviceScalePoint.
 
 	cairoContext := cairoSurface newContext.
+
+	cairoSurfaceStride := cairoSurface stride.
+	cairoSurfacePixels := cairoSurface data
 
 ]
