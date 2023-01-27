@@ -54,6 +54,17 @@ TextureTileManager >> prepareOn: aSceneWindow [
 
 ]
 
+{ #category : #printing }
+TextureTileManager >> printOn: aStream [
+	"Generate a string representation of the receiver based on its instance variables."
+
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		print: directTileClass;
+		nextPut: $)
+]
+
 { #category : #'tile creation' }
 TextureTileManager >> staticTileOf: aPixelExtent [
 
