@@ -10,8 +10,7 @@ Class {
 		'durationMS',
 		'numberOfCircles',
 		'numberOfAnimatedCircles',
-		'sceneWindow',
-		'windowLogicalExtent'
+		'sceneWindow'
 	],
 	#category : #'SDLExperiments-Demo'
 }
@@ -28,16 +27,19 @@ AnimatedCirclesDemo class >> runAlternatives [
 
 	driverNames := SDL2 renderDriverInfos collect: #nameString.
 	driverNames := driverNames copyWithout: 'opengles2'.
-	driverNames := driverNames copyWithout: 'software'.
+"	driverNames := driverNames copyWithout: 'software'."
 "	driverNames := #(metal)."
 
 	driverNames do: [ :eachDriverName |
+		
+		' ' traceCr.
 		eachDriverName traceCr.
+		
 		managers do: [ :eachManager |
 			| aDemo |
 
 			aDemo := self new.
-			aDemo durationMS: 2000.
+			aDemo durationMS: 3000.
 			aDemo sceneWindow
 				tileManager: eachManager;
 				sdlRenderDriverName: eachDriverName.
@@ -49,9 +51,14 @@ AnimatedCirclesDemo class >> runAlternatives [
 			[	aDemo run.
 				eachManager asString traceCr.
 				aDemo reportOnTranscript ]
-					onErrorDo: [ :e | e description traceCr. ].
+					onErrorDo: [ :e |
+						e description traceCr.
+						aDemo sceneWindow
+							stopSteppingProcess;
+							close ].
 			 ] ].
-	'Done' traceCr.
+	'
+Done' traceCr.
 
 ]
 
@@ -69,11 +76,11 @@ AnimatedCirclesDemo >> initialize [
 	sceneWindow := SceneWindow new.
 	
 	random := Random seed: 7.
-	durationMS := 10000.0.
+	durationMS := 5000.0.
 	numberOfCircles := 200.
-	numberOfAnimatedCircles := 2.
+	numberOfAnimatedCircles := 3.
 
-	self windowLogicalExtent: 900 asPoint.
+	self windowLogicalExtent: 1200 @ 800.
 
 ]
 
@@ -155,9 +162,15 @@ AnimatedCirclesDemo >> run [
 
 	self prepareSceneWindow.
 
-	sceneWindow open.
+	sceneWindow
+		open;
+		startSteppingProcess.
+
 	(Delay forMilliseconds: durationMS) wait.
-	sceneWindow close.
+
+	sceneWindow
+		stopSteppingProcess;
+		close.
 
 ]
 
@@ -165,6 +178,12 @@ AnimatedCirclesDemo >> run [
 AnimatedCirclesDemo >> sceneWindow [
 
 	^ sceneWindow
+]
+
+{ #category : #accessing }
+AnimatedCirclesDemo >> tileManager: aTileManager [
+
+	sceneWindow tileManager: aTileManager
 ]
 
 { #category : #accessing }

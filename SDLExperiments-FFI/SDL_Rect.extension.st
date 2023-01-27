@@ -1,6 +1,12 @@
 Extension { #name : #'SDL_Rect' }
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Rect >> asRectangle [
+
+	^ self origin extent: self extent
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Rect class >> autoReleasingNewOrigin: origin extent: extent [
 
 	^ self
@@ -46,4 +52,14 @@ SDL_Rect >> origin: aPoint [
 
 	self x: aPoint x.
 	self y: aPoint y
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL_Rect >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		print: self asRectangle;
+		nextPut: $)
 ]
