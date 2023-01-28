@@ -135,6 +135,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 				anElement position: from + (relativeTo * amount) ];
 			renderBlock: [ :cairoContext |
 				cairoContext
+					saveState;
 					sourceColorRGB: (isAnimated
 						ifTrue: [ Color random ]
 						ifFalse: [ initialColor ]);
@@ -145,7 +146,8 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 						newFrom: { 0. (lineWidth*2) })
 						offset: 0;"
 					circleRadius: circleRadius;
-					stroke ]
+					stroke;
+					restoreState ]
 		]
 
 ]
