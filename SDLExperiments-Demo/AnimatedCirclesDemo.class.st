@@ -23,12 +23,14 @@ AnimatedCirclesDemo class >> runAlternatives [
 	managers := {
 		AtlasTileManager new.
 		TextureTileManager newStatic.
-		TextureTileManager newStreaming }.
+		TextureTileManager newStreaming.
+		CairoDirectTileManager new }.
 
 	driverNames := SDL2 renderDriverInfos collect: #nameString.
 	driverNames := driverNames copyWithout: 'opengles2'.
-"	driverNames := driverNames copyWithout: 'software'."
+	driverNames := driverNames copyWithout: 'software'.
 "	driverNames := #(metal)."
+"	driverNames := #(opengl)."
 
 	driverNames do: [ :eachDriverName |
 		
@@ -100,7 +102,7 @@ AnimatedCirclesDemo >> numberOfCircles: aNumber [
 AnimatedCirclesDemo >> prepareSceneWindow [
 
 	1 to: numberOfCircles do: [ :index |
-		| circleRadius lineWidth padding from relativeTo anElement |
+		| circleRadius lineWidth padding from relativeTo isAnimated initialColor anElement |
 		circleRadius := random
 			nextIntegerBetween: 10
 			and: sceneWindow logicalExtent x / 7.
@@ -118,11 +120,13 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 		relativeTo := Point
 			x: (random nextIntegerBetween: -100 and: 100)
 			y: (random nextIntegerBetween: -100 and: 100).
+		isAnimated := index > (numberOfCircles - numberOfAnimatedCircles).
+		initialColor := Color random.
 
 		anElement := sceneWindow addElement.
 		
 		anElement
-			isAnimated: index > (numberOfCircles - numberOfAnimatedCircles);
+			isAnimated: isAnimated;
 			position: from;
 			extent: ((circleRadius + padding) *2) asPoint;
 			stepBlock: [ :deltaMS :totalMS |
@@ -131,15 +135,17 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 				anElement position: from + (relativeTo * amount) ];
 			renderBlock: [ :cairoContext |
 				cairoContext
-					sourceColorRGB: Color random;
+					sourceColorRGB: (isAnimated
+						ifTrue: [ Color random ]
+						ifFalse: [ initialColor ]);
 					translateByX: padding y: padding;
 					lineWidth: lineWidth;
-					lineCap: AeCairoCapStyle square;
+"					lineCap: AeCairoCapStyle square;
 					dash: (AeCairoDoubleArray
 						newFrom: { 0. (lineWidth*2) })
-						offset: 0;
+						offset: 0;"
 					circleRadius: circleRadius;
-					stroke ].
+					stroke ]
 		]
 
 ]

@@ -10,9 +10,17 @@ Class {
 	#category : #'SDLExperiments-Texture'
 }
 
+{ #category : #accessing }
+StaticTextureTile >> cairoContext [
+
+	^ cairoContext
+]
+
 { #category : #enumerating }
 StaticTextureTile >> cairoContextToOverrideDo: aBlock [
 
+	cairoContext clearTransparent.
+	
 	aBlock value: cairoContext.
 
 	cairoSurface flush.

@@ -16,6 +16,15 @@ TileManager >> prepareOn: aSceneWindow [
 	self subclassResponsibility
 ]
 
+{ #category : #'rendering cycle' }
+TileManager >> renderTilesWith: aBlock [
+	"Prepare and finish rendering before and after executing aBlock (a frame is being rendered).
+	The block may draw in Tiles and update textures."
+
+	aBlock value
+
+]
+
 { #category : #'tile creation' }
 TileManager >> staticTileOf: aPixelExtent [
 

@@ -44,8 +44,6 @@ SceneWindow >> addTileOf: aLogicalExtent [
 
 { #category : #'life cycle' }
 SceneWindow >> close [
-
-	self stopSteppingProcess.
 	
 	tileManager finalize.
 	sdlRenderer destroy.
@@ -118,8 +116,8 @@ SceneWindow >> open [
 		SDL2 setHint: 'SDL_RENDER_DRIVER' value: sdlRenderDriverName ].
 
 	sdlWindow := SDL2 createWindow: 'Tiles'
-					x: 0
-					y: 0
+					x: 20
+					y: 20
 					width: logicalExtent x
 					height: logicalExtent y
 					flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI.
@@ -134,7 +132,6 @@ SceneWindow >> open [
 
 	tileManager prepareOn: self.
 
-	self startSteppingProcess.
 ]
 
 { #category : #accessing }
@@ -186,7 +183,8 @@ SceneWindow >> stepRender [
 
 	sdlRenderer clear.
 
-	elements do: [ :each | each render ].
+	tileManager renderTilesWith: [
+		elements do: [ :each | each render ] ].
 
 	sdlRenderer present.
 

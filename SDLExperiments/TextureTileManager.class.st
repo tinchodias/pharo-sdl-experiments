@@ -45,7 +45,7 @@ TextureTileManager >> prepareOn: aSceneWindow [
 
 	staticTiles := OrderedCollection new.
 
-	sharedTextureTile := StreamingTextureTile
+	sharedTextureTile := directTileClass
 		newWithSDLRenderer: sceneWindow sdlRenderer
 		pixelExtent: transientTilePixelExtent
 		deviceScalePoint: sceneWindow deviceScalePoint.

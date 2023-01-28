@@ -51,7 +51,7 @@ Atlas >> addTileOf: aLogicalExtent ifNoSpaceDo: noSpaceBlock [
 { #category : #accessing }
 Atlas >> cairoContextToOverride: srcRect do: aBlock [
 	
-	| pitchAddress pixelsAddress aCairoSurface |
+	| pitchAddress pixelsAddress aCairoSurface aCairoContext |
 	pitchAddress := ExternalAddress newPointer.
 	pixelsAddress := ExternalAddress newPointer.
 
@@ -68,11 +68,13 @@ Atlas >> cairoContextToOverride: srcRect do: aBlock [
 			 stride: (pitchAddress signedLongAt: 1)
 			 format: AeCairoSurfaceFormat argb32.
 	aCairoSurface deviceScale: deviceScalePoint.
-	aBlock value: aCairoSurface newContext.
 
-	"Flush to VRAM"
+	aCairoContext := aCairoSurface newContext.
+	aCairoContext clearTransparent.
+	aBlock value: aCairoContext.
 	aCairoSurface flush.
-	sdlTexture unlock
+
+	sdlTexture unlock "Flush to VRAM"
 ]
 
 { #category : #'life cycle' }
@@ -128,7 +130,7 @@ Atlas >> printOn: aStream [
 		nextPutAll: ' pixelExtent: ';
 		print: pixelExtent.
 	aStream
-		nextPutAll: ' nº of tiles: ';
+		nextPutAll: ' tiles: ';
 		print: tiles size.
 
 ]
