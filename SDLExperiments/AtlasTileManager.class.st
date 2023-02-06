@@ -16,14 +16,25 @@ AtlasTileManager >> finalize [
 ]
 
 { #category : #lifecycle }
+AtlasTileManager >> newAtlasOf: aPixelExtent [
+	
+	| newAtlas |
+	newAtlas := Atlas
+		newWithRenderer: sceneWindow sdlRenderer
+		pixelExtent: aPixelExtent.
+	newAtlas createTexture.
+	newAtlas deviceScalePoint: sceneWindow deviceScalePoint.
+	^ newAtlas
+
+]
+
+{ #category : #lifecycle }
 AtlasTileManager >> prepareOn: aSceneWindow [
 
 	sceneWindow := aSceneWindow.
 
-	atlas := sceneWindow
-		newAtlasOf: sceneWindow sdlRenderer info maxTextureExtent.
+	atlas := self newAtlasOf: sceneWindow sdlRenderer info maxTextureExtent
 
-	transientsTile := self staticTileOf: 1000 asPoint
 ]
 
 { #category : #printing }
@@ -40,9 +51,6 @@ AtlasTileManager >> printOn: aStream [
 { #category : #'tile creation' }
 AtlasTileManager >> staticTileOf: aPixelExtent [
 
-"	atlases add: anAtlas."
-"	anAtlas := atlases last."
-
 	| aLogicalExtent |
 	self flag: #todo. "Too messy"
 	aLogicalExtent := aPixelExtent / sceneWindow deviceScalePoint.
@@ -51,16 +59,4 @@ AtlasTileManager >> staticTileOf: aPixelExtent [
 		addTileOf: aLogicalExtent
 		ifNoSpaceDo: [
 			self notYetImplemented ]
-]
-
-{ #category : #'tile creation' }
-AtlasTileManager >> transientTileOf: aPixelExtent [
-	"Answer a copy of my tile with same origin but adjusted extent."
-
-	(aPixelExtent > transientsTile pixelBounds extent) ifTrue: [
-		self notYetImplemented ].
-
-	^ transientsTile copy
-		pixelBounds: (transientsTile pixelBounds origin extent: aPixelExtent);
-		yourself
 ]

@@ -23,6 +23,21 @@ Class {
 	#category : #'SDLExperiments-Core'
 }
 
+{ #category : #private }
+SceneElement >> ensureUpdatedTile [
+
+	tile
+		ifNil: [
+			tile := isAnimated
+				ifTrue:  [ sceneWindow transientTileOf: extent ]
+				ifFalse: [ sceneWindow addTileOf: extent ].
+			tile cairoContextToOverrideDo: renderBlock ]
+		ifNotNil: [
+			isAnimated ifTrue: [
+				tile cairoContextToOverrideDo: renderBlock ] ].
+
+]
+
 { #category : #accessing }
 SceneElement >> extent [
 
@@ -81,29 +96,10 @@ SceneElement >> position: aPoint [
 { #category : #public }
 SceneElement >> render [
 
-	isAnimated
-		ifTrue:  [ self renderAsTransientTile ]
-		ifFalse: [ self renderAsTile ]
-
-]
-
-{ #category : #public }
-SceneElement >> renderAsTile [
-
 	self sdlDstRectEnsure.
-	self tile renderTo: dstFRect
-]
+	self ensureUpdatedTile.
+	tile renderTo: dstFRect
 
-{ #category : #public }
-SceneElement >> renderAsTransientTile [
-
-	| aTile |
-	aTile := sceneWindow transientTileOf: extent.
-	
-	aTile cairoContextToOverrideDo: renderBlock.
-	
-	self sdlDstRectEnsure.
-	aTile renderTo: dstFRect
 ]
 
 { #category : #accessing }
@@ -145,21 +141,4 @@ SceneElement >> stepBlock [
 SceneElement >> stepBlock: aBlock [
 
 	stepBlock := aBlock
-]
-
-{ #category : #private }
-SceneElement >> tile [
-
-	^ tile ifNil: [
-		tile := sceneWindow addTileOf: extent.
-		tile cairoContextToOverrideDo: renderBlock.
-		tile ]
-
-]
-
-{ #category : #private }
-SceneElement >> tileReset [
-
-	tile := nil.
-	self flag: #todo. "wasting space!"
 ]

@@ -33,6 +33,7 @@ TileManager >> staticTileOf: aPixelExtent [
 
 { #category : #'tile creation' }
 TileManager >> transientTileOf: aPixelExtent [
+	"Answer a Tile that is prepared to change frequently."
 
-	^ self subclassResponsibility
+	^ self staticTileOf: aPixelExtent
 ]

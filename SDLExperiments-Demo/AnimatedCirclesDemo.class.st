@@ -34,31 +34,40 @@ AnimatedCirclesDemo class >> runAlternatives [
 
 	driverNames do: [ :eachDriverName |
 		
-		' ' traceCr.
+		'' traceCr.
 		eachDriverName traceCr.
 		
-		managers do: [ :eachManager |
-			| aDemo |
+		#(
+			(200 0 '200 static')
+			(50 50 '50 animated')
+		) do: [ :circleData |
 
-			aDemo := self new.
-			aDemo durationMS: 3000.
-			aDemo sceneWindow
-				tileManager: eachManager;
-				sdlRenderDriverName: eachDriverName.
+			'' traceCr.
+			circleData third traceCr.
 
-			0.5 seconds wait.
-			Smalltalk garbageCollect.
+			managers do: [ :eachManager |
+				| aDemo |
+				aDemo := self new.
+				aDemo
+					durationMS: 2000;
+					numberOfCircles: circleData first;
+					numberOfAnimatedCircles: circleData second.
+				aDemo sceneWindow
+					tileManager: eachManager;
+					sdlRenderDriverName: eachDriverName.
 
+				0.5 seconds wait.
+				Smalltalk garbageCollect.
 
-			[	aDemo run.
-				eachManager asString traceCr.
-				aDemo reportOnTranscript ]
-					onErrorDo: [ :e |
-						e description traceCr.
-						aDemo sceneWindow
-							stopSteppingProcess;
-							close ].
-			 ] ].
+				[	aDemo run.
+					eachManager asString traceCr.
+					aDemo reportOnTranscript ]
+						onErrorDo: [ :e |
+							e description traceCr.
+							aDemo sceneWindow
+								stopSteppingProcess;
+								close ].
+			 ] ] ].
 	'
 Done' traceCr.
 
@@ -135,7 +144,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 				anElement position: from + (relativeTo * amount) ];
 			renderBlock: [ :cairoContext |
 				cairoContext
-					saveState;
+"					saveState;"
 					sourceColorRGB: (isAnimated
 						ifTrue: [ Color random ]
 						ifFalse: [ initialColor ]);
@@ -146,8 +155,8 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 						newFrom: { 0. (lineWidth*2) })
 						offset: 0;"
 					circleRadius: circleRadius;
-					stroke;
-					restoreState ]
+					stroke";
+					restoreState" ]
 		]
 
 ]

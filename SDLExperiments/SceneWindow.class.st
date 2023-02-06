@@ -93,19 +93,6 @@ SceneWindow >> logicalExtent: aPoint [
 	logicalExtent := aPoint
 ]
 
-{ #category : #'tile management' }
-SceneWindow >> newAtlasOf: aPixelExtent [
-
-	| newAtlas |
-	newAtlas := Atlas
-		newWithRenderer: sdlRenderer
-		pixelExtent: aPixelExtent.
-	newAtlas createTexture.
-	newAtlas deviceScalePoint: deviceScalePoint.
-	^ newAtlas
-
-]
-
 { #category : #'life cycle' }
 SceneWindow >> open [
 
@@ -130,8 +117,10 @@ SceneWindow >> open [
 	"Backgorund color"
 	sdlRenderer drawColorR: 255 g: 255 b: 255 a: 255.
 
+	
 	tileManager prepareOn: self.
 
+	sdlWindow title: (sdlRenderer info nameString, ';', tileManager asString).
 ]
 
 { #category : #accessing }

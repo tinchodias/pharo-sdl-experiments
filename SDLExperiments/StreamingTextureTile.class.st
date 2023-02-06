@@ -10,7 +10,7 @@ Class {
 { #category : #enumerating }
 StreamingTextureTile >> cairoContextToOverrideDo: aBlock [
 
-	| pitchAddress pixelsAddress aCairoSurface |
+	| pitchAddress pixelsAddress aCairoSurface aCairoContext |
 	pitchAddress := ExternalAddress newPointer.
 	pixelsAddress := ExternalAddress newPointer.
 
@@ -27,7 +27,10 @@ StreamingTextureTile >> cairoContextToOverrideDo: aBlock [
 			 stride: (pitchAddress signedLongAt: 1)
 			 format: AeCairoSurfaceFormat argb32.
 	aCairoSurface deviceScale: deviceScalePoint.
-	aBlock value: aCairoSurface newContext.
+
+	aCairoContext := aCairoSurface newContext.
+	aCairoContext clearTransparent.
+	aBlock value: aCairoContext.
 
 	"Flush to VRAM"
 	aCairoSurface flush.

@@ -19,16 +19,16 @@ StaticTextureTile >> cairoContext [
 { #category : #enumerating }
 StaticTextureTile >> cairoContextToOverrideDo: aBlock [
 
-	cairoContext clearTransparent.
-	
-	aBlock value: cairoContext.
-
+	cairoContext
+		clearTransparent;
+		restoreStateAfter: [
+			aBlock value: cairoContext ].
 	cairoSurface flush.
 
 	sdlTexture
 		updateTextureRect: SDL_Rect null
 			pixels: cairoSurfacePixels
-			pitch:  cairoSurfaceStride.
+			pitch:  cairoSurfaceStride
 
 ]
 
