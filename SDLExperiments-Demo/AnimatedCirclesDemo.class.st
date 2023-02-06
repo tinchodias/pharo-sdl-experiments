@@ -49,7 +49,7 @@ AnimatedCirclesDemo class >> runAlternatives [
 				| aDemo |
 				aDemo := self new.
 				aDemo
-					durationMS: 2000;
+					durationMS: 5000;
 					numberOfCircles: circleData first;
 					numberOfAnimatedCircles: circleData second.
 				aDemo sceneWindow

@@ -27,6 +27,12 @@ SceneFrameCounter >> fps [
 ]
 
 { #category : #accessing }
+SceneFrameCounter >> fpsExceptFirst [
+
+	^ (listOfDeltaMS size - 1) / (self totalSeconds - (listOfDeltaMS first/1000))
+]
+
+{ #category : #accessing }
 SceneFrameCounter >> listOfDeltaMS [
 
 	^ listOfDeltaMS
@@ -36,15 +42,24 @@ SceneFrameCounter >> listOfDeltaMS [
 SceneFrameCounter >> reportString [
 
 	^ String streamContents: [ :stream |
-		stream << 'Frames: '.
+		stream << '--- Frames ---'; cr.
 
+		stream
+			<< 'first: ';
+			<< listOfDeltaMS first asString;
+			<< 'ms';
+			cr.
+
+		stream
+			<< 'general: '.
+			
 		MeanConfidenceIntervalPrinter new
 			unitString: 'ms';
-			print: listOfDeltaMS
+			print: listOfDeltaMS allButFirst
 				on: stream.
 		stream << ' ('.
 
-		self fps
+		self fpsExceptFirst
 			printOn: stream
 			showingDecimalPlaces: 1.
 		stream << ' per second)' ]
