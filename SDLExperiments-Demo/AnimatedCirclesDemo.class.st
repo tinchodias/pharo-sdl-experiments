@@ -70,25 +70,13 @@ Done' traceCr.
 
 ]
 
-{ #category : #accessing }
-AnimatedCirclesDemo >> durationMS: aDuration [
-
-	durationMS := aDuration
-]
-
 { #category : #initialization }
 AnimatedCirclesDemo >> initialize [
 
 	super initialize.
 
-	sceneWindow := SceneWindow new.
-	
-	random := Random seed: 7.
-	durationMS := 5000.0.
 	numberOfCircles := 200.
 	numberOfAnimatedCircles := 3.
-
-	self windowLogicalExtent: 1200 @ 800.
 
 ]
 
@@ -158,50 +146,9 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 
 ]
 
-{ #category : #accessing }
-AnimatedCirclesDemo >> random: aRandom [
-
-	random := aRandom
-]
-
-{ #category : #running }
-AnimatedCirclesDemo >> reportOnTranscript [
-
-	sceneWindow frameCounter reportString traceCr
-]
-
 { #category : #running }
 AnimatedCirclesDemo >> run [
-	<script: '[self new run; reportOnTranscript; inspect]fork'>
+	<script: '[self new run; reportOnTranscript] fork'>
 
-	self prepareSceneWindow.
-
-	sceneWindow
-		open;
-		startSteppingProcess.
-
-	(Delay forMilliseconds: durationMS) wait.
-
-	sceneWindow
-		stopSteppingProcess;
-		close.
-
-]
-
-{ #category : #accessing }
-AnimatedCirclesDemo >> sceneWindow [
-
-	^ sceneWindow
-]
-
-{ #category : #accessing }
-AnimatedCirclesDemo >> tileManager: aTileManager [
-
-	sceneWindow tileManager: aTileManager
-]
-
-{ #category : #accessing }
-AnimatedCirclesDemo >> windowLogicalExtent: aPoint [
-
-	sceneWindow logicalExtent: aPoint
+	super run
 ]
