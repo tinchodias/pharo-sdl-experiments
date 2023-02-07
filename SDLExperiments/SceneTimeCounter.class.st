@@ -3,7 +3,7 @@ I handle frame stepping, provide time information, and know how to report.
 
 "
 Class {
-	#name : #SceneFrameCounter,
+	#name : #SceneTimeCounter,
 	#superclass : #Object,
 	#instVars : [
 		'lastMS',
@@ -16,42 +16,42 @@ Class {
 }
 
 { #category : #accessing }
-SceneFrameCounter >> deltaMS [
+SceneTimeCounter >> deltaMS [
 	^ deltaMS
 ]
 
 { #category : #accessing }
-SceneFrameCounter >> fps [
+SceneTimeCounter >> fps [
 
 	^ listOfDeltaMS size / self totalSeconds
 ]
 
 { #category : #accessing }
-SceneFrameCounter >> fpsExceptFirst [
+SceneTimeCounter >> fpsExceptFirst [
 
 	^ (listOfDeltaMS size - 1) / (self totalSeconds - (listOfDeltaMS first/1000))
 ]
 
 { #category : #accessing }
-SceneFrameCounter >> listOfDeltaMS [
+SceneTimeCounter >> listOfDeltaMS [
 
 	^ listOfDeltaMS
 ]
 
 { #category : #printing }
-SceneFrameCounter >> reportString [
+SceneTimeCounter >> reportString [
 
-	listOfDeltaMS ifEmpty: [ ^ '--- No frames counted ---' ].
+	listOfDeltaMS ifEmpty: [ ^ 'Frame stats: no data' ].
 
 	^ String streamContents: [ :stream |
 		stream
-			<< '--- Frames ---';cr;
-			<< 'first: ';
+			<< 'Frame stats:'; cr;
+			<< '   * first:       ';
 			<< listOfDeltaMS first asString;
 			<< 'ms';
 			cr;
-			<< 'general: '.
-			
+			<< '   * allButFirst: '.
+		
 		MeanConfidenceIntervalPrinter new
 			unitString: 'ms';
 			print: listOfDeltaMS allButFirst
@@ -65,7 +65,7 @@ SceneFrameCounter >> reportString [
 ]
 
 { #category : #stepping }
-SceneFrameCounter >> step [
+SceneTimeCounter >> step [
 
 	lastMS
 		ifNil: [
@@ -87,12 +87,12 @@ SceneFrameCounter >> step [
 ]
 
 { #category : #accessing }
-SceneFrameCounter >> totalMS [
+SceneTimeCounter >> totalMS [
 	^ totalMS
 ]
 
 { #category : #accessing }
-SceneFrameCounter >> totalSeconds [
+SceneTimeCounter >> totalSeconds [
 
 	^ totalMS / 1000.0
 ]

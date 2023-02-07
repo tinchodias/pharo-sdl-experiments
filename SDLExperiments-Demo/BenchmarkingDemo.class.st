@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'sceneWindow',
 		'random',
-		'durationMS'
+		'durationMS',
+		'executionError'
 	],
 	#category : #'SDLExperiments-Demo'
 }
@@ -44,7 +45,9 @@ BenchmarkingDemo >> random: aRandom [
 { #category : #running }
 BenchmarkingDemo >> reportOnTranscript [
 
-	sceneWindow frameCounter reportString traceCr
+	sceneWindow steppingLoop hasStoppingError
+		ifTrue: [ sceneWindow steppingLoop stoppingError traceCr ]
+		ifFalse: [ sceneWindow timeCounter reportString traceCr ]
 ]
 
 { #category : #running }
@@ -52,15 +55,13 @@ BenchmarkingDemo >> run [
 
 	self prepareSceneWindow.
 
-	sceneWindow
-		open;
-		startSteppingProcess.
+	sceneWindow open.
+	sceneWindow steppingLoop start.
 
 	(Delay forMilliseconds: durationMS) wait.
 
-	sceneWindow
-		stopSteppingProcess;
-		close.
+	sceneWindow steppingLoop stop.
+	sceneWindow close.
 
 ]
 

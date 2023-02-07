@@ -5,13 +5,12 @@ Class {
 		'sdlWindow',
 		'sdlRenderer',
 		'elements',
-		'session',
-		'steppingProcess',
 		'deviceScalePoint',
 		'logicalExtent',
-		'frameCounter',
 		'tileManager',
-		'sdlRenderDriverName'
+		'sdlRenderDriverName',
+		'timeCounter',
+		'steppingLoop'
 	],
 	#pools : [
 		'SDL2Constants',
@@ -71,23 +70,20 @@ SceneWindow >> elements: aCollection [
 	elements := aCollection
 ]
 
-{ #category : #accessing }
-SceneWindow >> frameCounter [
-	^ frameCounter
-]
-
 { #category : #initialization }
 SceneWindow >> initialize [
 
 	super initialize.
 
 	logicalExtent := 800 @ 600.
-
 	elements := OrderedCollection new.
-
 	tileManager := AtlasTileManager new.
-	
-	frameCounter := SceneFrameCounter new.
+
+	timeCounter := SceneTimeCounter new.
+	steppingLoop := SceneLoop new
+		stepBlock: [ self step ];
+		yourself.
+
 ]
 
 { #category : #accessing }
@@ -133,47 +129,31 @@ SceneWindow >> open [
 ]
 
 { #category : #accessing }
-SceneWindow >> sdlRenderDriverName: anObject [
+SceneWindow >> sdlRenderDriverName: aString [
 
-	sdlRenderDriverName := anObject
+	sdlRenderDriverName := aString
 ]
 
 { #category : #accessing }
 SceneWindow >> sdlRenderer [
+
 	^ sdlRenderer
-]
-
-{ #category : #stepping }
-SceneWindow >> startSteppingProcess [
-
-	[	session := Smalltalk session.
-		steppingProcess := Processor activeProcess.
-		
-		[ steppingProcess == Processor activeProcess
-			and: [ session == Smalltalk session ] ]
-		
-				whileTrue: [ self step  ] ]
-
-			forkAt: Processor userSchedulingPriority
-			named: 'Step Loop ', self asString
-
 ]
 
 { #category : #stepping }
 SceneWindow >> step [
 
-	frameCounter step.
+	timeCounter step.
 	self
 		stepElements;
-		stepRender;
-		stepWait
+		stepRender
 ]
 
 { #category : #stepping }
 SceneWindow >> stepElements [
 	
 	elements do: [ :each |
-		each stepBlock cull: frameCounter deltaMS cull: frameCounter totalMS ]
+		each stepBlock cull: timeCounter deltaMS cull: timeCounter totalMS ]
 ]
 
 { #category : #stepping }
@@ -188,25 +168,28 @@ SceneWindow >> stepRender [
 
 ]
 
-{ #category : #stepping }
-SceneWindow >> stepWait [
+{ #category : #accessing }
+SceneWindow >> steppingLoop [
 
-	"1 milliSecond wait"
-	Processor yield
+	^ steppingLoop
 ]
 
-{ #category : #stepping }
-SceneWindow >> stopSteppingProcess [
-
-	steppingProcess ifNil: [ ^self ].
-	steppingProcess terminate.
-	steppingProcess := nil.
+{ #category : #accessing }
+SceneWindow >> tileManager [
+	
+	^ tileManager
 ]
 
 { #category : #accessing }
 SceneWindow >> tileManager: aTileManager [ 
 	
 	tileManager := aTileManager
+]
+
+{ #category : #accessing }
+SceneWindow >> timeCounter [
+
+	^ timeCounter
 ]
 
 { #category : #accessing }

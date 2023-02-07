@@ -31,22 +31,26 @@ AnimatedCirclesDemo class >> runAlternatives [
 
 	driverNames do: [ :eachDriverName |
 		
-		'' traceCr.
-		eachDriverName traceCr.
+'
+=== Driver name: ' trace.
+		eachDriverName trace.
+		' ===' traceCr.
 		
 		#(
 			(200 0 '200 static')
 			(50 50 '50 animated')
 		) do: [ :circleData |
 
-			'' traceCr.
-			circleData third traceCr.
+			'
+--- ' trace.
+			circleData third trace.
+			' ---' traceCr.
 
 			managers do: [ :eachManager |
 				| aDemo |
 				aDemo := self new.
 				aDemo
-					durationMS: 5000;
+					durationMS: 1000;
 					numberOfCircles: circleData first;
 					numberOfAnimatedCircles: circleData second.
 				aDemo sceneWindow
@@ -56,17 +60,12 @@ AnimatedCirclesDemo class >> runAlternatives [
 				0.5 seconds wait.
 				Smalltalk garbageCollect.
 
-				[	aDemo run.
-					eachManager asString traceCr.
-					aDemo reportOnTranscript ]
-						onErrorDo: [ :e |
-							e description traceCr.
-							aDemo sceneWindow
-								stopSteppingProcess;
-								close ].
-			 ] ] ].
-	'
-Done' traceCr.
+				aDemo run.
+				'' traceCr.
+				eachManager asString traceCr.
+				aDemo reportOnTranscript ] ] ].
+'
+=== Done ===' traceCr.
 
 ]
 
