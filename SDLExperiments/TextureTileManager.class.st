@@ -25,6 +25,21 @@ TextureTileManager class >> newStreaming [
 		  yourself
 ]
 
+{ #category : #'tile creation' }
+TextureTileManager >> addStaticTileOf: aPixelExtent [
+
+	| newTile |
+	newTile := directTileClass
+		newWithSDLRenderer: sceneWindow sdlRenderer
+		pixelExtent: aPixelExtent
+		deviceScalePoint: sceneWindow deviceScalePoint.
+	newTile createTexture.
+
+	tiles add: newTile.
+
+	^ newTile
+]
+
 { #category : #lifecycle }
 TextureTileManager >> finalize [
 
@@ -49,21 +64,6 @@ TextureTileManager >> printOn: aStream [
 		nextPut: $(;
 		print: directTileClass;
 		nextPut: $)
-]
-
-{ #category : #'tile creation' }
-TextureTileManager >> staticTileOf: aPixelExtent [
-
-	| newTile |
-	newTile := directTileClass
-		newWithSDLRenderer: sceneWindow sdlRenderer
-		pixelExtent: aPixelExtent
-		deviceScalePoint: sceneWindow deviceScalePoint.
-	newTile createTexture.
-
-	tiles add: newTile.
-
-	^ newTile
 ]
 
 { #category : #initialization }

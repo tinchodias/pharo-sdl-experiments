@@ -20,6 +20,15 @@ Class {
 	#category : #'SDLExperiments-Core'
 }
 
+{ #category : #'tile management' }
+SceneWindow >> addAnimatedTileOf: aLogicalExtent [
+
+	| aPixelExtent |
+	aPixelExtent := aLogicalExtent * deviceScalePoint.
+
+	^ tileManager addAnimatedTileOf: aPixelExtent
+]
+
 { #category : #accessing }
 SceneWindow >> addElement [
 
@@ -34,12 +43,12 @@ SceneWindow >> addElement [
 ]
 
 { #category : #'tile management' }
-SceneWindow >> addTileOf: aLogicalExtent [
+SceneWindow >> addStaticTileOf: aLogicalExtent [
 
 	| aPixelExtent |
 	aPixelExtent := aLogicalExtent * deviceScalePoint.
 	
-	^ tileManager staticTileOf: aPixelExtent
+	^ tileManager addStaticTileOf: aPixelExtent
 ]
 
 { #category : #'life cycle' }
@@ -204,13 +213,4 @@ SceneWindow >> tileManager: aTileManager [
 SceneWindow >> title: aString [
 
 	sdlWindow title: aString
-]
-
-{ #category : #'tile management' }
-SceneWindow >> transientTileOf: aLogicalExtent [
-
-	| aPixelExtent |
-	aPixelExtent := aLogicalExtent * deviceScalePoint.
-
-	^ tileManager transientTileOf: aPixelExtent
 ]

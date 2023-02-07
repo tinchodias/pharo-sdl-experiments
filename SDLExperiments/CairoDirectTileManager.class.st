@@ -13,6 +13,18 @@ Class {
 	#category : #SDLExperiments
 }
 
+{ #category : #'tile creation' }
+CairoDirectTileManager >> addAnimatedTileOf: aPixelExtent [
+
+	^ self newLazyTile
+]
+
+{ #category : #'tile creation' }
+CairoDirectTileManager >> addStaticTileOf: aPixelExtent [
+
+	^ self newLazyTile
+]
+
 { #category : #lifecycle }
 CairoDirectTileManager >> finalize [
 
@@ -54,16 +66,4 @@ CairoDirectTileManager >> renderTilesWith: aBlock [
 	mainTile cairoContextToOverrideDo: [ :_ |
 		aBlock value.
 		mainTile renderTo: sceneWindowFRect ]
-]
-
-{ #category : #'tile creation' }
-CairoDirectTileManager >> staticTileOf: aPixelExtent [
-
-	^ self newLazyTile
-]
-
-{ #category : #'tile creation' }
-CairoDirectTileManager >> transientTileOf: aPixelExtent [
-
-	^ self newLazyTile
 ]

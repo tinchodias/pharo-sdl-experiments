@@ -9,6 +9,19 @@ Class {
 	#category : #'SDLExperiments-Atlas'
 }
 
+{ #category : #'tile creation' }
+AtlasTileManager >> addStaticTileOf: aPixelExtent [
+
+	| aLogicalExtent |
+	self flag: #todo. "Too messy"
+	aLogicalExtent := aPixelExtent / sceneWindow deviceScalePoint.
+
+	^ atlas
+		addTileOf: aLogicalExtent
+		ifNoSpaceDo: [
+			self notYetImplemented ]
+]
+
 { #category : #lifecycle }
 AtlasTileManager >> finalize [
 
@@ -46,17 +59,4 @@ AtlasTileManager >> printOn: aStream [
 		nextPut: $(;
 		print: atlas;
 		nextPut: $)
-]
-
-{ #category : #'tile creation' }
-AtlasTileManager >> staticTileOf: aPixelExtent [
-
-	| aLogicalExtent |
-	self flag: #todo. "Too messy"
-	aLogicalExtent := aPixelExtent / sceneWindow deviceScalePoint.
-
-	^ atlas
-		addTileOf: aLogicalExtent
-		ifNoSpaceDo: [
-			self notYetImplemented ]
 ]

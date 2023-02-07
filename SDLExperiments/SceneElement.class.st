@@ -29,8 +29,8 @@ SceneElement >> ensureUpdatedTile [
 	tile
 		ifNil: [
 			tile := isAnimated
-				ifTrue:  [ sceneWindow transientTileOf: extent ]
-				ifFalse: [ sceneWindow addTileOf: extent ].
+				ifTrue:  [ sceneWindow addAnimatedTileOf: extent ]
+				ifFalse: [ sceneWindow addStaticTileOf: extent ].
 			tile cairoContextToOverrideDo: renderBlock ]
 		ifNotNil: [
 			isAnimated ifTrue: [
@@ -48,7 +48,7 @@ SceneElement >> extent [
 SceneElement >> extent: aLogicalPoint [
 
 	extent := aLogicalPoint.
-	self sdlDstRectReset.
+	self sdlDstFRectReset.
 
 ]
 
@@ -63,7 +63,7 @@ SceneElement >> initialize [
 	stepBlock := [ :deltaMS :totalMS | ].
 
 	dstFRect := SDL_FRect new autoRelease; yourself.
-	self sdlDstRectReset.
+	self sdlDstFRectReset.
 ]
 
 { #category : #accessing }
@@ -89,14 +89,14 @@ SceneElement >> position [
 SceneElement >> position: aPoint [
 
 	position := aPoint.
-	self sdlDstRectReset.
+	self sdlDstFRectReset.
 
 ]
 
 { #category : #public }
 SceneElement >> render [
 
-	self sdlDstRectEnsure.
+	self sdlDstFRectEnsure.
 	self ensureUpdatedTile.
 	tile renderTo: dstFRect
 
@@ -115,7 +115,7 @@ SceneElement >> sceneWindow: aSceneWindow [
 ]
 
 { #category : #accessing }
-SceneElement >> sdlDstRectEnsure [
+SceneElement >> sdlDstFRectEnsure [
 
 	dstFRect w = 0.0 ifFalse: [ ^self ].
 	dstFRect x: position x * sceneWindow deviceScalePoint x.
@@ -126,7 +126,7 @@ SceneElement >> sdlDstRectEnsure [
 ]
 
 { #category : #accessing }
-SceneElement >> sdlDstRectReset [
+SceneElement >> sdlDstFRectReset [
 
 	dstFRect w: 0.0
 ]

@@ -4,6 +4,19 @@ Class {
 	#category : #'SDLExperiments-Core'
 }
 
+{ #category : #'tile creation' }
+TileManager >> addAnimatedTileOf: aPixelExtent [
+	"Answer a Tile that is prepared to change frequently."
+
+	^ self addStaticTileOf: aPixelExtent
+]
+
+{ #category : #'tile creation' }
+TileManager >> addStaticTileOf: aPixelExtent [
+
+	^ self subclassResponsibility
+]
+
 { #category : #lifecycle }
 TileManager >> finalize [
 
@@ -23,17 +36,4 @@ TileManager >> renderTilesWith: aBlock [
 
 	aBlock value
 
-]
-
-{ #category : #'tile creation' }
-TileManager >> staticTileOf: aPixelExtent [
-
-	^ self subclassResponsibility
-]
-
-{ #category : #'tile creation' }
-TileManager >> transientTileOf: aPixelExtent [
-	"Answer a Tile that is prepared to change frequently."
-
-	^ self staticTileOf: aPixelExtent
 ]
