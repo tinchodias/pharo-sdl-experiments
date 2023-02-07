@@ -57,7 +57,7 @@ AtlasTile >> pixelBounds: aPixelRectangle [
 ]
 
 { #category : #rendering }
-AtlasTile >> renderTo: dstRect [
+AtlasTile >> renderTo: aSDLFRect [
 
-	atlas renderTileAt: boundsAsSdlRect to: dstRect
+	atlas renderTileAt: boundsAsSdlRect to: aSDLFRect
 ]

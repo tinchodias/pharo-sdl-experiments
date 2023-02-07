@@ -58,10 +58,10 @@ TextureTile >> pixelExtent: aPoint [
 ]
 
 { #category : #rendering }
-TextureTile >> renderTo: dstRect [
+TextureTile >> renderTo: aSDLFRect [
 
 	sdlRenderer
 		copy: sdlTexture
 			srcRect: srcRect
-			dstRectF: dstRect
+			dstRectF: aSDLFRect
 ]

@@ -136,10 +136,10 @@ Atlas >> printOn: aStream [
 ]
 
 { #category : #private }
-Atlas >> renderTileAt: srcRect to: dstRect [
+Atlas >> renderTileAt: srcRect to: aSDLFRect [
 
 	sdlRenderer
 		copy: sdlTexture
 			srcRect: srcRect
-			dstRectF: dstRect
+			dstRectF: aSDLFRect
 ]

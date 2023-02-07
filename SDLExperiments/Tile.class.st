@@ -12,7 +12,7 @@ Tile >> cairoContextToOverrideDo: aBlock [
 ]
 
 { #category : #enumerating }
-Tile >> renderTo: dstRect [
+Tile >> renderTo: aSDLFRect [
 	"Render myself on the associated SDL_Renderer, at the specified position."
 
 	self subclassResponsibility

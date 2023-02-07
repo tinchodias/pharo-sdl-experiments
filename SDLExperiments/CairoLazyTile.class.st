@@ -29,14 +29,14 @@ CairoLazyTile >> deviceScalePoint: aPoint [
 ]
 
 { #category : #enumerating }
-CairoLazyTile >> renderTo: dstRect [
+CairoLazyTile >> renderTo: aSDLFRect [
 	"Render myself on the associated SDL_Renderer, at the specified position."
 
 	self flag: #todo. "Converts again and again + ignores scaling".
 	
 	cairoContext restoreStateAfter: [ 
 		cairoContext
-			translateByX: dstRect x / deviceScalePoint x
-			y: dstRect y / deviceScalePoint y.
+			translateByX: aSDLFRect x / deviceScalePoint x
+			y: aSDLFRect y / deviceScalePoint y.
 		drawingBlock value: cairoContext ]
 ]
