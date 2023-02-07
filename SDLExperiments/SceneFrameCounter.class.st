@@ -41,16 +41,15 @@ SceneFrameCounter >> listOfDeltaMS [
 { #category : #printing }
 SceneFrameCounter >> reportString [
 
-	^ String streamContents: [ :stream |
-		stream << '--- Frames ---'; cr.
+	listOfDeltaMS ifEmpty: [ ^ '--- No frames counted ---' ].
 
+	^ String streamContents: [ :stream |
 		stream
+			<< '--- Frames ---';cr;
 			<< 'first: ';
 			<< listOfDeltaMS first asString;
 			<< 'ms';
-			cr.
-
-		stream
+			cr;
 			<< 'general: '.
 			
 		MeanConfidenceIntervalPrinter new
