@@ -12,12 +12,8 @@ Class {
 { #category : #'tile creation' }
 AtlasTileManager >> addStaticTileOf: aPixelExtent [
 
-	| aLogicalExtent |
-	self flag: #todo. "Too messy"
-	aLogicalExtent := aPixelExtent / sceneWindow deviceScalePoint.
-
 	^ atlas
-		addTileOf: aLogicalExtent
+		addTileOf: aPixelExtent
 		ifNoSpaceDo: [
 			self notYetImplemented ]
 ]

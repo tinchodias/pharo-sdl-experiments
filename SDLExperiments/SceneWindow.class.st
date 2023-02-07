@@ -19,15 +19,6 @@ Class {
 	#category : #'SDLExperiments-Core'
 }
 
-{ #category : #'tile management' }
-SceneWindow >> addAnimatedTileOf: aLogicalExtent [
-
-	| aPixelExtent |
-	aPixelExtent := aLogicalExtent * deviceScalePoint.
-
-	^ tileManager addAnimatedTileOf: aPixelExtent
-]
-
 { #category : #accessing }
 SceneWindow >> addElement [
 
@@ -39,15 +30,6 @@ SceneWindow >> addElement [
 	elements add: newElement.
 
 	^ newElement 
-]
-
-{ #category : #'tile management' }
-SceneWindow >> addStaticTileOf: aLogicalExtent [
-
-	| aPixelExtent |
-	aPixelExtent := aLogicalExtent * deviceScalePoint.
-	
-	^ tileManager addStaticTileOf: aPixelExtent
 ]
 
 { #category : #'life cycle' }

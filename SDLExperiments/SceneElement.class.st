@@ -14,11 +14,11 @@ Class {
 		'sceneWindow',
 		'renderBlock',
 		'stepBlock',
-		'extent',
-		'position',
 		'tile',
 		'isAnimated',
-		'dstFRect'
+		'dstFRect',
+		'logicalExtent',
+		'logicalPosition'
 	],
 	#category : #'SDLExperiments-Core'
 }
@@ -28,9 +28,11 @@ SceneElement >> ensureUpdatedTile [
 
 	tile
 		ifNil: [
+			| aPixelExtent |
+			aPixelExtent := logicalExtent * sceneWindow deviceScalePoint.
 			tile := isAnimated
-				ifTrue:  [ sceneWindow addAnimatedTileOf: extent ]
-				ifFalse: [ sceneWindow addStaticTileOf: extent ].
+				ifTrue:  [ sceneWindow tileManager addAnimatedTileOf: aPixelExtent ]
+				ifFalse: [ sceneWindow tileManager addStaticTileOf: aPixelExtent ].
 			tile cairoContextToOverrideDo: renderBlock ]
 		ifNotNil: [
 			isAnimated ifTrue: [
@@ -41,13 +43,13 @@ SceneElement >> ensureUpdatedTile [
 { #category : #accessing }
 SceneElement >> extent [
 
-	^ extent
+	^ logicalExtent
 ]
 
 { #category : #accessing }
 SceneElement >> extent: aLogicalPoint [
 
-	extent := aLogicalPoint.
+	logicalExtent := aLogicalPoint.
 	self sdlDstFRectReset.
 
 ]
@@ -58,8 +60,8 @@ SceneElement >> initialize [
 	super initialize.
 	
 	isAnimated := false.
-	position := 0 asPoint.
-	extent := 50 asPoint.
+	logicalPosition := 0 asPoint.
+	logicalExtent := 50 asPoint.
 	stepBlock := [ :deltaMS :totalMS | ].
 
 	dstFRect := SDL_FRect new autoRelease; yourself.
@@ -82,13 +84,13 @@ SceneElement >> isAnimated: aBoolean [
 { #category : #accessing }
 SceneElement >> position [
 
-	^ position
+	^ logicalPosition
 ]
 
 { #category : #accessing }
 SceneElement >> position: aPoint [
 
-	position := aPoint.
+	logicalPosition := aPoint.
 	self sdlDstFRectReset.
 
 ]
@@ -118,10 +120,10 @@ SceneElement >> sceneWindow: aSceneWindow [
 SceneElement >> sdlDstFRectEnsure [
 
 	dstFRect w = 0.0 ifFalse: [ ^self ].
-	dstFRect x: position x * sceneWindow deviceScalePoint x.
-	dstFRect y: position y * sceneWindow deviceScalePoint y.
-	dstFRect w: extent x * sceneWindow deviceScalePoint x.
-	dstFRect h: extent y * sceneWindow deviceScalePoint y.
+	dstFRect x: logicalPosition x * sceneWindow deviceScalePoint x.
+	dstFRect y: logicalPosition y * sceneWindow deviceScalePoint y.
+	dstFRect w: logicalExtent x * sceneWindow deviceScalePoint x.
+	dstFRect h: logicalExtent y * sceneWindow deviceScalePoint y.
  
 ]
 
