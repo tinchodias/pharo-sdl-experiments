@@ -4,13 +4,10 @@ I'm a demo where multiple circles translate, and only some of them are animated.
 "
 Class {
 	#name : #AnimatedCirclesDemo,
-	#superclass : #Object,
+	#superclass : #BenchmarkingDemo,
 	#instVars : [
-		'random',
-		'durationMS',
 		'numberOfCircles',
-		'numberOfAnimatedCircles',
-		'sceneWindow'
+		'numberOfAnimatedCircles'
 	],
 	#category : #'SDLExperiments-Demo'
 }
@@ -130,7 +127,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 			x: (random nextIntegerBetween: -100 and: 100)
 			y: (random nextIntegerBetween: -100 and: 100).
 		isAnimated := index > (numberOfCircles - numberOfAnimatedCircles).
-		initialColor := Color random.
+		initialColor := Color random: random.
 
 		anElement := sceneWindow addElement.
 		
@@ -146,7 +143,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 				cairoContext
 "					saveState;"
 					sourceColorRGB: (isAnimated
-						ifTrue: [ Color random ]
+						ifTrue: [ Color random: random ]
 						ifFalse: [ initialColor ]);
 					translateByX: padding y: padding;
 					lineWidth: lineWidth;
