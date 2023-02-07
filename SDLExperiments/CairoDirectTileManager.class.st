@@ -14,12 +14,6 @@ Class {
 }
 
 { #category : #'tile creation' }
-CairoDirectTileManager >> addAnimatedTileOf: aPixelExtent [
-
-	^ self newLazyTile
-]
-
-{ #category : #'tile creation' }
 CairoDirectTileManager >> addStaticTileOf: aPixelExtent [
 
 	^ self newLazyTile
