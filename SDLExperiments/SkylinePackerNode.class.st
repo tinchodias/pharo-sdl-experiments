@@ -9,7 +9,7 @@ Class {
 		'x',
 		'y'
 	],
-	#category : #'SDLExperiments-Atlas-Skyline'
+	#category : #'SDLExperiments-Manager-Atlas-Skyline'
 }
 
 { #category : #'instance creation' }

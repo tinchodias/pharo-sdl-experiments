@@ -6,7 +6,7 @@ Class {
 		'directTileClass',
 		'tiles'
 	],
-	#category : #'SDLExperiments-Texture'
+	#category : #'SDLExperiments-Manager-Texture'
 }
 
 { #category : #'instance creation' }

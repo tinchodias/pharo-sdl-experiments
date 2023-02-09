@@ -12,7 +12,7 @@ Class {
 		'SDL2Constants',
 		'SDL2Types'
 	],
-	#category : #'SDLExperiments-Texture'
+	#category : #'SDLExperiments-Manager-Texture'
 }
 
 { #category : #'instance creation' }

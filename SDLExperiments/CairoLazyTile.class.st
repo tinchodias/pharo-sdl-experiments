@@ -6,7 +6,7 @@ Class {
 		'cairoContext',
 		'deviceScalePoint'
 	],
-	#category : #SDLExperiments
+	#category : #'SDLExperiments-Manager-Cairo'
 }
 
 { #category : #accessing }

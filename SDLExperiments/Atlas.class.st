@@ -13,7 +13,7 @@ Class {
 		'SDL2Constants',
 		'SDL2Types'
 	],
-	#category : #'SDLExperiments-Atlas'
+	#category : #'SDLExperiments-Manager-Atlas'
 }
 
 { #category : #'instance creation' }

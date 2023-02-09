@@ -13,7 +13,7 @@ Class {
 		'bounds',
 		'boundsAsSdlRect'
 	],
-	#category : #'SDLExperiments-Atlas'
+	#category : #'SDLExperiments-Manager-Atlas'
 }
 
 { #category : #'instance creation' }

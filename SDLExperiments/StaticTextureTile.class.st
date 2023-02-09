@@ -7,7 +7,7 @@ Class {
 		'cairoSurfacePixels',
 		'cairoSurfaceStride'
 	],
-	#category : #'SDLExperiments-Texture'
+	#category : #'SDLExperiments-Manager-Texture'
 }
 
 { #category : #accessing }

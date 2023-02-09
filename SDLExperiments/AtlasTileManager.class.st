@@ -6,7 +6,7 @@ Class {
 		'atlas',
 		'sceneWindow'
 	],
-	#category : #'SDLExperiments-Atlas'
+	#category : #'SDLExperiments-Manager-Atlas'
 }
 
 { #category : #'tile creation' }

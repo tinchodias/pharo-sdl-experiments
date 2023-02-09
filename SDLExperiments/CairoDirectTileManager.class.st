@@ -10,7 +10,7 @@ Class {
 		'mainTile',
 		'sceneWindowFRect'
 	],
-	#category : #SDLExperiments
+	#category : #'SDLExperiments-Manager-Cairo'
 }
 
 { #category : #'tile creation' }

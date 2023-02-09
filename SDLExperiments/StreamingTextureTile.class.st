@@ -4,7 +4,7 @@ I'm polymorphic with `Tile` but don't have an associated `Atlas`.
 Class {
 	#name : #StreamingTextureTile,
 	#superclass : #TextureTile,
-	#category : #'SDLExperiments-Texture'
+	#category : #'SDLExperiments-Manager-Texture'
 }
 
 { #category : #enumerating }
