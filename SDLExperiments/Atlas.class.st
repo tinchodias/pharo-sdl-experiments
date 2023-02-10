@@ -25,9 +25,18 @@ Atlas class >> newWithRenderer: aSDLRenderer pixelExtent: aPoint [
 ]
 
 { #category : #'instance creation' }
-Atlas >> addTileOf: aPixelExtent ifNoSpaceDo: noSpaceBlock [
+Atlas >> addTileOf: aPixelExtent ifFailure: noSpaceBlock [
 
-	packer
+	^ self
+		addTileOf: aPixelExtent 
+		ifSuccess: [ :aTile | aTile ]
+		ifFailure: noSpaceBlock
+]
+
+{ #category : #'instance creation' }
+Atlas >> addTileOf: aPixelExtent ifSuccess: successBlock ifFailure: failureBlock [
+
+	^ packer
 		allocateExtent: aPixelExtent
 		ifSuccess: [ :aPixelPosition |
 			| newTile |
@@ -35,14 +44,9 @@ Atlas >> addTileOf: aPixelExtent ifNoSpaceDo: noSpaceBlock [
 				AtlasTile
 					newFor: self
 					pixelBounds: (aPixelPosition extent: aPixelExtent).
-
 			tiles add: newTile.
-
-			^ newTile ]
-		ifFailure: [
-			^ noSpaceBlock value ].
-
-	
+			successBlock value: newTile ]
+		ifFailure: failureBlock
 ]
 
 { #category : #accessing }

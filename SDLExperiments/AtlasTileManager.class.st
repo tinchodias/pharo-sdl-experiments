@@ -3,8 +3,9 @@ Class {
 	#superclass : #TileManager,
 	#instVars : [
 		'transientsTile',
-		'atlas',
-		'sceneWindow'
+		'sceneWindow',
+		'atlasPixelExtent',
+		'atlases'
 	],
 	#category : #'SDLExperiments-Manager-Atlas'
 }
@@ -12,16 +13,37 @@ Class {
 { #category : #'tile creation' }
 AtlasTileManager >> addStaticTileOf: aPixelExtent [
 
-	^ atlas
+	| newAtlas |
+	atlases do: [ :eachAtlas |
+		eachAtlas
+			addTileOf: aPixelExtent
+			ifSuccess: [ :aTile | ^ aTile ]
+			ifFailure: [  ] ].
+	
+	newAtlas := self newAtlasOf: self atlasPixelExtent.
+	atlases add: newAtlas.
+	newAtlas
 		addTileOf: aPixelExtent
-		ifNoSpaceDo: [
-			self notYetImplemented ]
+		ifSuccess: [ :aTile | ^ aTile ]
+		ifFailure: [ self notYetImplemented ]
+]
+
+{ #category : #accessing }
+AtlasTileManager >> atlasPixelExtent [
+
+	^ atlasPixelExtent ifNil: [ atlasPixelExtent := sceneWindow sdlRenderer info maxTextureExtent ]
+]
+
+{ #category : #accessing }
+AtlasTileManager >> atlasPixelExtent: aPoint [
+
+	atlasPixelExtent := aPoint
 ]
 
 { #category : #lifecycle }
 AtlasTileManager >> finalize [
 
-	atlas destroyTexture
+	atlases do: #destroyTexture
 ]
 
 { #category : #lifecycle }
@@ -42,8 +64,7 @@ AtlasTileManager >> prepareOn: aSceneWindow [
 
 	sceneWindow := aSceneWindow.
 
-	atlas := self newAtlasOf: sceneWindow sdlRenderer info maxTextureExtent
-
+	atlases := OrderedCollection new
 ]
 
 { #category : #printing }
@@ -51,8 +72,7 @@ AtlasTileManager >> printOn: aStream [
 	"Generate a string representation of the receiver based on its instance variables."
 
 	super printOn: aStream.
-	aStream
-		nextPut: $(;
-		print: atlas;
-		nextPut: $)
+	
+	sceneWindow ifNotNil: [
+		aStream print: self atlasPixelExtent]
 ]

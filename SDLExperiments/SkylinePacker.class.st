@@ -76,7 +76,7 @@ SkylinePacker >> allocateExtent: desiredExtent ifSuccess: packedBlock ifFailure:
 		position: bestPosition
 		extent: desiredExtent.
 
-	packedBlock value: bestPosition
+	^ packedBlock value: bestPosition
 ]
 
 { #category : #public }
