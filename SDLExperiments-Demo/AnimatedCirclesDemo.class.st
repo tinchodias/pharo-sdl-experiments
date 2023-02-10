@@ -18,7 +18,9 @@ AnimatedCirclesDemo class >> runAlternatives [
 
 	| managers driverNames |
 	managers := {
-		AtlasTileManager new.
+		AtlasTileManager new
+			atlasPixelExtent: 2048 asPoint;
+			yourself.
 		TextureTileManager newStatic.
 		TextureTileManager newStreaming.
 		CairoDirectTileManager new }.
