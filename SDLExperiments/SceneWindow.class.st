@@ -46,12 +46,6 @@ SceneWindow >> deviceScalePoint [
 	^ deviceScalePoint
 ]
 
-{ #category : #accessing }
-SceneWindow >> elements: aCollection [
-
-	elements := aCollection
-]
-
 { #category : #initialization }
 SceneWindow >> initialize [
 

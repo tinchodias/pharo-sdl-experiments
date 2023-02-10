@@ -50,7 +50,71 @@ AnimatedCirclesDemo class >> runAlternatives [
 				| aDemo |
 				aDemo := self new.
 				aDemo
-					durationMS: 1000;
+					durationMS: 5000;
+					numberOfCircles: circleData first;
+					numberOfAnimatedCircles: circleData second.
+				aDemo sceneWindow
+					tileManager: eachManager;
+					sdlRenderDriverName: eachDriverName.
+
+				0.5 seconds wait.
+				Smalltalk garbageCollect.
+
+				aDemo run.
+				'' traceCr.
+				eachManager asString traceCr.
+				aDemo reportOnTranscript ] ] ].
+'
+=== Done ===' traceCr.
+
+]
+
+{ #category : #running }
+AnimatedCirclesDemo class >> runAtlasExtents [
+	<script: '[ self runAtlasExtents ] fork'>
+
+	| managers driverNames |
+	managers := {
+		AtlasTileManager new.
+		AtlasTileManager new
+			atlasPixelExtent: 8192 asPoint;
+			yourself.
+		AtlasTileManager new
+			atlasPixelExtent: 4096 asPoint;
+			yourself.
+		AtlasTileManager new
+			atlasPixelExtent: 2048 asPoint;
+			yourself }.
+
+	driverNames := SDL2 renderDriverInfos collect: #nameString.
+	driverNames := driverNames copyWithout: 'opengles2'.
+	driverNames := driverNames copyWithout: 'software'.
+	driverNames := #(metal).
+"	driverNames := #(opengl)."
+
+	driverNames do: [ :eachDriverName |
+		
+'
+=== Driver name: ' trace.
+		eachDriverName trace.
+		' ===' traceCr.
+		
+		#(
+			(200 0  '200 static')
+			(500 0  '500 static')
+			(1000 0 '1000 static')
+		) do: [ :circleData |
+
+			'
+--- ' trace.
+			circleData third trace.
+			' ---' traceCr.
+
+			managers do: [ :eachManager |
+				| aDemo |
+				aDemo := self new.
+				aDemo
+					durationMS: 3000;
 					numberOfCircles: circleData first;
 					numberOfAnimatedCircles: circleData second.
 				aDemo sceneWindow
@@ -128,7 +192,6 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 				anElement position: from + (relativeTo * amount) ];
 			renderBlock: [ :cairoContext |
 				cairoContext
-"					saveState;"
 					sourceColorRGB: (isAnimated
 						ifTrue: [ Color random: random ]
 						ifFalse: [ initialColor ]);
@@ -139,8 +202,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 						newFrom: { 0. (lineWidth*2) })
 						offset: 0;"
 					circleRadius: circleRadius;
-					stroke";
-					restoreState" ]
+					stroke ]
 		]
 
 ]
