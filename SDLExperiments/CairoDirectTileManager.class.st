@@ -7,8 +7,7 @@ Class {
 	#superclass : #TileManager,
 	#instVars : [
 		'sceneWindow',
-		'mainTile',
-		'sceneWindowFRect'
+		'wholeWindowTile'
 	],
 	#category : #'SDLExperiments-Manager-Cairo'
 }
@@ -16,22 +15,16 @@ Class {
 { #category : #'tile creation' }
 CairoDirectTileManager >> addStaticTileOf: aPixelExtent [
 
-	^ self newLazyTile
+	^ CairoLazyTile new
+		cairoContext: wholeWindowTile cairoContext;
+		deviceScalePoint: sceneWindow deviceScalePoint;
+		yourself
 ]
 
 { #category : #lifecycle }
 CairoDirectTileManager >> finalize [
 
-	mainTile destroyTexture
-]
-
-{ #category : #'tile creation' }
-CairoDirectTileManager >> newLazyTile [
-
-	^ CairoLazyTile new
-		cairoContext: mainTile cairoContext;
-		deviceScalePoint: sceneWindow deviceScalePoint;
-		yourself
+	wholeWindowTile destroyTexture
 ]
 
 { #category : #lifecycle }
@@ -39,25 +32,19 @@ CairoDirectTileManager >> prepareOn: aSceneWindow [
 
 	| aPixelExtent |
 	sceneWindow := aSceneWindow.
-	
 	aPixelExtent := sceneWindow logicalExtent * sceneWindow deviceScalePoint.
 
-	mainTile := StaticTextureTile
+	wholeWindowTile := WholeWindowTile
 		newWithSDLRenderer: sceneWindow sdlRenderer
 		pixelExtent: aPixelExtent
 		deviceScalePoint: sceneWindow deviceScalePoint.
-	mainTile createTexture.
-	
-	sceneWindowFRect := SDL_FRect
-		autoReleasingNewOrigin: 0.0 @ 0.0
-		extent: aPixelExtent.
+	wholeWindowTile createTexture.
 
 ]
 
 { #category : #'rendering cycle' }
 CairoDirectTileManager >> renderTilesWith: aBlock [
 
-	mainTile cairoContextToOverrideDo: [ :_ |
-		aBlock value.
-		mainTile renderTo: sceneWindowFRect ]
+	wholeWindowTile renderWith: aBlock
+
 ]

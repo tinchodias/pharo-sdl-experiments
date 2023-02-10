@@ -53,7 +53,7 @@ SceneWindow >> initialize [
 
 	logicalExtent := 800 @ 600.
 	elements := OrderedCollection new.
-	tileManager := AtlasTileManager new.
+	tileManager := CairoDirectTileManager new.
 
 	timeCounter := SceneTimeCounter new.
 	steppingLoop := SceneLoop new
@@ -84,8 +84,8 @@ SceneWindow >> open [
 		SDL2 setHint: 'SDL_RENDER_DRIVER' value: sdlRenderDriverName ].
 
 	sdlWindow := SDL2 createWindow: 'Tiles'
-					x: 20
-					y: 20
+					x: 5
+					y: 5
 					width: logicalExtent x
 					height: logicalExtent y
 					flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI.
