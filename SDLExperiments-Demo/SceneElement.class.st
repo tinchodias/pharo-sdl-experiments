@@ -18,21 +18,39 @@ Class {
 		'isAnimated',
 		'dstFRect',
 		'logicalExtent',
-		'logicalPosition'
+		'logicalPosition',
+		'pixelExtent'
 	],
 	#category : #'SDLExperiments-Demo-Scene'
 }
+
+{ #category : #private }
+SceneElement >> ensureDstFRect [
+
+	dstFRect w = 0.0 ifFalse: [ ^self ].
+	dstFRect x: logicalPosition x * sceneWindow deviceScalePoint x.
+	dstFRect y: logicalPosition y * sceneWindow deviceScalePoint y.
+	dstFRect w: logicalExtent x * sceneWindow deviceScalePoint x.
+	dstFRect h: logicalExtent y * sceneWindow deviceScalePoint y.
+ 
+]
+
+{ #category : #private }
+SceneElement >> ensurePixelExtent [
+
+	pixelExtent ifNil: [
+		pixelExtent := logicalExtent * sceneWindow deviceScalePoint ]
+]
 
 { #category : #private }
 SceneElement >> ensureUpdatedTile [
 
 	tile
 		ifNil: [
-			| aPixelExtent |
-			aPixelExtent := logicalExtent * sceneWindow deviceScalePoint.
+			self ensurePixelExtent.
 			tile := isAnimated
-				ifTrue:  [ sceneWindow tileManager addAnimatedTileOf: aPixelExtent ]
-				ifFalse: [ sceneWindow tileManager addStaticTileOf: aPixelExtent ].
+				ifTrue:  [ sceneWindow tileManager addAnimatedTileOf: pixelExtent ]
+				ifFalse: [ sceneWindow tileManager addStaticTileOf: pixelExtent ].
 			tile cairoContextToOverrideDo: renderBlock ]
 		ifNotNil: [
 			isAnimated ifTrue: [
@@ -50,7 +68,7 @@ SceneElement >> extent [
 SceneElement >> extent: aLogicalPoint [
 
 	logicalExtent := aLogicalPoint.
-	self sdlDstFRectReset.
+	self resetDstFRect.
 
 ]
 
@@ -60,12 +78,15 @@ SceneElement >> initialize [
 	super initialize.
 	
 	isAnimated := false.
+
 	logicalPosition := 0 asPoint.
 	logicalExtent := 50 asPoint.
+
 	stepBlock := [ :deltaMS :totalMS | ].
+	renderBlock := [ :cairoContext | ].
 
 	dstFRect := SDL_FRect new autoRelease; yourself.
-	self sdlDstFRectReset.
+	self resetDstFRect.
 ]
 
 { #category : #accessing }
@@ -91,17 +112,23 @@ SceneElement >> position [
 SceneElement >> position: aPoint [
 
 	logicalPosition := aPoint.
-	self sdlDstFRectReset.
+	self resetDstFRect.
 
 ]
 
 { #category : #public }
 SceneElement >> render [
 
-	self sdlDstFRectEnsure.
+	self ensureDstFRect.
 	self ensureUpdatedTile.
 	tile renderTo: dstFRect
 
+]
+
+{ #category : #accessing }
+SceneElement >> renderBlock [
+
+	^ renderBlock
 ]
 
 { #category : #accessing }
@@ -110,27 +137,16 @@ SceneElement >> renderBlock: aBlock [
 	renderBlock := aBlock
 ]
 
+{ #category : #private }
+SceneElement >> resetDstFRect [
+
+	dstFRect w: 0.0
+]
+
 { #category : #accessing }
 SceneElement >> sceneWindow: aSceneWindow [
 
 	sceneWindow := aSceneWindow
-]
-
-{ #category : #accessing }
-SceneElement >> sdlDstFRectEnsure [
-
-	dstFRect w = 0.0 ifFalse: [ ^self ].
-	dstFRect x: logicalPosition x * sceneWindow deviceScalePoint x.
-	dstFRect y: logicalPosition y * sceneWindow deviceScalePoint y.
-	dstFRect w: logicalExtent x * sceneWindow deviceScalePoint x.
-	dstFRect h: logicalExtent y * sceneWindow deviceScalePoint y.
- 
-]
-
-{ #category : #accessing }
-SceneElement >> sdlDstFRectReset [
-
-	dstFRect w: 0.0
 ]
 
 { #category : #accessing }
