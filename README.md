@@ -1,5 +1,8 @@
 # pharo-sdl-experiments
 
+[![License](https://img.shields.io/github/license/tinchodias/pharo-sdl-experiments.svg)](./LICENSE)
+[![Tests](https://github.com/tinchodias/pharo-sdl-experiments/actions/workflows/tests.yml/badge.svg)](https://github.com/tinchodias/pharo-sdl-experiments/actions/workflows/tests.yml)
+
 
 ## Installation
 
