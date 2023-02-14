@@ -7,7 +7,7 @@ Class {
 		'durationMS',
 		'executionError'
 	],
-	#category : #'SDLExperiments-Demo'
+	#category : #'SDLExperiments-Demo-Demos'
 }
 
 { #category : #accessing }

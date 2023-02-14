@@ -9,7 +9,7 @@ Class {
 		'numberOfCircles',
 		'numberOfAnimatedCircles'
 	],
-	#category : #'SDLExperiments-Demo'
+	#category : #'SDLExperiments-Demo-Demos'
 }
 
 { #category : #running }
@@ -167,7 +167,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 			and: sceneWindow logicalExtent x / 7.
 		lineWidth := random
 			nextIntegerBetween: 1
-			and: circleRadius/5.
+			and: circleRadius/3.
 		padding := lineWidth.
 		from := Point
 			x: (random 
@@ -199,10 +199,10 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 						ifFalse: [ initialColor ]);
 					translateByX: padding y: padding;
 					lineWidth: lineWidth;
-"					lineCap: AeCairoCapStyle square;
+					lineCap: AeCairoCapStyle square;
 					dash: (AeCairoDoubleArray
 						newFrom: { 0. (lineWidth*2) })
-						offset: 0;"
+						offset: 0;
 					circleRadius: circleRadius;
 					stroke ]
 		]

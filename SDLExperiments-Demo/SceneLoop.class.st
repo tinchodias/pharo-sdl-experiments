@@ -7,7 +7,7 @@ Class {
 		'process',
 		'stoppingError'
 	],
-	#category : #'SDLExperiments-Core'
+	#category : #'SDLExperiments-Demo-Scene'
 }
 
 { #category : #testing }

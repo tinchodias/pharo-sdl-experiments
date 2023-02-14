@@ -16,7 +16,7 @@ Class {
 		'SDL2Constants',
 		'SDL2Types'
 	],
-	#category : #'SDLExperiments-Core'
+	#category : #'SDLExperiments-Demo-Scene'
 }
 
 { #category : #accessing }

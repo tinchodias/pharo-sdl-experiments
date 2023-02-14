@@ -12,7 +12,7 @@ Class {
 		'startMS',
 		'totalMS'
 	],
-	#category : #'SDLExperiments-Core'
+	#category : #'SDLExperiments-Demo-Scene'
 }
 
 { #category : #accessing }

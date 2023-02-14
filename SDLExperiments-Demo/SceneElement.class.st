@@ -20,7 +20,7 @@ Class {
 		'logicalExtent',
 		'logicalPosition'
 	],
-	#category : #'SDLExperiments-Core'
+	#category : #'SDLExperiments-Demo-Scene'
 }
 
 { #category : #private }
