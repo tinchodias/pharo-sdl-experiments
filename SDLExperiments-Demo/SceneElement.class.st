@@ -25,29 +25,26 @@ Class {
 }
 
 { #category : #private }
-SceneElement >> ensureDstFRect [
+SceneElement >> ensureDeviceScaledProperties [
 
-	dstFRect w = 0.0 ifFalse: [ ^self ].
+	pixelExtent ifNotNil: [ ^self ].
+
+	pixelExtent := logicalExtent * sceneWindow deviceScalePoint.
+
 	dstFRect x: logicalPosition x * sceneWindow deviceScalePoint x.
 	dstFRect y: logicalPosition y * sceneWindow deviceScalePoint y.
-	dstFRect w: logicalExtent x * sceneWindow deviceScalePoint x.
-	dstFRect h: logicalExtent y * sceneWindow deviceScalePoint y.
+	dstFRect w: pixelExtent x.
+	dstFRect h: pixelExtent y.
  
 ]
 
 { #category : #private }
-SceneElement >> ensurePixelExtent [
+SceneElement >> ensureReadyToRender [
 
-	pixelExtent ifNil: [
-		pixelExtent := logicalExtent * sceneWindow deviceScalePoint ]
-]
-
-{ #category : #private }
-SceneElement >> ensureUpdatedTile [
+	self ensureDeviceScaledProperties.
 
 	tile
 		ifNil: [
-			self ensurePixelExtent.
 			tile := isAnimated
 				ifTrue:  [ sceneWindow tileManager addAnimatedTileOf: pixelExtent ]
 				ifFalse: [ sceneWindow tileManager addStaticTileOf: pixelExtent ].
@@ -68,7 +65,7 @@ SceneElement >> extent [
 SceneElement >> extent: aLogicalPoint [
 
 	logicalExtent := aLogicalPoint.
-	self resetDstFRect.
+	self resetDeviceScaledProperties.
 
 ]
 
@@ -86,7 +83,7 @@ SceneElement >> initialize [
 	renderBlock := [ :cairoContext | ].
 
 	dstFRect := SDL_FRect new autoRelease; yourself.
-	self resetDstFRect.
+	self resetDeviceScaledProperties.
 ]
 
 { #category : #accessing }
@@ -112,15 +109,14 @@ SceneElement >> position [
 SceneElement >> position: aPoint [
 
 	logicalPosition := aPoint.
-	self resetDstFRect.
+	self resetDeviceScaledProperties.
 
 ]
 
 { #category : #public }
 SceneElement >> render [
 
-	self ensureDstFRect.
-	self ensureUpdatedTile.
+	self ensureReadyToRender.
 	tile renderTo: dstFRect
 
 ]
@@ -138,9 +134,9 @@ SceneElement >> renderBlock: aBlock [
 ]
 
 { #category : #private }
-SceneElement >> resetDstFRect [
+SceneElement >> resetDeviceScaledProperties [
 
-	dstFRect w: 0.0
+	pixelExtent := nil
 ]
 
 { #category : #accessing }
