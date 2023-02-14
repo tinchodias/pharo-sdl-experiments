@@ -88,7 +88,7 @@ Atlas >> createTexture [
 			width: pixelExtent x
 			height: pixelExtent y.
 	
-	sdlTexture blendMode: SDL_BLENDMODE_BLEND.
+	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode.
 ]
 
 { #category : #'life cycle' }

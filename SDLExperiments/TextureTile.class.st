@@ -40,7 +40,7 @@ TextureTile >> initializeSDLRenderer: aRenderer pixelExtent: aPoint deviceScaleP
 	deviceScalePoint := anotherPoint.
 	
 	pixelExtent := aPoint.
-	srcRect := SDL_Rect autoReleasingNewOrigin: 0@0 extent: aPoint.
+	srcRect := SDL_Rect autoReleasingNewOrigin: 0@0 extent: aPoint
 
 ]
 
