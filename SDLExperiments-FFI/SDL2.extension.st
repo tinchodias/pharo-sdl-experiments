@@ -1,6 +1,19 @@
 Extension { #name : #SDL2 }
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> convertSurface: src format: aSDLPixelFormat [
+	"See: https://wiki.libsdl.org/SDL2/SDL_ConvertSurfaceFormat"
+
+	^ self ffiCall: #(
+		SDL_Surface *
+		SDL_ConvertSurfaceFormat (
+			SDL_Surface * src,
+			Uint32 aSDLPixelFormat,
+			0 ) )
+
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: width height: height [
 	"See: https://wiki.libsdl.org/SDL_CreateRGBSurfaceWithFormat"
 
