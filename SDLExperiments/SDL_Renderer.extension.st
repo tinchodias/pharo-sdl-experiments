@@ -21,17 +21,3 @@ SDL_Renderer >> asFormARGB32 [
 
 	^ aSurface asFormARGB32
 ]
-
-{ #category : #'*SDLExperiments' }
-SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
-
-	^ self ffiCall: #(
-		int
-		SDL_RenderReadPixels (
-			self,
-			SDL_Rect * rect,
-			Uint32 format,
-			void * pixels,
-			int pitch ) )
-
-]

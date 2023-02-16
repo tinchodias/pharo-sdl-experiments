@@ -13,3 +13,17 @@ SDL_Renderer >> copy: texture srcRect: srcRect dstRectF: dstRect [
 			SDL_FRect * dstRect) )
 
 ]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
+
+	^ self ffiCall: #(
+		int
+		SDL_RenderReadPixels (
+			self,
+			SDL_Rect * rect,
+			Uint32 format,
+			void * pixels,
+			int pitch ) )
+
+]
