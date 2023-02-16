@@ -110,6 +110,13 @@ SceneElement >> opacity: aFloat [
 
 ]
 
+{ #category : #initialization }
+SceneElement >> opacityAsByte: aSmallInteger [
+	"Set an integer value in the [0..255] interval."
+	
+	opacityAsByte := aSmallInteger
+]
+
 { #category : #accessing }
 SceneElement >> position [
 
