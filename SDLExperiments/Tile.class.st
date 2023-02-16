@@ -12,8 +12,8 @@ Tile >> cairoContextToOverrideDo: aBlock [
 ]
 
 { #category : #enumerating }
-Tile >> renderTo: aSDLFRect [
-	"Render myself on the associated SDL_Renderer, at the specified position."
+Tile >> renderTo: aSDLFRect opacity: alphaByte [
+	"Render myself on the associated SDL_Renderer, at the specified position (a SDL_FRect) and opacity (0..255 value)."
 
 	self subclassResponsibility
 ]

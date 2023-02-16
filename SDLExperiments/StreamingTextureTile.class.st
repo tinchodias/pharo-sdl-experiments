@@ -48,4 +48,6 @@ StreamingTextureTile >> createTexture [
 			height: pixelExtent y.
 	
 	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode.
+	sdlTextureOpacity := 255.
+
 ]

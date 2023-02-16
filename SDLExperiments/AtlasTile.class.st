@@ -57,7 +57,7 @@ AtlasTile >> pixelBounds: aPixelRectangle [
 ]
 
 { #category : #rendering }
-AtlasTile >> renderTo: aSDLFRect [
+AtlasTile >> renderTo: aSDLFRect opacity: alphaByte [
 
-	atlas renderTileAt: boundsAsSdlRect to: aSDLFRect
+	atlas renderTileAt: boundsAsSdlRect to: aSDLFRect opacity: alphaByte
 ]

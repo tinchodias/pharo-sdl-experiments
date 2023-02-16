@@ -29,14 +29,19 @@ CairoLazyTile >> deviceScalePoint: aPoint [
 ]
 
 { #category : #enumerating }
-CairoLazyTile >> renderTo: aSDLFRect [
+CairoLazyTile >> renderTo: aSDLFRect opacity: alphaByte [
 	"Render myself on the associated SDL_Renderer, at the specified position."
 
-	self flag: #todo. "Converts again and again + ignores scaling".
-	
 	cairoContext restoreStateAfter: [ 
+
 		cairoContext
 			translateByX: aSDLFRect x / deviceScalePoint x
 			y: aSDLFRect y / deviceScalePoint y.
-		drawingBlock value: cairoContext ]
+
+		alphaByte = 255
+			ifTrue: [ drawingBlock value: cairoContext ]
+			ifFalse: [
+				cairoContext
+					paintGroupWith: [ drawingBlock value: cairoContext ]
+					alpha: alphaByte / 255.0 ] ]
 ]

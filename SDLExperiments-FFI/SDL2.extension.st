@@ -29,6 +29,12 @@ SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: wi
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> map0_1FloatTo0_255Integer: aFloat [
+
+	^ (aFloat * 255.0) asInteger min: 255 max: 0
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> primGetNumRenderDrivers [
 
 	^ self ffiCall: #(

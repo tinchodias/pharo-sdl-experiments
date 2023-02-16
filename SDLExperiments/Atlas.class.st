@@ -7,7 +7,8 @@ Class {
 		'packer',
 		'sdlRenderer',
 		'tiles',
-		'deviceScalePoint'
+		'deviceScalePoint',
+		'sdlTextureOpacity'
 	],
 	#pools : [
 		'SDL2Constants',
@@ -89,6 +90,8 @@ Atlas >> createTexture [
 			height: pixelExtent y.
 	
 	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode.
+	sdlTextureOpacity := 255
+
 ]
 
 { #category : #'life cycle' }
@@ -137,7 +140,16 @@ Atlas >> printOn: aStream [
 ]
 
 { #category : #private }
-Atlas >> renderTileAt: srcRect to: aSDLFRect [
+Atlas >> renderTileAt: srcRect to: aSDLFRect opacity: alphaByte [
+
+	"Can save a lot of time, e.g. in opengl"
+	sdlTextureOpacity = alphaByte ifFalse: [
+		sdlTextureOpacity := alphaByte.
+		sdlTexture
+			colorModR: alphaByte
+				g: alphaByte
+				b: alphaByte;
+			alphaMod: alphaByte ].
 
 	sdlRenderer
 		copy: sdlTexture

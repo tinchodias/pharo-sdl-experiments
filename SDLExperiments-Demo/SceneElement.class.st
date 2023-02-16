@@ -19,7 +19,8 @@ Class {
 		'dstFRect',
 		'logicalExtent',
 		'logicalPosition',
-		'pixelExtent'
+		'pixelExtent',
+		'opacityAsByte'
 	],
 	#category : #'SDLExperiments-Demo-Scene'
 }
@@ -82,6 +83,8 @@ SceneElement >> initialize [
 	stepBlock := [ :deltaMS :totalMS | ].
 	renderBlock := [ :cairoContext | ].
 
+	self opacity: 1.0.
+
 	dstFRect := SDL_FRect new autoRelease; yourself.
 	self resetDeviceScaledProperties.
 ]
@@ -97,6 +100,14 @@ SceneElement >> isAnimated: aBoolean [
 
 	isAnimated := aBoolean.
 	tile := nil.
+]
+
+{ #category : #initialization }
+SceneElement >> opacity: aFloat [
+	"Set a value in the [0..1] interval."
+	
+	opacityAsByte := SDL2 map0_1FloatTo0_255Integer: aFloat 
+
 ]
 
 { #category : #accessing }
@@ -117,7 +128,7 @@ SceneElement >> position: aPoint [
 SceneElement >> render [
 
 	self ensureReadyToRender.
-	tile renderTo: dstFRect
+	tile renderTo: dstFRect opacity: opacityAsByte
 
 ]
 

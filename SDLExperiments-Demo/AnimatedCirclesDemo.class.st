@@ -186,6 +186,9 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 		
 		anElement
 			isAnimated: isAnimated;
+			opacity: (random next >= 0.5
+				ifTrue: [ 1.0 ]
+				ifFalse: [ 0.5 ]);
 			position: from;
 			extent: ((circleRadius + padding) *2) asPoint;
 			stepBlock: [ :deltaMS :totalMS |

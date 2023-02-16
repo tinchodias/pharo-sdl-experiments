@@ -122,9 +122,11 @@ AtlasTest >> testRender [
 	"Render the frame"	
 	sdlRenderer clear.
 	(0 to: windowExtent x - 1 by: tileExtent x) do: [ :each |
-		aTile renderTo: (SDL_FRect
-			autoReleasingNewOrigin: each @ 0
-			extent: tileExtent) ].
+		aTile
+			renderTo: (SDL_FRect
+				autoReleasingNewOrigin: each @ 0
+				extent: tileExtent)
+			opacity: 255 ].
 
 	"Check it's as expected"
 	renderedForm := sdlRenderer asFormARGB32.

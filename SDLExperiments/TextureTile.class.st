@@ -6,7 +6,8 @@ Class {
 		'sdlTexture',
 		'deviceScalePoint',
 		'pixelExtent',
-		'srcRect'
+		'srcRect',
+		'sdlTextureOpacity'
 	],
 	#pools : [
 		'SDL2Constants',
@@ -58,8 +59,17 @@ TextureTile >> pixelExtent: aPoint [
 ]
 
 { #category : #rendering }
-TextureTile >> renderTo: aSDLFRect [
+TextureTile >> renderTo: aSDLFRect opacity: alphaByte [
 
+	"Can save a lot of time, e.g. in opengl"
+	sdlTextureOpacity = alphaByte ifFalse: [
+		sdlTextureOpacity := alphaByte.
+		sdlTexture
+			colorModR: alphaByte
+				g: alphaByte
+				b: alphaByte;
+			alphaMod: alphaByte ].
+		
 	sdlRenderer
 		copy: sdlTexture
 			srcRect: srcRect

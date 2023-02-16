@@ -41,7 +41,8 @@ StaticTextureTile >> createTexture [
 		width: pixelExtent x
 		height: pixelExtent y.
 	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode.
-	
+	sdlTextureOpacity := 255.
+
 	cairoSurface := AeCairoImageSurface
 		extent: pixelExtent
 		format: AeCairoSurfaceFormat argb32.
