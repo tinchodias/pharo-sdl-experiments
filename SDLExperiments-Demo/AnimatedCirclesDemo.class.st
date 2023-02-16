@@ -140,8 +140,8 @@ AnimatedCirclesDemo >> initialize [
 
 	super initialize.
 
-	numberOfCircles := 200.
-	numberOfAnimatedCircles := 3.
+	numberOfCircles := 100.
+	numberOfAnimatedCircles := 10
 
 ]
 

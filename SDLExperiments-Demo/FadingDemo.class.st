@@ -67,9 +67,7 @@ FadingDemo >> initialize [
 
 	super initialize.
 
-	numberOfCircles := 200.
-
-	self windowLogicalExtent: 1300 @ 700.
+	numberOfCircles := 75
 
 ]
 

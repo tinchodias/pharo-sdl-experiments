@@ -25,8 +25,8 @@ BenchmarkingDemo >> initialize [
 	
 	random := Random seed: 7.
 	durationMS := 5000.0.
-	
-	self windowLogicalExtent: 1200 @ 800.
+
+	self windowLogicalExtent: 1300 @ 700
 
 ]
 

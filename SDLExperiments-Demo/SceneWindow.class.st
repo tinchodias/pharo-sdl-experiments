@@ -53,7 +53,7 @@ SceneWindow >> initialize [
 
 	logicalExtent := 800 @ 600.
 	elements := OrderedCollection new.
-	tileManager := CairoDirectTileManager new.
+	tileManager := TextureTileManager newStreaming.
 
 	timeCounter := SceneTimeCounter new.
 	steppingLoop := SceneLoop new
