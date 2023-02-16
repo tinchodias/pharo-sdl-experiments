@@ -15,6 +15,26 @@ SDL_Renderer >> copy: texture srcRect: srcRect dstRectF: dstRect [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> disableVSync [
+
+	^ self ffiCall: #(
+		int
+		SDL_RenderSetVSync (
+			self,
+			0 ) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> enableVSync [
+
+	^ self ffiCall: #(
+		int
+		SDL_RenderSetVSync (
+			self,
+			1 ) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
 
 	^ self ffiCall: #(
@@ -26,4 +46,15 @@ SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
 			void * pixels,
 			int pitch ) )
 
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> setVSync: vsync [
+	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
+
+	^ self ffiCall: #(
+		int
+		SDL_RenderSetVSync (
+			self,
+			int vsync ) )
 ]
