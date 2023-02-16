@@ -83,7 +83,7 @@ SceneWindow >> open [
 
 	sdlWindow := SDL2 createWindow: 'Tiles'
 					x: 5
-					y: 5
+					y: 25
 					width: logicalExtent x
 					height: logicalExtent y
 					flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI.

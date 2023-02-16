@@ -13,9 +13,9 @@ FadingDemo class >> runAlternatives [
 
 	| managers driverNames |
 	managers := {
-		TextureTileManager newStatic.
+"		TextureTileManager newStatic."
 		TextureTileManager newStreaming.
-		CairoDirectTileManager new }.
+"		CairoDirectTileManager new" }.
 
 	driverNames := SDL2 renderDriverInfos collect: #nameString.
 	driverNames := driverNames copyWithout: 'opengles2'.
@@ -31,7 +31,8 @@ FadingDemo class >> runAlternatives [
 		' ===' traceCr.
 		
 		#(
-			50
+			"50"
+			400
 		) do: [ :circleData |
 
 			'
@@ -68,7 +69,7 @@ FadingDemo >> initialize [
 
 	numberOfCircles := 200.
 
-	self windowLogicalExtent: 1500 @ 700.
+	self windowLogicalExtent: 1300 @ 700.
 
 ]
 
