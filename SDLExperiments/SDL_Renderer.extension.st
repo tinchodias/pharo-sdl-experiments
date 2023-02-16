@@ -2,7 +2,8 @@ Extension { #name : #'SDL_Renderer' }
 
 { #category : #'*SDLExperiments' }
 SDL_Renderer >> asFormARGB32 [
-	"Answer a Form with my pixels. Assumes the format is SDL_PIXELFORMAT_ARGB8888."
+	"Answer a Form with my pixels. Tip: use it before present.
+	Assumes the format is SDL_PIXELFORMAT_ARGB8888."
 
 	| pixelExtent aSurface |
 	pixelExtent := self outputExtent.

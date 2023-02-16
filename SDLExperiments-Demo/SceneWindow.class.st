@@ -77,9 +77,7 @@ SceneWindow >> logicalExtent: aPoint [
 { #category : #'life cycle' }
 SceneWindow >> open [
 
-	SDL2 initVideo.
-	SDL2 setHint: 'SDL_RENDER_BATCHING' value: '1'.
-	SDL2 setHint: 'SDL_FRAMEBUFFER_ACCELERATION' value: '1'.
+"	SDL2 initVideo."
 	sdlRenderDriverName ifNotNil: [
 		SDL2 setHint: 'SDL_RENDER_DRIVER' value: sdlRenderDriverName ].
 
