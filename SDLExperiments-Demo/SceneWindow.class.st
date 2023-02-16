@@ -118,28 +118,16 @@ SceneWindow >> sdlRenderer [
 SceneWindow >> step [
 
 	timeCounter step.
-	self
-		stepElements;
-		stepRender
-]
 
-{ #category : #stepping }
-SceneWindow >> stepElements [
-	
 	elements do: [ :each |
-		each stepBlock cull: timeCounter deltaMS cull: timeCounter totalMS ]
-]
-
-{ #category : #stepping }
-SceneWindow >> stepRender [
+		each stepBlock
+			cull: timeCounter deltaMS
+			cull: timeCounter totalMS ].
 
 	sdlRenderer clear.
-
 	tileManager renderTilesWith: [
 		elements do: [ :each | each render ] ].
-
-	sdlRenderer present.
-
+	sdlRenderer present
 ]
 
 { #category : #accessing }
