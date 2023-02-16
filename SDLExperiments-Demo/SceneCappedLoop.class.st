@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'waitingDelay',
 		'targetPeriodMS',
-		'msToYield',
-		'latestStepMS'
+		'lastMS'
 	],
 	#category : #'SDLExperiments-Demo-Scene'
 }
@@ -13,7 +12,7 @@ Class {
 { #category : #initialization }
 SceneCappedLoop >> defaultTargetPeriod [
 
-	^ 15 milliSeconds
+	^ 16.6 milliSeconds
 ]
 
 { #category : #initialization }
@@ -24,45 +23,39 @@ SceneCappedLoop >> initialize [
 	self targetPeriod: self defaultTargetPeriod.
 
 	"This initializes the internal Semaphore, but the milliseconds
-	to wait are set after each pulse."
+	to wait are set after each step."
 	waitingDelay := Delay forMilliseconds: 0
 ]
 
 { #category : #stepping }
 SceneCappedLoop >> postStep [
-	"Wait the appropriate amount of time for the next pulse"
+	"Wait the appropriate amount of time for the next step"
 
-	| msToWait shouldForceDelay minWaitMS |
-	"msToWait is the amount of time to wait for the next pulse.
-	Since a pulse can take longer than #pulsePeriod, msToWait may be negative here
-	(meaning that we shouldn't wait for the next pulse)"
-	msToWait := targetPeriodMS - (Time millisecondClockValue - latestStepMS).
+	| msToWait elapsedMS currentMS |
+	currentMS := Time millisecondClockValue.
+	elapsedMS := currentMS - lastMS.
+	msToWait := targetPeriodMS - elapsedMS.
 
-	"But also ensure that background processes get some execution time.
-	If the nextReadyProcess has more priority than the IDLE process"
-	shouldForceDelay :=
-		Processor nextReadyProcess priority > Processor lowestPriority.
-	minWaitMS :=
-		shouldForceDelay
-			ifTrue: [ msToYield ]
-			ifFalse: [ 0 ].
+	msToWait > 0
+		ifTrue: [ waitingDelay setDelay: msToWait; wait ]
+		ifFalse: [ Processor yield ].
 
-	msToWait := msToWait min: targetPeriodMS max: minWaitMS.
-
-	msToWait = 0 ifFalse: [ waitingDelay setDelay: msToWait; wait ]
-
+	lastMS := currentMS
 ]
 
 { #category : #stepping }
 SceneCappedLoop >> step [
 
-	latestStepMS := Time millisecondClockValue.
+	"Only for initial step"
+	lastMS ifNil: [
+		lastMS := Time millisecondClockValue ].
+
 	super step.
 ]
 
 { #category : #'api - lifecycle' }
 SceneCappedLoop >> targetPeriod: aDuration [
 
-	targetPeriodMS := aDuration asMilliSeconds.
-	msToYield := (targetPeriodMS // 2) min: 1.
+	targetPeriodMS := aDuration asMilliSeconds
+
 ]
