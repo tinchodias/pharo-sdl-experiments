@@ -83,7 +83,7 @@ FadingDemo >> numberOfCircles: aNumber [
 FadingDemo >> prepareSceneWindow [
 
 	1 to: numberOfCircles do: [ :index |
-		| circleRadius position from relativeTo initialColor anElement |
+		| circleRadius position initialColor anElement |
 		circleRadius := random
 			nextIntegerBetween: 10
 			and: sceneWindow logicalExtent x / 7.
@@ -103,9 +103,9 @@ FadingDemo >> prepareSceneWindow [
 			position: position;
 			extent: (circleRadius*2) asPoint;
 			stepBlock: [ :deltaMS :totalMS |
-				| amount |
-				amount := totalMS / durationMS.
-				anElement opacityAsByte: (255.0 * amount) asInteger ];
+				| progress |
+				progress := totalMS / durationMS.
+				anElement opacityAsByte: 255 - (255.0 * progress) asInteger ];
 			renderBlock: [ :cairoContext |
 				cairoContext
 					sourceColorRGB: initialColor;
