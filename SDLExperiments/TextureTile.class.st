@@ -45,19 +45,6 @@ TextureTile >> initializeSDLRenderer: aRenderer pixelExtent: aPoint deviceScaleP
 
 ]
 
-{ #category : #accessing }
-TextureTile >> pixelExtent [
-
-	^ pixelExtent
-]
-
-{ #category : #initialization }
-TextureTile >> pixelExtent: aPoint [
-	
-	pixelExtent := aPoint.
-	srcRect extent: aPoint
-]
-
 { #category : #rendering }
 TextureTile >> renderTo: aSDLFRect opacity: alphaByte [
 
