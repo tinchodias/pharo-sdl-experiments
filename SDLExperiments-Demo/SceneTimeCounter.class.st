@@ -44,6 +44,8 @@ SceneTimeCounter >> reportString [
 	listOfDeltaMS ifEmpty: [ ^ 'Frame stats: no data' ].
 
 	^ String streamContents: [ :stream |
+		| deltaMSallButFirst |
+		deltaMSallButFirst := listOfDeltaMS allButFirst.
 		stream
 			<< 'Frame stats:'; cr;
 			<< '   * first:       ';
@@ -54,14 +56,19 @@ SceneTimeCounter >> reportString [
 		
 		MeanConfidenceIntervalPrinter new
 			unitString: 'ms';
-			print: listOfDeltaMS allButFirst
+			print: deltaMSallButFirst
 				on: stream.
 		stream << ' ('.
 
 		self fpsExceptFirst
 			printOn: stream
 			showingDecimalPlaces: 1.
-		stream << ' per second)' ]
+		stream
+			<< ' per second) - Top 1%: ';
+			print: (deltaMSallButFirst sorted asArray
+				last: (deltaMSallButFirst size * 0.01) ceiling)
+		
+		 ]
 ]
 
 { #category : #stepping }
