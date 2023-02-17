@@ -4,17 +4,20 @@ I'm polymorphic with `Tile` but don't have an associated `Atlas`.
 Class {
 	#name : #StreamingTextureTile,
 	#superclass : #TextureTile,
+	#instVars : [
+		'pixelsAddress',
+		'pitchAddress'
+	],
 	#category : #'SDLExperiments-Manager-Texture'
 }
 
 { #category : #enumerating }
 StreamingTextureTile >> cairoContextToOverrideDo: aBlock [
 
-	| pitchAddress pixelsAddress aCairoSurface aCairoContext |
-	pitchAddress := ExternalAddress newPointer.
-	pixelsAddress := ExternalAddress newPointer.
+	|aCairoSurface aCairoContext |
 
-	"Obtain a RAM buffer to draw on it (write-only)"
+	"Obtain a RAM buffer to draw on it, that is
+	write-only and needs to be cleaned."
 	sdlTexture
 		lockRect: SDL_Rect null
 		  pixels: pixelsAddress
@@ -32,9 +35,11 @@ StreamingTextureTile >> cairoContextToOverrideDo: aBlock [
 	aCairoContext clearTransparent.
 	aBlock value: aCairoContext.
 
-	"Flush to VRAM"
+	"Flush to VRAM and free"
 	aCairoSurface flush.
-	sdlTexture unlock
+	sdlTexture unlock.
+	aCairoContext externallyFree.
+	aCairoSurface externallyFree.
 ]
 
 { #category : #'life cycle' }
@@ -49,5 +54,8 @@ StreamingTextureTile >> createTexture [
 	
 	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode.
 	sdlTextureOpacity := 255.
+
+	pitchAddress := ExternalAddress newPointer.
+	pixelsAddress := ExternalAddress newPointer
 
 ]
