@@ -60,6 +60,17 @@ SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> setDrawColor: aColor [
+
+	^ self
+		drawColorR: (SDL2 map0_1FloatTo0_255Integer: aColor red)
+		         g: (SDL2 map0_1FloatTo0_255Integer: aColor green)
+		         b: (SDL2 map0_1FloatTo0_255Integer: aColor blue)
+		         a: (SDL2 map0_1FloatTo0_255Integer: aColor alpha)
+	
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Renderer >> setVSync: vsync [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 

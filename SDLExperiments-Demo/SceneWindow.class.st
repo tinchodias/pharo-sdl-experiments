@@ -32,6 +32,14 @@ SceneWindow >> addElement [
 	^ newElement 
 ]
 
+{ #category : #adding }
+SceneWindow >> addElement: anElement [ 
+
+	anElement sceneWindow: self.
+	elements add: anElement
+
+]
+
 { #category : #'life cycle' }
 SceneWindow >> close [
 	
@@ -124,7 +132,9 @@ SceneWindow >> step [
 			cull: timeCounter deltaMS
 			cull: timeCounter totalMS ].
 
-	sdlRenderer clear.
+	sdlRenderer
+		drawColorR: 255 g: 255 b: 255 a: 255;
+		clear.
 	tileManager renderTilesWith: [
 		elements do: [ :each | each render ] ].
 	sdlRenderer present
