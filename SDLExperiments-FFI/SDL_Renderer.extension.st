@@ -35,6 +35,17 @@ SDL_Renderer >> enableVSync [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> fillRectF: rect [
+	"See: https://wiki.libsdl.org/SDL2/SDL_RenderFillRectF"
+
+	^ self ffiCall: #(
+		int
+		SDL_RenderFillRectF (
+			self,
+			SDL_FRect * rect ) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
 
 	^ self ffiCall: #(
