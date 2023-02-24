@@ -134,7 +134,6 @@ SceneElement >> position: aPoint [
 { #category : #public }
 SceneElement >> render [
 
-	self ensureReadyToRender.
 	tile renderTo: dstFRect opacity: opacityAsByte
 
 ]

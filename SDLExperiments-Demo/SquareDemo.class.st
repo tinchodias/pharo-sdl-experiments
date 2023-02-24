@@ -5,7 +5,8 @@ Class {
 		'numberOfAnimatedCircles',
 		'numberOfRectangles',
 		'sideLength',
-		'useSpecialized'
+		'useSpecialized',
+		'useTranslucent'
 	],
 	#category : #'SDLExperiments-Demo-Demos'
 }
@@ -37,9 +38,8 @@ SquareDemo class >> runAlternatives [
 		eachDriverName trace.
 		' ===' traceCr.
 		
-		#(
-			500
-			5000
+		#(  "10"
+			100
 		) do: [ :circleData |
 				| aDemo |
 
@@ -88,8 +88,9 @@ SquareDemo >> initialize [
 	super initialize.
 
 	useSpecialized := true.
-	numberOfRectangles := 1000.
-	sideLength := 50
+	useTranslucent := false.
+	numberOfRectangles := 100.
+	sideLength := 500
 
 ]
 
@@ -102,77 +103,49 @@ SquareDemo >> numberOfRectangles: aNumber [
 { #category : #running }
 SquareDemo >> prepareSceneWindow [
 
-	useSpecialized
-		ifTrue: [ self prepareSceneWindowSpecialized ]
-		ifFalse: [ self prepareSceneWindowGeneric ]
-]
-
-{ #category : #running }
-SquareDemo >> prepareSceneWindowGeneric [
-
 	1 to: numberOfRectangles do: [ :index |
 		| from relativeTo fillColor anElement |
 		from := Point
 			x: (random 
 					nextIntegerBetween: 0
-					and: sceneWindow logicalExtent x - (sideLength*2))
+					and: sceneWindow logicalExtent x - (sideLength))
 			y: (random
 					nextIntegerBetween: 0
-					and: sceneWindow logicalExtent y - (sideLength*2)).
+					and: sceneWindow logicalExtent y - (sideLength)).
 		relativeTo := Point
 			x: (random nextIntegerBetween: -100 and: 100)
 			y: (random nextIntegerBetween: -100 and: 100).
 		fillColor := Color random: random.
 
-		anElement := SceneElement new.
-		sceneWindow addElement: anElement.
-		
+		anElement := useSpecialized
+			ifTrue: [
+				SquareElement new
+					color: fillColor;
+					yourself ]
+			ifFalse: [
+				SceneElement new
+					renderBlock: [ :cairoContext |
+						cairoContext
+							sourceColorRGBA: fillColor;
+							rectangleX: 0.0
+								y: 0.0
+								width: sideLength
+								height: sideLength;
+							fill ];
+					yourself ].
+
+		useTranslucent ifTrue: [
+			anElement opacityAsByte: 200 ].
+
 		anElement
 			position: from;
 			extent: sideLength asPoint;
 			stepBlock: [ :deltaMS :totalMS |
 				| amount |
 				amount := totalMS / durationMS.
-				anElement position: from + (relativeTo * amount) ];
-			renderBlock: [ :cairoContext |
-				cairoContext
-					sourceColorRGBA: fillColor;
-					rectangleTo: anElement extent;
-					fill ]
+				anElement position: from + (relativeTo * amount) ].
 
-		]
-
-]
-
-{ #category : #running }
-SquareDemo >> prepareSceneWindowSpecialized [
-
-	1 to: numberOfRectangles do: [ :index |
-		| from relativeTo fillColor anElement |
-		from := Point
-			x: (random 
-					nextIntegerBetween: 0
-					and: sceneWindow logicalExtent x - (sideLength*2))
-			y: (random
-					nextIntegerBetween: 0
-					and: sceneWindow logicalExtent y - (sideLength*2)).
-		relativeTo := Point
-			x: (random nextIntegerBetween: -100 and: 100)
-			y: (random nextIntegerBetween: -100 and: 100).
-		fillColor := Color random: random.
-
-		anElement := SquareElement new.
-		sceneWindow addElement: anElement.
-		
-		anElement
-			color: fillColor;
-			position: from;
-			extent: sideLength asPoint;
-			stepBlock: [ :deltaMS :totalMS |
-				| amount |
-				amount := totalMS / durationMS.
-				anElement position: from + (relativeTo * amount) ]
-		]
+		sceneWindow addElement: anElement ]
 
 ]
 
@@ -184,7 +157,15 @@ SquareDemo >> run [
 ]
 
 { #category : #accessing }
-SquareDemo >> useSpecialized: anObject [
+SquareDemo >> useSpecialized: aBoolean [
 
-	useSpecialized := anObject
+	useSpecialized := aBoolean
+]
+
+{ #category : #running }
+SquareDemo >> windowTitle [
+
+	^ useSpecialized
+		ifTrue: [ sceneWindow sdlRenderer info nameString, '; useSpecialized (tileManager ignored)' ]
+		ifFalse: [ super windowTitle ]
 ]

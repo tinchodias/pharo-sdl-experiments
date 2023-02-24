@@ -29,10 +29,9 @@ SquareElement >> ensureReadyToRender [
 		 self notYetImplemented  ].
 
 	tile ifNil: [
-		tile := 
-			SDLColorFloodTile basicNew
-				initializeSDLRenderer: sceneWindow sdlRenderer
-					pixelExtent: pixelExtent;
+		tile :=
+			"SDLGradientTile" SDLColorFloodTile new
+				sdlRenderer: sceneWindow sdlRenderer;
 				color: color;
 				yourself ]
 ]

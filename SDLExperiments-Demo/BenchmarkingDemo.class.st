@@ -56,6 +56,7 @@ BenchmarkingDemo >> run [
 	self prepareSceneWindow.
 
 	sceneWindow open.
+	sceneWindow title: self windowTitle.
 	sceneWindow steppingLoop start.
 
 	(Delay forMilliseconds: durationMS) wait.
@@ -81,4 +82,10 @@ BenchmarkingDemo >> tileManager: aTileManager [
 BenchmarkingDemo >> windowLogicalExtent: aPoint [
 
 	sceneWindow logicalExtent: aPoint
+]
+
+{ #category : #running }
+BenchmarkingDemo >> windowTitle [
+
+	^ sceneWindow sdlRenderer info nameString, ';', sceneWindow tileManager asString
 ]

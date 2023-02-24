@@ -35,6 +35,12 @@ SDL2 class >> map0_1FloatTo0_255Integer: aFloat [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> map0_255IntegerTo0_1Float: anInteger [
+
+	^ (anInteger / 255.0) min: 1.0 max: 0.0
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> primGetNumRenderDrivers [
 
 	^ self ffiCall: #(

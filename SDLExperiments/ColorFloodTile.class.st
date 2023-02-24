@@ -19,7 +19,7 @@ ColorFloodTile >> color [
 ]
 
 { #category : #accessing }
-ColorFloodTile >> color: anObject [
+ColorFloodTile >> color: aColor [
 
-	color := anObject
+	color := aColor
 ]

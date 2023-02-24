@@ -98,16 +98,12 @@ SceneWindow >> open [
 	sdlRenderer := sdlWindow
 		createRenderer: -1
 		flags: SDL_RENDERER_ACCELERATED.
+	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND.
 
 	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
 
-	"Backgorund color"
-	sdlRenderer drawColorR: 255 g: 255 b: 255 a: 255.
-
 	
-	tileManager prepareOn: self.
-
-	sdlWindow title: (sdlRenderer info nameString, ';', tileManager asString).
+	tileManager prepareOn: self
 ]
 
 { #category : #accessing }
@@ -130,11 +126,14 @@ SceneWindow >> step [
 	elements do: [ :each |
 		each stepBlock
 			cull: timeCounter deltaMS
-			cull: timeCounter totalMS ].
+			cull: timeCounter totalMS.
+		each ensureReadyToRender ].
+
 
 	sdlRenderer
 		drawColorR: 255 g: 255 b: 255 a: 255;
 		clear.
+		
 	tileManager renderTilesWith: [
 		elements do: [ :each | each render ] ].
 	sdlRenderer present
