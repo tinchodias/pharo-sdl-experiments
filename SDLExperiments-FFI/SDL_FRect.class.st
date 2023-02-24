@@ -3,6 +3,7 @@ I'm a binding to the struct `SDL_FRect`.
 
 A rectangle, with the origin at the upper left (floating point).
 
+See: https://wiki.libsdl.org/SDL2/SDL_FRect
 "
 Class {
 	#name : #'SDL_FRect',
