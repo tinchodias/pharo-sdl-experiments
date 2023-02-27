@@ -1,6 +1,33 @@
 Extension { #name : #'SDL_Window' }
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Window >> getCurrentDisplayMode [
+	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
+
+	| aMode |
+	aMode := SDL_DisplayMode externalNew
+		autoRelease;
+		yourself.
+
+	(SDL2 getCurrentDisplayMode: self getDisplayIndex into: aMode) = 0 ifFalse: [ self error ].
+	
+	^ aMode
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL_Window >> getDisplayMode [
+
+	| aMode |
+	aMode := SDL_DisplayMode externalNew
+		autoRelease;
+		yourself.
+
+	(self getDisplayModeInto: aMode) = 0 ifFalse: [ self error ].
+	
+	^ aMode
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> size [
 	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
 

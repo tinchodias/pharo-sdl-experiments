@@ -107,6 +107,13 @@ SceneWindow >> open [
 ]
 
 { #category : #accessing }
+SceneWindow >> refreshRate [
+	"Answer the window display's refresh rate, in Hertz."
+
+	^ sdlWindow getDisplayMode refreshRate
+]
+
+{ #category : #accessing }
 SceneWindow >> sdlRenderDriverName: aString [
 
 	sdlRenderDriverName := aString
