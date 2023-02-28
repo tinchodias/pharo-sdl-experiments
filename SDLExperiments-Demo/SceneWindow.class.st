@@ -85,7 +85,7 @@ SceneWindow >> logicalExtent: aPoint [
 { #category : #'life cycle' }
 SceneWindow >> open [
 
-"	SDL2 initVideo."
+	SDL2 initVideo.
 	sdlRenderDriverName ifNotNil: [
 		SDL2 setHint: 'SDL_RENDER_DRIVER' value: sdlRenderDriverName ].
 
@@ -95,9 +95,13 @@ SceneWindow >> open [
 					width: logicalExtent x
 					height: logicalExtent y
 					flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI.
+	sdlWindow signalErrorIfNull.
+
 	sdlRenderer := sdlWindow
 		createRenderer: -1
 		flags: SDL_RENDERER_ACCELERATED.
+	sdlRenderer signalErrorIfNull.
+
 	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND.
 
 	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
