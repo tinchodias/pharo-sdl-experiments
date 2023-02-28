@@ -10,17 +10,11 @@ Class {
 }
 
 { #category : #initialization }
-SceneCappedLoop >> defaultTargetPeriod [
-
-	^ 16.6 milliSeconds
-]
-
-{ #category : #initialization }
 SceneCappedLoop >> initialize [
 
 	super initialize.
 
-	self targetPeriod: self defaultTargetPeriod.
+	self targetHertz: 60.
 
 	"This initializes the internal Semaphore, but the milliseconds
 	to wait are set after each step."
@@ -51,6 +45,12 @@ SceneCappedLoop >> step [
 		lastMS := Time millisecondClockValue ].
 
 	super step.
+]
+
+{ #category : #'api - lifecycle' }
+SceneCappedLoop >> targetHertz: aNumber [
+
+	targetPeriodMS := 1000.0 / aNumber
 ]
 
 { #category : #'api - lifecycle' }
