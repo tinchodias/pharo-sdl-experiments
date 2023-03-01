@@ -72,6 +72,14 @@ SDL_FPoint >> printOn: aStream [
 	aStream print: self asPoint
 ]
 
+{ #category : #'as yet unclassified' }
+SDL_FPoint >> updateFrom: aPharoPoint [
+
+	self
+		x: aPharoPoint x asFloat;
+		y: aPharoPoint y asFloat
+]
+
 { #category : #'accessing - structure variables' }
 SDL_FPoint >> x [
 	"This method was automatically generated"
