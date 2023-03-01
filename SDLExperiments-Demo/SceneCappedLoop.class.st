@@ -22,29 +22,13 @@ SceneCappedLoop >> initialize [
 ]
 
 { #category : #stepping }
-SceneCappedLoop >> postStep [
-	"Wait the appropriate amount of time for the next step"
-
-	| msToWait elapsedMS currentMS |
-	currentMS := Time millisecondClockValue.
-	elapsedMS := currentMS - lastMS.
-	msToWait := targetPeriodMS - elapsedMS.
-
-	msToWait > 0
-		ifTrue: [ waitingDelay setDelay: msToWait; wait ]
-		ifFalse: [ Processor yield ].
-
-	lastMS := currentMS
-]
-
-{ #category : #stepping }
-SceneCappedLoop >> step [
+SceneCappedLoop >> preStep [
 
 	"Only for initial step"
 	lastMS ifNil: [
 		lastMS := Time millisecondClockValue ].
 
-	super step.
+	super preStep.
 ]
 
 { #category : #'api - lifecycle' }
@@ -58,4 +42,18 @@ SceneCappedLoop >> targetPeriod: aDuration [
 
 	targetPeriodMS := aDuration asMilliSeconds
 
+]
+
+{ #category : #stepping }
+SceneCappedLoop >> waitIfNeeded [
+	"Wait the appropriate amount of time for the next step"
+
+	| msToWait elapsedMS currentMS |
+	currentMS := Time millisecondClockValue.
+	elapsedMS := currentMS - lastMS.
+	msToWait := targetPeriodMS - elapsedMS.
+
+	msToWait > 0 ifTrue: [ waitingDelay setDelay: msToWait; wait ].
+
+	lastMS := currentMS
 ]

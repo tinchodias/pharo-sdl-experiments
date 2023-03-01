@@ -5,7 +5,8 @@ Class {
 		'session',
 		'stepBlock',
 		'process',
-		'stoppingError'
+		'stoppingError',
+		'preStepBlock'
 	],
 	#category : #'SDLExperiments-Demo-Scene'
 }
@@ -25,8 +26,18 @@ SceneLoop >> isRunning [
 { #category : #stepping }
 SceneLoop >> postStep [
 
-	"1 milliSecond wait"
 	Processor yield
+]
+
+{ #category : #stepping }
+SceneLoop >> preStep [
+
+	preStepBlock value
+]
+
+{ #category : #accessing }
+SceneLoop >> preStepBlock: aFullBlockClosure [ 
+	preStepBlock := aFullBlockClosure
 ]
 
 { #category : #stepping }
@@ -38,7 +49,13 @@ SceneLoop >> start [
 		
 		[ process == Processor activeProcess
 			and: [ session == Smalltalk session ] ]
-				whileTrue: [ self step; postStep ] ]
+				whileTrue: [ 
+					self
+						preStep;
+						waitIfNeeded;
+						step;
+						postStep
+					 ] ]
 					
 					onErrorDo: [ :anError |
 						"Remember the reason for stopping."
@@ -75,4 +92,9 @@ SceneLoop >> stop [
 SceneLoop >> stoppingError [
 
 	^ stoppingError
+]
+
+{ #category : #stepping }
+SceneLoop >> waitIfNeeded [
+	"Wait the appropriate amount of time for the next step"
 ]
