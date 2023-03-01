@@ -86,6 +86,9 @@ SceneWindow >> open [
 	sdlRenderDriverName ifNotNil: [
 		SDL2 setHint: 'SDL_RENDER_DRIVER' value: sdlRenderDriverName ].
 
+	SDL2 setHint: 'SDL_RENDER_SCALE_QUALITY' value: '2'.
+	SDL2 setHint: 'SDL_RENDER_LINE_METHOD' value: '3'.
+
 	sdlWindow := SDL2 createWindow: 'Tiles'
 					x: 5
 					y: 25
@@ -101,6 +104,7 @@ SceneWindow >> open [
 	sdlRenderer signalErrorIfNull.
 
 	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND.
+"	sdlRenderer drawBlendMode: SDL2 premultipliedAlphaBlendMode."
 
 	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
 
