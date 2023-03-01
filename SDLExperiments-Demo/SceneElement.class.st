@@ -30,7 +30,7 @@ SceneElement >> ensureDeviceScaledProperties [
 
 	pixelExtent ifNotNil: [ ^self ].
 
-	pixelExtent := logicalExtent * sceneWindow deviceScalePoint.
+	pixelExtent := (logicalExtent * sceneWindow deviceScalePoint) asIntegerPoint.
 
 	dstFRect x: logicalPosition x * sceneWindow deviceScalePoint x.
 	dstFRect y: logicalPosition y * sceneWindow deviceScalePoint y.
