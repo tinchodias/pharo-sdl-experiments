@@ -135,6 +135,63 @@ AnimatedCirclesDemo class >> runAtlasExtents [
 
 ]
 
+{ #category : #running }
+AnimatedCirclesDemo class >> runCopyVsRenderGeometry [
+	<script: '[ self runCopyVsRenderGeometry ] fork'>
+
+	| durationMS managers driverNames |
+	durationMS := 10000.
+	managers := {
+		TextureTileManager newStatic.
+		TextureTileManager new useSDLRenderGeometryStaticTile; yourself.
+		}.
+
+	driverNames := SDL2 renderDriverInfos collect: #nameString.
+	driverNames := driverNames copyWithout: 'opengles2'.
+	driverNames := driverNames copyWithout: 'software'.
+"	driverNames := #(metal)."
+"	driverNames := #(opengl)."
+
+	driverNames do: [ :eachDriverName |
+		
+'
+=== Driver name: ' trace.
+		eachDriverName trace.
+		' ===' traceCr.
+		
+		#(
+			(200 0 '200 static')
+		) do: [ :circleData |
+
+			'
+--- ' trace.
+			circleData third trace.
+			' ---' traceCr.
+
+			managers do: [ :eachManager |
+				| aDemo |
+				aDemo := self new.
+				aDemo
+					durationMS: durationMS;
+					numberOfCircles: circleData first;
+					numberOfAnimatedCircles: circleData second.
+				aDemo sceneWindow
+					tileManager: eachManager;
+					sdlRenderDriverName: eachDriverName.
+
+				3 timesRepeat: [
+					Smalltalk garbageCollect.
+					100 milliSeconds wait ].
+
+				aDemo run.
+				'' traceCr.
+				eachManager asString traceCr.
+				aDemo reportOnTranscript ] ] ].
+'
+=== Done ===' traceCr.
+
+]
+
 { #category : #initialization }
 AnimatedCirclesDemo >> initialize [
 
