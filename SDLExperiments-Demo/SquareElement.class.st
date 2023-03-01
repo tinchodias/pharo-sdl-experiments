@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'color'
 	],
-	#category : #'SDLExperiments-Demo'
+	#category : #'SDLExperiments-Demo-Benchmarks'
 }
 
 { #category : #accessing }

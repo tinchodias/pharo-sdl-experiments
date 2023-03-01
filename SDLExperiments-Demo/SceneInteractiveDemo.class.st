@@ -11,7 +11,7 @@ Class {
 		'SDL2Constants',
 		'SDL2Types'
 	],
-	#category : #'SDLExperiments-Demo-Standalone'
+	#category : #'SDLExperiments-Demo-Interactive'
 }
 
 { #category : #running }

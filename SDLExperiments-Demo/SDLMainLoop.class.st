@@ -6,7 +6,7 @@ Class {
 		'priority',
 		'eventHandler'
 	],
-	#category : #'SDLExperiments-Demo-Standalone'
+	#category : #'SDLExperiments-Demo-Utility-Interactive'
 }
 
 { #category : #accessing }

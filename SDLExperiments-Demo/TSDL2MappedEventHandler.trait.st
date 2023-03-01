@@ -1,6 +1,6 @@
 Trait {
 	#name : #TSDL2MappedEventHandler,
-	#category : #'SDLExperiments-Demo-Standalone'
+	#category : #'SDLExperiments-Demo-Utility-Interactive'
 }
 
 { #category : #accessing }

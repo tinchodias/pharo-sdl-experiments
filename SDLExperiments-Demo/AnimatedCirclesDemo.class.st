@@ -9,7 +9,7 @@ Class {
 		'numberOfCircles',
 		'numberOfAnimatedCircles'
 	],
-	#category : #'SDLExperiments-Demo-Demos'
+	#category : #'SDLExperiments-Demo-Benchmarks'
 }
 
 { #category : #running }

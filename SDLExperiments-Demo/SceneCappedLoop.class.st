@@ -6,7 +6,7 @@ Class {
 		'targetPeriodMS',
 		'lastMS'
 	],
-	#category : #'SDLExperiments-Demo-Scene'
+	#category : #'SDLExperiments-Demo-Utility-Window'
 }
 
 { #category : #initialization }

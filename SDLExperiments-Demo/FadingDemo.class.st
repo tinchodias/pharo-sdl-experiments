@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'numberOfCircles'
 	],
-	#category : #'SDLExperiments-Demo-Demos'
+	#category : #'SDLExperiments-Demo-Benchmarks'
 }
 
 { #category : #running }

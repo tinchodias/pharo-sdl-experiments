@@ -22,7 +22,7 @@ Class {
 		'pixelExtent',
 		'opacityAsByte'
 	],
-	#category : #'SDLExperiments-Demo-Scene'
+	#category : #'SDLExperiments-Demo-Utility-Window'
 }
 
 { #category : #private }

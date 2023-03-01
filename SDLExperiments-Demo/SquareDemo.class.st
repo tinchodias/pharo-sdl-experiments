@@ -8,7 +8,7 @@ Class {
 		'useSpecialized',
 		'useTranslucent'
 	],
-	#category : #'SDLExperiments-Demo-Demos'
+	#category : #'SDLExperiments-Demo-Benchmarks'
 }
 
 { #category : #running }

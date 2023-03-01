@@ -8,7 +8,7 @@ Class {
 		'stoppingError',
 		'preStepBlock'
 	],
-	#category : #'SDLExperiments-Demo-Scene'
+	#category : #'SDLExperiments-Demo-Utility-Window'
 }
 
 { #category : #testing }

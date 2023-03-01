@@ -19,7 +19,7 @@ Class {
 		'fixedDecimalPlaces',
 		'unitString'
 	],
-	#category : #'SDLExperiments-Demo-Print'
+	#category : #'SDLExperiments-Demo-Utility-Print'
 }
 
 { #category : #statistics }

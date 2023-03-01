@@ -5,7 +5,7 @@ Class {
 		'theElement',
 		'mouseWheelScale'
 	],
-	#category : #'SDLExperiments-Demo-Standalone'
+	#category : #'SDLExperiments-Demo-Interactive'
 }
 
 { #category : #initialization }

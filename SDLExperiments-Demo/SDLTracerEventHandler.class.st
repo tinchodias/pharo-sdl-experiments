@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#traits : 'TSDL2MappedEventHandler',
 	#classTraits : 'TSDL2MappedEventHandler classTrait',
-	#category : #'SDLExperiments-Demo-Standalone'
+	#category : #'SDLExperiments-Demo-Utility-Interactive'
 }
 
 { #category : #visiting }
