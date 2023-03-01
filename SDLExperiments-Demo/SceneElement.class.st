@@ -22,7 +22,7 @@ Class {
 		'pixelExtent',
 		'opacityAsByte'
 	],
-	#category : #'SDLExperiments-Demo-Scene'
+	#category : #'SDLExperiments-Demo-Utility-Window'
 }
 
 { #category : #private }
@@ -30,7 +30,7 @@ SceneElement >> ensureDeviceScaledProperties [
 
 	pixelExtent ifNotNil: [ ^self ].
 
-	pixelExtent := logicalExtent * sceneWindow deviceScalePoint.
+	pixelExtent := (logicalExtent * sceneWindow deviceScalePoint) asIntegerPoint.
 
 	dstFRect x: logicalPosition x * sceneWindow deviceScalePoint x.
 	dstFRect y: logicalPosition y * sceneWindow deviceScalePoint y.
@@ -134,7 +134,6 @@ SceneElement >> position: aPoint [
 { #category : #public }
 SceneElement >> render [
 
-	self ensureReadyToRender.
 	tile renderTo: dstFRect opacity: opacityAsByte
 
 ]

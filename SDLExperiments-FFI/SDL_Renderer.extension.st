@@ -60,6 +60,46 @@ SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> renderGeometryRawXY: xy xyStride: xy_stride color: color colorStride: color_stride uv: uv uvStride: uv_stride numVertices: num_vertices indices: indices numIndices: num_indices sizeIndices: size_indices texture: texture [
+	"See: https://wiki.libsdl.org/SDL2/SDL_RenderGeometryRaw"
+
+	^ self ffiCall: #(
+		int
+		SDL_RenderGeometryRaw (
+			self,
+			SDL_Texture texture,
+			float *xy, int xy_stride,
+			SDL_Color *color, int color_stride,
+			float *uv, int uv_stride,
+			int num_vertices,
+			void *indices, int num_indices, int size_indices) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> renderGeometryVertices: vertices numVertices: num_vertices indices: indices numIndices: num_indices texture: texture [
+	"See: https://wiki.libsdl.org/SDL2/SDL_RenderGeometry"
+
+	^ self ffiCall: #(
+		int
+		SDL_RenderGeometry(
+			self,
+			SDL_Texture texture,
+			SDL_Vertex *vertices, int num_vertices,
+			void *indices, int num_indices ) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL_Renderer >> setDrawColor: aColor [
+
+	^ self
+		drawColorR: (SDL2 map0_1FloatTo0_255Integer: aColor red)
+		         g: (SDL2 map0_1FloatTo0_255Integer: aColor green)
+		         b: (SDL2 map0_1FloatTo0_255Integer: aColor blue)
+		         a: (SDL2 map0_1FloatTo0_255Integer: aColor alpha)
+	
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Renderer >> setVSync: vsync [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 

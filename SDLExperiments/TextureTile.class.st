@@ -6,7 +6,6 @@ Class {
 		'sdlTexture',
 		'deviceScalePoint',
 		'pixelExtent',
-		'srcRect',
 		'sdlTextureOpacity'
 	],
 	#pools : [
@@ -37,12 +36,10 @@ TextureTile >> destroyTexture [
 TextureTile >> initializeSDLRenderer: aRenderer pixelExtent: aPoint deviceScalePoint: anotherPoint [
 
 	self initialize.
+
 	sdlRenderer := aRenderer.
 	deviceScalePoint := anotherPoint.
-	
-	pixelExtent := aPoint.
-	srcRect := SDL_Rect autoReleasingNewOrigin: 0@0 extent: aPoint
-
+	pixelExtent := aPoint
 ]
 
 { #category : #rendering }
@@ -59,6 +56,6 @@ TextureTile >> renderTo: aSDLFRect opacity: alphaByte [
 		
 	sdlRenderer
 		copy: sdlTexture
-			srcRect: srcRect
+			srcRect: ExternalAddress null
 			dstRectF: aSDLFRect
 ]

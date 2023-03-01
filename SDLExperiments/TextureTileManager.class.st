@@ -67,6 +67,12 @@ TextureTileManager >> printOn: aStream [
 ]
 
 { #category : #initialization }
+TextureTileManager >> useSDLRenderGeometryStaticTile [
+	
+	directTileClass := SDLRenderGeometryStaticTile
+]
+
+{ #category : #initialization }
 TextureTileManager >> useStaticTexture [
 	
 	directTileClass := StaticTextureTile

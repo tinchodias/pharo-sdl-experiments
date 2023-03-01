@@ -32,7 +32,7 @@ CairoDirectTileManager >> prepareOn: aSceneWindow [
 
 	| aPixelExtent |
 	sceneWindow := aSceneWindow.
-	aPixelExtent := sceneWindow logicalExtent * sceneWindow deviceScalePoint.
+	aPixelExtent := (sceneWindow logicalExtent * sceneWindow deviceScalePoint) asIntegerPoint.
 
 	wholeWindowTile := WholeWindowTile
 		newWithSDLRenderer: sceneWindow sdlRenderer

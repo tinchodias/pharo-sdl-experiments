@@ -16,6 +16,7 @@ WholeWindowTile >> createTexture [
 		access: SDL_TEXTUREACCESS_STATIC
 		width: pixelExtent x
 		height: pixelExtent y.
+	sdlTexture signalErrorIfNull.
 	"sdlTexture blendMode: SDL_BLENDMODE_NONE. --> default"
 	
 	cairoSurface := AeCairoImageSurface

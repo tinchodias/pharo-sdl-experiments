@@ -88,6 +88,7 @@ Atlas >> createTexture [
 			access: SDL_TEXTUREACCESS_STREAMING
 			width: pixelExtent x
 			height: pixelExtent y.
+	sdlTexture signalErrorIfNull.
 	
 	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode.
 	sdlTextureOpacity := 255

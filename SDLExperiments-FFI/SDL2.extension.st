@@ -29,9 +29,26 @@ SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: wi
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> getCurrentDisplayMode: displayIndex into: mode [
+	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
+
+	^ self ffiCall: #(
+		int
+		SDL_GetCurrentDisplayMode(
+			int displayIndex,
+			SDL_DisplayMode * mode) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> map0_1FloatTo0_255Integer: aFloat [
 
 	^ (aFloat * 255.0) asInteger min: 255 max: 0
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL2 class >> map0_255IntegerTo0_1Float: anInteger [
+
+	^ (anInteger / 255.0) min: 1.0 max: 0.0
 ]
 
 { #category : #'*SDLExperiments-FFI' }
