@@ -63,11 +63,8 @@ SceneWindow >> initialize [
 	elements := OrderedCollection new.
 	tileManager := TextureTileManager newStreaming.
 
-	timeCounter := SceneTimeCounter new.
-	steppingLoop := SceneLoop new
-		stepBlock: [ self step ];
-		yourself.
-
+	self resetTimeCounter.
+	self useUncappedSteppingLoop.
 ]
 
 { #category : #accessing }
@@ -85,7 +82,7 @@ SceneWindow >> logicalExtent: aPoint [
 { #category : #'life cycle' }
 SceneWindow >> open [
 
-	SDL2 initVideo.
+	"SDL2 initVideo."
 	sdlRenderDriverName ifNotNil: [
 		SDL2 setHint: 'SDL_RENDER_DRIVER' value: sdlRenderDriverName ].
 
@@ -94,8 +91,9 @@ SceneWindow >> open [
 					y: 25
 					width: logicalExtent x
 					height: logicalExtent y
-					flags: SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI.
+					flags: SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN.
 	sdlWindow signalErrorIfNull.
+	sdlWindow raise. "Place it on top"
 
 	sdlRenderer := sdlWindow
 		createRenderer: -1
@@ -115,6 +113,12 @@ SceneWindow >> refreshRate [
 	"Answer the window display's refresh rate, in Hertz."
 
 	^ sdlWindow getDisplayMode refreshRate
+]
+
+{ #category : #initialization }
+SceneWindow >> resetTimeCounter [
+	
+	timeCounter := SceneTimeCounter new
 ]
 
 { #category : #accessing }
@@ -178,4 +182,22 @@ SceneWindow >> timeCounter [
 SceneWindow >> title: aString [
 
 	sdlWindow title: aString
+]
+
+{ #category : #initialization }
+SceneWindow >> useCappedSteppingLoop [
+
+	steppingLoop := SceneCappedLoop new
+		stepBlock: [ self step ];
+		yourself.
+
+]
+
+{ #category : #initialization }
+SceneWindow >> useUncappedSteppingLoop [
+
+	steppingLoop := SceneLoop new
+		stepBlock: [ self step ];
+		yourself.
+
 ]
