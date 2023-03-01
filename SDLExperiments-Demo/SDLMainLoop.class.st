@@ -35,7 +35,7 @@ SDLMainLoop >> initialize [
 	
 	priority := Processor lowIOPriority.
 	delay := Delay forMilliseconds: 5.
-	eventHandler := SDLTracerEventHandler new
+	self useNullEventHandler
 ]
 
 { #category : #running }
@@ -50,4 +50,16 @@ SDLMainLoop >> run [
 		[ (SDL2 pollEvent: event) > 0 ] whileTrue: [
 			eventHandler process: event ].
 			delay wait ]
+]
+
+{ #category : #running }
+SDLMainLoop >> useNullEventHandler [
+
+	eventHandler := NullSDLEventHandler new
+]
+
+{ #category : #running }
+SDLMainLoop >> useTracerEventHandler [
+
+	eventHandler := TracerSDLEventHandler new
 ]

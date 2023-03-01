@@ -1,5 +1,5 @@
 Class {
-	#name : #SDLTracerEventHandler,
+	#name : #TracerSDLEventHandler,
 	#superclass : #Object,
 	#traits : 'TSDL2MappedEventHandler',
 	#classTraits : 'TSDL2MappedEventHandler classTrait',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #visiting }
-SDLTracerEventHandler >> visitEvent: aSDL2MappedEvent [
+TracerSDLEventHandler >> visitEvent: aSDL2MappedEvent [
 
 	aSDL2MappedEvent traceCr
 ]
