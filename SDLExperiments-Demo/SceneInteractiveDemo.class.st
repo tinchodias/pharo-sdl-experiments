@@ -74,5 +74,5 @@ SceneInteractiveDemo >> visitQuitEvent: aSDL2MappedEvent [
 { #category : #initialization }
 SceneInteractiveDemo >> windowTitle [
 
-	^ 'Interactive Demo'
+	^ sceneWindow sdlRenderer info nameString, '; Interactive Demo'
 ]
