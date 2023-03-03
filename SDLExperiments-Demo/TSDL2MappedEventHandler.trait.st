@@ -10,6 +10,12 @@ TSDL2MappedEventHandler >> process: aRawSDLEvent [
 ]
 
 { #category : #visiting }
+TSDL2MappedEventHandler >> visitCommonEvent: aSDL_CommonEvent [
+
+	^ self visitEvent: aSDL_CommonEvent
+]
+
+{ #category : #visiting }
 TSDL2MappedEventHandler >> visitDropEvent: aSDL_DropEvent [
 
 	^ self visitEvent: aSDL_DropEvent
