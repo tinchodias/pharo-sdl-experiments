@@ -9,7 +9,8 @@ SDL_Window >> getCurrentDisplayMode [
 		autoRelease;
 		yourself.
 
-	(SDL2 getCurrentDisplayMode: self getDisplayIndex into: aMode) = 0 ifFalse: [ self error ].
+	(SDL2 getCurrentDisplayMode: self getDisplayIndex into: aMode) = 0
+		ifFalse: [ SDL2 checkForError ].
 	
 	^ aMode
 ]
@@ -22,7 +23,8 @@ SDL_Window >> getDisplayMode [
 		autoRelease;
 		yourself.
 
-	(self getDisplayModeInto: aMode) = 0 ifFalse: [ self error ].
+	(self getDisplayModeInto: aMode) = 0
+		ifFalse: [ SDL2 checkForError ].
 	
 	^ aMode
 ]

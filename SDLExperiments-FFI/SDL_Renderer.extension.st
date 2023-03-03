@@ -16,6 +16,7 @@ SDL_Renderer >> copy: texture srcRect: srcRect dstRectF: dstRect [
 
 { #category : #'*SDLExperiments-FFI' }
 SDL_Renderer >> disableVSync [
+	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 
 	^ self ffiCall: #(
 		int
@@ -26,6 +27,7 @@ SDL_Renderer >> disableVSync [
 
 { #category : #'*SDLExperiments-FFI' }
 SDL_Renderer >> enableVSync [
+	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 
 	^ self ffiCall: #(
 		int
@@ -47,6 +49,7 @@ SDL_Renderer >> fillRectF: rect [
 
 { #category : #'*SDLExperiments-FFI' }
 SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
+	"See: https://wiki.libsdl.org/SDL2/SDL_RenderReadPixels"
 
 	^ self ffiCall: #(
 		int
@@ -92,10 +95,10 @@ SDL_Renderer >> renderGeometryVertices: vertices numVertices: num_vertices indic
 SDL_Renderer >> setDrawColor: aColor [
 
 	^ self
-		drawColorR: (SDL2 map0_1FloatTo0_255Integer: aColor red)
-		         g: (SDL2 map0_1FloatTo0_255Integer: aColor green)
-		         b: (SDL2 map0_1FloatTo0_255Integer: aColor blue)
-		         a: (SDL2 map0_1FloatTo0_255Integer: aColor alpha)
+		drawColorR: (SDL2 fromFloatToByte: aColor red)
+		         g: (SDL2 fromFloatToByte: aColor green)
+		         b: (SDL2 fromFloatToByte: aColor blue)
+		         a: (SDL2 fromFloatToByte: aColor alpha)
 	
 ]
 

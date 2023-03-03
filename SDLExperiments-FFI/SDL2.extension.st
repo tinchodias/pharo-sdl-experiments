@@ -29,6 +29,20 @@ SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: wi
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> fromByteToFloat: anInteger [
+	"Linearly map an integer number between 0 and 255 to a floating-point number between 0.0 and 1.0."
+
+	^ (anInteger / 255.0) min: 1.0 max: 0.0
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL2 class >> fromFloatToByte: aFloat [
+	"Linearly map a floating-point number between 0.0 and 1.0 to an integer number between 0 and 255."
+
+	^ (aFloat * 255.0) asInteger min: 255 max: 0
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> getCurrentDisplayMode: displayIndex into: mode [
 	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
 
@@ -37,18 +51,6 @@ SDL2 class >> getCurrentDisplayMode: displayIndex into: mode [
 		SDL_GetCurrentDisplayMode(
 			int displayIndex,
 			SDL_DisplayMode * mode) )
-]
-
-{ #category : #'*SDLExperiments-FFI' }
-SDL2 class >> map0_1FloatTo0_255Integer: aFloat [
-
-	^ (aFloat * 255.0) asInteger min: 255 max: 0
-]
-
-{ #category : #'*SDLExperiments-FFI' }
-SDL2 class >> map0_255IntegerTo0_1Float: anInteger [
-
-	^ (anInteger / 255.0) min: 1.0 max: 0.0
 ]
 
 { #category : #'*SDLExperiments-FFI' }

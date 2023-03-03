@@ -73,10 +73,10 @@ SDLGradientTile >> prepareToRenderTo: aSDLFRect [
 SDLGradientTile >> prepareToRenderWithOpacity: alphaByte [
 
 	| alphaFloat |
-	alphaFloat := SDL2 map0_255IntegerTo0_1Float: alphaByte.
+	alphaFloat := SDL2 fromByteToFloat: alphaByte.
 
 	verticesExternalArray do: [ :each |
-		each color a: (SDL2 map0_1FloatTo0_255Integer: color alpha * alphaFloat) ]
+		each color a: (SDL2 fromFloatToByte: color alpha * alphaFloat) ]
 ]
 
 { #category : #rendering }

@@ -30,9 +30,9 @@ SDL_Color class >> unownedNewR: r g: g b: b a: a [
 SDL_Color >> updateFrom: aPharoColor [
 	
 	self
-		r: (SDL2 map0_1FloatTo0_255Integer: aPharoColor red);
-		g: (SDL2 map0_1FloatTo0_255Integer: aPharoColor green);
-		b: (SDL2 map0_1FloatTo0_255Integer: aPharoColor blue);
-		a: (SDL2 map0_1FloatTo0_255Integer: aPharoColor alpha)
+		r: (SDL2 fromFloatToByte: aPharoColor red);
+		g: (SDL2 fromFloatToByte: aPharoColor green);
+		b: (SDL2 fromFloatToByte: aPharoColor blue);
+		a: (SDL2 fromFloatToByte: aPharoColor alpha)
 
 ]

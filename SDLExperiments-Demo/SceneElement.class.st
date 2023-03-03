@@ -106,7 +106,7 @@ SceneElement >> isAnimated: aBoolean [
 SceneElement >> opacity: aFloat [
 	"Set a value in the [0..1] interval."
 	
-	opacityAsByte := SDL2 map0_1FloatTo0_255Integer: aFloat 
+	opacityAsByte := SDL2 fromFloatToByte: aFloat 
 
 ]
 

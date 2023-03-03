@@ -24,7 +24,7 @@ SDLColorFloodTile >> renderTo: aSDLFRect opacity: alphaByte [
 		ifTrue: [ color ]
 		ifFalse: [
 			| alphaFloat |
-			alphaFloat := SDL2 map0_255IntegerTo0_1Float: alphaByte.
+			alphaFloat := SDL2 fromByteToFloat: alphaByte.
 			color alpha: color alpha * alphaFloat ].
 	
 	sdlRenderer setDrawColor: finalColor.

@@ -25,7 +25,7 @@ SDL_Vertex class >> fieldsDesc [
 	^ #(
 		SDL_FPoint position;        "Vertex position, in SDL_Renderer coordinates"
 		SDL_Color  color;           "Vertex color"
-		SDL_FPoint texCoord;       "Normalized texture coordinates, if needed"
+		SDL_FPoint texCoord;        "Normalized texture coordinates, if needed"
  		)
 ]
 
