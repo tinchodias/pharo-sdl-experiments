@@ -10,10 +10,12 @@ Class {
 		'tileManager',
 		'sdlRenderDriverName',
 		'timeCounter',
-		'steppingLoop'
+		'steppingLoop',
+		'initialPosition'
 	],
 	#pools : [
 		'SDL2Constants',
+		'SDL2ConstantsHint',
 		'SDL2Types'
 	],
 	#category : #'SDLExperiments-Demo-Utility-Window'
@@ -54,12 +56,32 @@ SceneWindow >> deviceScalePoint [
 	^ deviceScalePoint
 ]
 
+{ #category : #accessing }
+SceneWindow >> elements [
+
+	^ elements
+]
+
+{ #category : #accessing }
+SceneWindow >> initialPosition [
+
+	^ initialPosition
+]
+
+{ #category : #accessing }
+SceneWindow >> initialPosition: anObject [
+
+	initialPosition := anObject
+]
+
 { #category : #initialization }
 SceneWindow >> initialize [
 
 	super initialize.
 
 	logicalExtent := 800 @ 600.
+	initialPosition := 5 @ 25.
+
 	elements := OrderedCollection new.
 	tileManager := TextureTileManager newStreaming.
 
@@ -82,7 +104,6 @@ SceneWindow >> logicalExtent: aPoint [
 { #category : #'life cycle' }
 SceneWindow >> open [
 
-	"SDL2 initVideo."
 	sdlRenderDriverName ifNotNil: [
 		SDL2 setHint: 'SDL_RENDER_DRIVER' value: sdlRenderDriverName ].
 
@@ -90,8 +111,8 @@ SceneWindow >> open [
 	SDL2 setHint: 'SDL_RENDER_LINE_METHOD' value: '3'.
 
 	sdlWindow := SDL2 createWindow: 'Tiles'
-					x: 5
-					y: 25
+					x: initialPosition x
+					y: initialPosition y
 					width: logicalExtent x
 					height: logicalExtent y
 					flags: SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN.
@@ -137,6 +158,12 @@ SceneWindow >> sdlRenderer [
 	^ sdlRenderer
 ]
 
+{ #category : #accessing }
+SceneWindow >> sdlWindow [
+
+	^ sdlWindow
+]
+
 { #category : #stepping }
 SceneWindow >> step [
 
@@ -152,7 +179,7 @@ SceneWindow >> step [
 	sdlRenderer
 		drawColorR: 255 g: 255 b: 255 a: 255;
 		clear.
-		
+	
 	tileManager renderTilesWith: [
 		elements do: [ :each | each render ] ].
 	sdlRenderer present

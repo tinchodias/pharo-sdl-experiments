@@ -4,7 +4,11 @@ Class {
 	#instVars : [
 		'delay',
 		'priority',
-		'eventHandler'
+		'eventHandler',
+		'process'
+	],
+	#pools : [
+		'SDL2Constants'
 	],
 	#category : #'SDLExperiments-Demo-Utility-Interactive'
 }
@@ -52,13 +56,13 @@ SDLMainLoop >> run [
 			delay wait ]
 ]
 
-{ #category : #running }
+{ #category : #accessing }
 SDLMainLoop >> useNullEventHandler [
 
 	eventHandler := NullSDLEventHandler new
 ]
 
-{ #category : #running }
+{ #category : #accessing }
 SDLMainLoop >> useTracerEventHandler [
 
 	eventHandler := TracerSDLEventHandler new
