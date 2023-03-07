@@ -48,10 +48,6 @@ ScenePositionDemo >> prepareSceneWindow [
 { #category : #visiting }
 ScenePositionDemo >> visitKeyDownEvent: aSDL_KeyDownEvent [
 
-	(({KMOD_LGUI. KMOD_RGUI} includes: aSDL_KeyDownEvent keysym mod) and: [
-		{SDLK_w. SDLK_q} includes: aSDL_KeyDownEvent keysym sym ]) ifTrue: [
-		self quitNow ].
-	
 	aSDL_KeyDownEvent keysym sym = SDLK_UP ifTrue: [
 		^ theElement position: (theElement position x @ (theElement position y - mouseWheelScale)) ].
 
@@ -64,6 +60,7 @@ ScenePositionDemo >> visitKeyDownEvent: aSDL_KeyDownEvent [
 	aSDL_KeyDownEvent keysym sym = SDLK_RIGHT ifTrue: [
 		^ theElement position: ((theElement position x + mouseWheelScale) @ theElement position y) ].
 
+	super visitKeyDownEvent: aSDL_KeyDownEvent
 ]
 
 { #category : #visiting }

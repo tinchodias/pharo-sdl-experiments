@@ -66,6 +66,17 @@ SceneInteractiveDemo >> sceneWindow [
 ]
 
 { #category : #visiting }
+SceneInteractiveDemo >> visitKeyDownEvent: aSDL_KeyDownEvent [
+
+	(({KMOD_LGUI. KMOD_RGUI} includes: aSDL_KeyDownEvent keysym mod) and: [
+		{SDLK_w. SDLK_q} includes: aSDL_KeyDownEvent keysym sym ]) ifTrue: [
+
+		'QUIT' traceCr.
+		
+		self quitNow ]
+]
+
+{ #category : #visiting }
 SceneInteractiveDemo >> visitQuitEvent: aSDL2MappedEvent [
 
 	self quitNow
