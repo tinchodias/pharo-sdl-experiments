@@ -29,6 +29,17 @@ SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: wi
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> ensureSuccessCode: aReturnCode description: aString [
+	"SDL2 API tipically specify: 'Returns 0 on success or a negative error code on failure; call SDL_GetError() for more information.'"
+	
+	aReturnCode negative ifTrue: [
+		| msg |
+		msg := 'Failed to "{1}": "{2}"'
+			format: { aString. SDL2 getErrorMessage }.
+		SDL2Error signal: msg ]
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> fromByteToFloat: anInteger [
 	"Linearly map an integer number between 0 and 255 to a floating-point number between 0.0 and 1.0."
 
