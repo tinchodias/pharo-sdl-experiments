@@ -30,6 +30,18 @@ SDL_Window >> getDisplayMode [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Window >> position [
+	"Answer the logical position of this window."
+
+	| x y |
+	x := FFIInt32 newBuffer.
+	y := FFIInt32 newBuffer.
+	self getPositionX: x y: y.
+	^ (x signedLongAt: 1) @ (y signedLongAt: 1)
+
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> size [
 	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
 
