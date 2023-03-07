@@ -14,6 +14,18 @@ SDL2 class >> convertSurface: src format: aSDLPixelFormat [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> createColorCursorFrom: surface hotX: hotX hotY: hotY [
+	"See: https://wiki.libsdl.org/SDL2/SDL_CreateColorCursor"
+
+	^ self ffiCall: #(
+		SDL_Cursor
+		SDL_CreateColorCursor (
+			SDL_Surface * surface,
+			int hotX,
+			int hotY ) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: width height: height [
 	"See: https://wiki.libsdl.org/SDL_CreateRGBSurfaceWithFormat"
 
