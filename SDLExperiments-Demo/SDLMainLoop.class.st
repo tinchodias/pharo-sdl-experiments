@@ -29,10 +29,10 @@ SDLMainLoop >> eventHandler: anObject [
 { #category : #running }
 SDLMainLoop >> fork [
 
-	[ self run ] forkAt: priority
+	process := [ self run ] forkAt: priority
 ]
 
-{ #category : #running }
+{ #category : #initialization }
 SDLMainLoop >> initialize [
 
 	super initialize.
@@ -43,10 +43,27 @@ SDLMainLoop >> initialize [
 ]
 
 { #category : #running }
+SDLMainLoop >> initializeSDL2 [
+
+"	(SDL2 wasInit: 0) = 0 ifFalse: [
+		self error: 'Not yet implemented: SDL2 is already initialized.' ]."
+	SDL2 initLibrary.
+	SDL2
+		ensureSuccessCode: (SDL2 initSubSystem: SDL_INIT_VIDEO | SDL_INIT_EVENTS)
+		description: 'Initialize SDL2'
+]
+
+{ #category : #testing }
+SDLMainLoop >> isRunning [
+
+	^ process notNil and: [ process isTerminated not ]
+]
+
+{ #category : #running }
 SDLMainLoop >> run [
 
 	| event session |
-	SDL2 initVideo.
+	self initializeSDL2.
 	event := SDL_Event new.
 	session := Smalltalk session.
 	
