@@ -41,6 +41,7 @@ SceneInteractiveDemo >> open [
 
 	self prepareSceneWindow.
 
+	sceneWindow useCappedSteppingLoop. "Interaction doesn't need max fps"
 	sceneWindow open.
 	sceneWindow title: self windowTitle.
 	sceneWindow steppingLoop start.
@@ -63,6 +64,12 @@ SceneInteractiveDemo >> quitNow [
 SceneInteractiveDemo >> sceneWindow [
 
 	^ sceneWindow
+]
+
+{ #category : #accessing }
+SceneInteractiveDemo >> sdlMainLoop [
+
+	^ sdlMainLoop
 ]
 
 { #category : #visiting }

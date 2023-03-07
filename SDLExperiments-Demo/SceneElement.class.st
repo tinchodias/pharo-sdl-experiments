@@ -25,6 +25,12 @@ Class {
 	#category : #'SDLExperiments-Demo-Utility-Window'
 }
 
+{ #category : #accessing }
+SceneElement >> boundingRectangle [
+
+	^ self position extent: self extent
+]
+
 { #category : #private }
 SceneElement >> ensureDeviceScaledProperties [
 

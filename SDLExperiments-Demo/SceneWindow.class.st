@@ -69,9 +69,9 @@ SceneWindow >> initialPosition [
 ]
 
 { #category : #accessing }
-SceneWindow >> initialPosition: anObject [
+SceneWindow >> initialPosition: aPoint [
 
-	initialPosition := anObject
+	initialPosition := aPoint
 ]
 
 { #category : #initialization }
@@ -99,6 +99,14 @@ SceneWindow >> logicalExtent [
 SceneWindow >> logicalExtent: aPoint [
 
 	logicalExtent := aPoint
+]
+
+{ #category : #accessing }
+SceneWindow >> logicalRectangle [
+
+	^ sdlWindow position extent: logicalExtent
+
+	
 ]
 
 { #category : #'life cycle' }
