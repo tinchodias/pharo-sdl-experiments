@@ -75,11 +75,12 @@ SceneInteractiveDemo >> sdlMainLoop [
 { #category : #visiting }
 SceneInteractiveDemo >> visitKeyDownEvent: aSDL_KeyDownEvent [
 
-	(({KMOD_LGUI. KMOD_RGUI} includes: aSDL_KeyDownEvent keysym mod) and: [
-		{SDLK_w. SDLK_q} includes: aSDL_KeyDownEvent keysym sym ]) ifTrue: [
+	"Escape"
+	aSDL_KeyDownEvent keysym sym = SDLK_ESCAPE ifTrue: [ self quitNow ].
 
-		'QUIT' traceCr.
-		
+	"Mac's cmd+w or cmd+q"
+	(({KMOD_LGUI. KMOD_GUI} includes: aSDL_KeyDownEvent keysym mod) and: [
+		{SDLK_w. SDLK_q} includes: aSDL_KeyDownEvent keysym sym ]) ifTrue: [
 		self quitNow ]
 ]
 
