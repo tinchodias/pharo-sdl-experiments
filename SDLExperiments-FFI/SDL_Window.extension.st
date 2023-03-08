@@ -42,6 +42,17 @@ SDL_Window >> position [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Window >> setInputFocus [
+	"Explicitly set input focus to the window.
+	
+	You almost certainly want `SDL_RaiseWindow()` instead of this function. Use this with caution, as you might give focus to a window that is completely obscured by other windows.
+	
+	See: https://wiki.libsdl.org/SDL2/SDL_SetWindowInputFocus"
+
+	^ self ffiCall: #( int SDL_SetWindowInputFocus ( self ) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> size [
 	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
 
