@@ -48,8 +48,8 @@ SDLMainLoop >> initializeSDL2 [
 	| subsystemsFlag |
 	subsystemsFlag := SDL_INIT_VIDEO | SDL_INIT_EVENTS.
 
-	(SDL2 wasInit: subsystemsFlag) = 0 ifFalse: [
-		self error: 'Not yet implemented: SDL2 subsystems already initialized.' ].
+"	(SDL2 wasInit: subsystemsFlag) = 0 ifFalse: [
+		self error: 'SDL2 subsystems already initialized.' ]."
 	SDL2 initLibrary.
 	SDL2
 		ensureSuccessCode: (SDL2 initSubSystem: subsystemsFlag)
