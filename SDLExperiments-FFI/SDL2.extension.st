@@ -77,6 +77,26 @@ SDL2 class >> getCurrentDisplayMode: displayIndex into: mode [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> getHint: aName [
+
+	^ self ffiCall: #(String SDL_GetHint(String aName))
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL2 class >> performanceCounter [
+
+	^ self ffiCall: #(
+		Uint64 SDL_GetPerformanceCounter() )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL2 class >> performanceFrequency [
+
+	^ self ffiCall: #(
+		Uint64 SDL_GetPerformanceFrequency() )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> premultipliedAlphaBlendMode [
 	"Answer the custom blend mode that corresponds to the well-known 'premultiplied alpha'.
 
@@ -126,4 +146,18 @@ SDL2 class >> renderDriverInfos [
 			yourself.
 		self primGetRenderDriverInfo: info at: index-1.
 		info ]
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL2 class >> ticks [
+
+	^ self ffiCall: #(
+		Uint32 SDL_GetTicks() )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
+SDL2 class >> ticks64 [
+
+	^ self ffiCall: #(
+		Uint64 SDL_GetTicks64() )
 ]
