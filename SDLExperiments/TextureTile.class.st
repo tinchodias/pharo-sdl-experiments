@@ -104,3 +104,33 @@ TextureTile >> sdlTextureFormat [
 
 	^ SDL_PIXELFORMAT_ARGB8888
 ]
+
+{ #category : #initialization }
+TextureTile >> setBlendModeAdd [
+
+	sdlTexture blendMode: SDL_BLENDMODE_ADD
+]
+
+{ #category : #initialization }
+TextureTile >> setBlendModeBlend [
+
+	sdlTexture blendMode: SDL_BLENDMODE_BLEND
+]
+
+{ #category : #initialization }
+TextureTile >> setBlendModeMod [
+
+	sdlTexture blendMode: SDL_BLENDMODE_MOD
+]
+
+{ #category : #initialization }
+TextureTile >> setBlendModeNone [
+
+	sdlTexture blendMode: SDL_BLENDMODE_NONE
+]
+
+{ #category : #initialization }
+TextureTile >> setBlendModePremultipliedAlpha [
+
+	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode 
+]
