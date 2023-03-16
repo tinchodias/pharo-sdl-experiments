@@ -33,16 +33,7 @@ StaticTextureTile >> cairoContextToOverrideDo: aBlock [
 ]
 
 { #category : #'life cycle' }
-StaticTextureTile >> createTexture [
-
-	sdlTexture := sdlRenderer
-		createTextureFormat: SDL_PIXELFORMAT_ARGB8888
-		access: SDL_TEXTUREACCESS_STATIC
-		width: pixelExtent x
-		height: pixelExtent y.
-	sdlTexture signalErrorIfNull.
-	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode.
-	sdlTextureOpacity := 255.
+StaticTextureTile >> createCairoObjects [
 
 	cairoSurface := AeCairoImageSurface
 		extent: pixelExtent
@@ -54,4 +45,16 @@ StaticTextureTile >> createTexture [
 	cairoSurfaceStride := cairoSurface stride.
 	cairoSurfacePixels := cairoSurface data
 
+]
+
+{ #category : #'life cycle' }
+StaticTextureTile >> sdlTextureAccess [
+
+	^ SDL_TEXTUREACCESS_STATIC
+]
+
+{ #category : #'life cycle' }
+StaticTextureTile >> sdlTextureBlendMode [
+
+	^ SDL2 premultipliedAlphaBlendMode
 ]

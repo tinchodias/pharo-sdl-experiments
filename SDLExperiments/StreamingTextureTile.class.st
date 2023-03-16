@@ -14,7 +14,7 @@ Class {
 { #category : #enumerating }
 StreamingTextureTile >> cairoContextToOverrideDo: aBlock [
 
-	|aCairoSurface aCairoContext |
+	| aCairoSurface aCairoContext |
 
 	"Obtain a RAM buffer to draw on it, that is
 	write-only and needs to be cleaned."
@@ -43,19 +43,15 @@ StreamingTextureTile >> cairoContextToOverrideDo: aBlock [
 ]
 
 { #category : #'life cycle' }
-StreamingTextureTile >> createTexture [
-
-	sdlTexture := 
-		sdlRenderer
-			createTextureFormat: SDL_PIXELFORMAT_ARGB8888
-			access: SDL_TEXTUREACCESS_STREAMING
-			width: pixelExtent x
-			height: pixelExtent y.
-	sdlTexture signalErrorIfNull.
-	sdlTexture blendMode: SDL2 premultipliedAlphaBlendMode.
-	sdlTextureOpacity := 255.
+StreamingTextureTile >> createCairoObjects [
 
 	pitchAddress := ExternalAddress newPointer.
 	pixelsAddress := ExternalAddress newPointer
 
+]
+
+{ #category : #'life cycle' }
+StreamingTextureTile >> sdlTextureAccess [ 
+
+	^ SDL_TEXTUREACCESS_STREAMING
 ]

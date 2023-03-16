@@ -9,19 +9,11 @@ Class {
 }
 
 { #category : #'life cycle' }
-WholeWindowTile >> createTexture [
+WholeWindowTile >> createCairoObjects [
 
-	sdlTexture := sdlRenderer
-		createTextureFormat: SDL_PIXELFORMAT_XRGB8888
-		access: SDL_TEXTUREACCESS_STATIC
-		width: pixelExtent x
-		height: pixelExtent y.
-	sdlTexture signalErrorIfNull.
-	"sdlTexture blendMode: SDL_BLENDMODE_NONE. --> default"
-	
 	cairoSurface := AeCairoImageSurface
 		extent: pixelExtent
-		format: AeCairoSurfaceFormat rgb24. "ew know it's 32 bits anyway"
+		format: AeCairoSurfaceFormat rgb24. "we know it's 32 bits anyway"
 	cairoSurface deviceScale: deviceScalePoint.
 
 	cairoContext := cairoSurface newContext.
@@ -48,4 +40,16 @@ WholeWindowTile >> renderWith: aBlock [
 			pixels: cairoSurfacePixels
 			pitch:  cairoSurfaceStride.
 	sdlRenderer copy: sdlTexture
+]
+
+{ #category : #'life cycle' }
+WholeWindowTile >> sdlTextureBlendMode [
+
+	^ SDL_BLENDMODE_NONE
+]
+
+{ #category : #'life cycle' }
+WholeWindowTile >> sdlTextureFormat [
+
+	^ SDL_PIXELFORMAT_XRGB8888
 ]

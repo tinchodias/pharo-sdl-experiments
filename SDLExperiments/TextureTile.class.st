@@ -9,8 +9,7 @@ Class {
 		'sdlTextureOpacity'
 	],
 	#pools : [
-		'SDL2Constants',
-		'SDL2Types'
+		'SDL2Constants'
 	],
 	#category : #'SDLExperiments-Manager-Texture'
 }
@@ -23,6 +22,28 @@ TextureTile class >> newWithSDLRenderer: aRenderer pixelExtent: aPoint deviceSca
 		  pixelExtent: aPoint
 		  deviceScalePoint: anotherPoint;
 		  yourself
+]
+
+{ #category : #'life cycle' }
+TextureTile >> createCairoObjects [
+
+	self subclassResponsibility
+]
+
+{ #category : #'life cycle' }
+TextureTile >> createTexture [
+
+	sdlTexture := 
+		sdlRenderer
+			createTextureFormat: self sdlTextureFormat
+			access: self sdlTextureAccess
+			width: pixelExtent x
+			height: pixelExtent y.
+	sdlTexture signalErrorIfNull.
+	sdlTexture blendMode: self sdlTextureBlendMode.
+	sdlTextureOpacity := 255.
+
+	self createCairoObjects
 ]
 
 { #category : #'life cycle' }
@@ -45,7 +66,7 @@ TextureTile >> initializeSDLRenderer: aRenderer pixelExtent: aPoint deviceScaleP
 { #category : #rendering }
 TextureTile >> renderTo: aSDLFRect opacity: alphaByte [
 
-	"Can save a lot of time, e.g. in opengl"
+	"Could save time if alpha didn't change"
 	sdlTextureOpacity = alphaByte ifFalse: [
 		sdlTextureOpacity := alphaByte.
 		sdlTexture
@@ -58,4 +79,28 @@ TextureTile >> renderTo: aSDLFRect opacity: alphaByte [
 		copy: sdlTexture
 			srcRect: ExternalAddress null
 			dstRectF: aSDLFRect
+]
+
+{ #category : #accessing }
+TextureTile >> sdlTexture [
+
+	^ sdlTexture
+]
+
+{ #category : #'life cycle' }
+TextureTile >> sdlTextureAccess [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #'life cycle' }
+TextureTile >> sdlTextureBlendMode [
+
+	^ SDL2 premultipliedAlphaBlendMode
+]
+
+{ #category : #accessing }
+TextureTile >> sdlTextureFormat [
+
+	^ SDL_PIXELFORMAT_ARGB8888
 ]
