@@ -2,9 +2,9 @@ Class {
 	#name : #ClippedElement,
 	#superclass : #SceneElement,
 	#instVars : [
-		'maskTile',
-		'maskedTargetTile',
-		'clipPathBlock'
+		'clipPathBlock',
+		'clipTile',
+		'clippedTargetTile'
 	],
 	#pools : [
 		'SDL2Constants'
@@ -23,19 +23,19 @@ ClippedElement >> ensureReadyToRender [
 
 	super ensureReadyToRender.
 	
-	maskTile ifNotNil: [ ^ self ].
+	clipTile ifNotNil: [ ^ self ].
 
 	self flag: #todo. "Ignores tile manager + leaking"
-	maskedTargetTile := TargetTextureTile
+	clippedTargetTile := TargetTextureTile
 		newWithSDLRenderer: sceneWindow sdlRenderer
 		pixelExtent: pixelExtent
 		deviceScalePoint: sceneWindow deviceScalePoint.
-	maskedTargetTile
+	clippedTargetTile
 		createTexture;
 		setBlendModeBlend "premultipliedAlpha?".
 
-	maskTile := sceneWindow tileManager addStaticTileOf: pixelExtent.
-	maskTile
+	clipTile := sceneWindow tileManager addStaticTileOf: pixelExtent.
+	clipTile
 		createTexture;
 		cairoContextToOverrideDo: [ :cairoContext |
 			cairoContext
@@ -43,11 +43,11 @@ ClippedElement >> ensureReadyToRender [
 				sourceColorRGB: Color white;
 				fill ].
 	
-	maskedTargetTile beTargetDuring: [
+	clippedTargetTile beTargetDuring: [
 		sceneWindow sdlRenderer
 			drawColorR: 0 g: 0 b: 0 a: 0;
 			clear.
-		maskTile
+		clipTile
 			setBlendModeNone;
 			renderTo: ExternalAddress null opacity: 255.
 		tile
@@ -58,6 +58,6 @@ ClippedElement >> ensureReadyToRender [
 { #category : #rendering }
 ClippedElement >> render [
 
-	maskedTargetTile renderTo: dstFRect opacity: opacityAsByte
+	clippedTargetTile renderTo: dstFRect opacity: opacityAsByte
 
 ]
