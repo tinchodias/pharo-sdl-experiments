@@ -2,7 +2,6 @@ Class {
 	#name : #SquareDemo,
 	#superclass : #BenchmarkingDemo,
 	#instVars : [
-		'numberOfAnimatedCircles',
 		'numberOfRectangles',
 		'sideLength',
 		'useSpecialized',

@@ -90,8 +90,7 @@ SDLGradientTile >> renderTo: aSDLFRect opacity: alphaByte [
 		numVertices: verticesExternalArray size
 		indices: indicesExternalArray
 		numIndices: indicesExternalArray size
-		texture: ExternalAddress null.
-
+		texture: ExternalAddress null
 ]
 
 { #category : #accessing }

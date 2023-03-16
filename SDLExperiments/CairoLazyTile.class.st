@@ -43,5 +43,5 @@ CairoLazyTile >> renderTo: aSDLFRect opacity: alphaByte [
 			ifFalse: [
 				cairoContext
 					paintGroupWith: [ drawingBlock value: cairoContext ]
-					alpha: alphaByte / 255.0 ] ]
+					alpha: (SDL2 fromByteToFloat: alphaByte) ] ]
 ]
