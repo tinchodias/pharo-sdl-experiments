@@ -5,22 +5,9 @@ Class {
 }
 
 { #category : #'tile creation' }
-TileManager >> addAnimatedTileOf: aPixelExtent [
-	"Answer a Tile that is prepared to change frequently."
-
-	^ self addStaticTileOf: aPixelExtent
-]
-
-{ #category : #'tile creation' }
-TileManager >> addStaticTileOf: aPixelExtent [
+TileManager >> addTileOf: aPixelExtent [
 
 	^ self subclassResponsibility
-]
-
-{ #category : #lifecycle }
-TileManager >> finalize [
-
-	self subclassResponsibility
 ]
 
 { #category : #lifecycle }

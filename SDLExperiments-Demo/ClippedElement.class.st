@@ -34,7 +34,7 @@ ClippedElement >> ensureReadyToRender [
 		createTexture;
 		setBlendModeBlend "premultipliedAlpha?".
 
-	clipTile := sceneWindow tileManager addStaticTileOf: pixelExtent.
+	clipTile := sceneWindow tileManager addTileOf: pixelExtent.
 	clipTile
 		createTexture;
 		cairoContextToOverrideDo: [ :cairoContext |

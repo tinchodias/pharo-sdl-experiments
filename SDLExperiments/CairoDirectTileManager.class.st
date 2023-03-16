@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #'tile creation' }
-CairoDirectTileManager >> addStaticTileOf: aPixelExtent [
+CairoDirectTileManager >> addTileOf: aPixelExtent [
 
 	^ CairoLazyTile new
 		cairoContext: wholeWindowTile cairoContext;

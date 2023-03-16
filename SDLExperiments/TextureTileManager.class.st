@@ -26,7 +26,7 @@ TextureTileManager class >> newStreaming [
 ]
 
 { #category : #'tile creation' }
-TextureTileManager >> addStaticTileOf: aPixelExtent [
+TextureTileManager >> addTileOf: aPixelExtent [
 
 	| newTile |
 	newTile := directTileClass

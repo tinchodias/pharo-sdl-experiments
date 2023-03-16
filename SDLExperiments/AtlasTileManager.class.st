@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'tile creation' }
-AtlasTileManager >> addStaticTileOf: aPixelExtent [
+AtlasTileManager >> addTileOf: aPixelExtent [
 
 	| newAtlas |
 	atlases do: [ :eachAtlas |
@@ -31,7 +31,8 @@ AtlasTileManager >> addStaticTileOf: aPixelExtent [
 { #category : #accessing }
 AtlasTileManager >> atlasPixelExtent [
 
-	^ atlasPixelExtent ifNil: [ atlasPixelExtent := sceneWindow sdlRenderer info maxTextureExtent ]
+	^ atlasPixelExtent ifNil: [ 
+		  atlasPixelExtent := sceneWindow sdlRenderer info maxTextureExtent ]
 ]
 
 { #category : #accessing }

@@ -52,9 +52,7 @@ SceneElement >> ensureReadyToRender [
 
 	tile
 		ifNil: [
-			tile := isAnimated
-				ifTrue:  [ sceneWindow tileManager addAnimatedTileOf: pixelExtent ]
-				ifFalse: [ sceneWindow tileManager addStaticTileOf: pixelExtent ].
+			tile := sceneWindow tileManager addTileOf: pixelExtent.
 			tile cairoContextToOverrideDo: renderBlock ]
 		ifNotNil: [
 			isAnimated ifTrue: [
