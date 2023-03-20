@@ -83,6 +83,18 @@ SDL2 class >> getHint: aName [
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> memCopy: src to: dest size: n [
+
+	^ self ffiCall: #(
+		void *
+		SDL_memcpy (
+			void * dest,
+			const void * src,
+			size_t n
+			) )
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> performanceCounter [
 
 	^ self ffiCall: #(
