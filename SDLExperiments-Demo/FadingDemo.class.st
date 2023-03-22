@@ -103,7 +103,7 @@ FadingDemo >> prepareSceneWindow [
 			stepBlock: [ :deltaMS :totalMS |
 				| progress |
 				progress := totalMS / durationMS.
-				anElement opacityAsByte: 255 - (255.0 * progress) asInteger ];
+				anElement opacityAsByte: (255 - (255.0 * progress) asInteger max: 0) ];
 			renderBlock: [ :cairoContext |
 				cairoContext
 					sourceColorRGB: initialColor;
