@@ -1,7 +1,7 @@
 Extension { #name : #Color }
 
 { #category : #'*SDLExperiments-Demo' }
-Color class >> random: aRandom [
+Color class >> newRandomWith: aRandom [
 	"Return a random color that isn't too dark or under-saturated."
 
 	^ self 

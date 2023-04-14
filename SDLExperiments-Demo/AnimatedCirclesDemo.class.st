@@ -237,7 +237,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 			x: (random nextIntegerBetween: -100 and: 100)
 			y: (random nextIntegerBetween: -100 and: 100).
 		isAnimated := index > (numberOfCircles - numberOfAnimatedCircles).
-		initialColor := Color random: random.
+		initialColor := Color newRandomWith: random.
 
 		anElement := sceneWindow addElement.
 		

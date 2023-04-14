@@ -92,7 +92,7 @@ FadingDemo >> prepareSceneWindow [
 			y: (random
 					nextIntegerBetween: 0
 					and: sceneWindow logicalExtent y - (circleRadius*2)).
-		initialColor := Color random: random.
+		initialColor := Color newRandomWith: random.
 
 		anElement := sceneWindow addElement.
 		

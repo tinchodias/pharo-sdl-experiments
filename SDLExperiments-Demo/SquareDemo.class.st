@@ -114,7 +114,7 @@ SquareDemo >> prepareSceneWindow [
 		relativeTo := Point
 			x: (random nextIntegerBetween: -100 and: 100)
 			y: (random nextIntegerBetween: -100 and: 100).
-		fillColor := Color random: random.
+		fillColor := Color newRandomWith: random.
 
 		anElement := useSpecialized
 			ifTrue: [
