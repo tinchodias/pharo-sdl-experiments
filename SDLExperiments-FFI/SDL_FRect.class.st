@@ -58,13 +58,13 @@ SDL_FRect >> asRectangle [
 	^ self origin extent: self extent
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : #accessing }
 SDL_FRect >> extent [
 
 	^ self w @ self h
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : #accessing }
 SDL_FRect >> extent: aPoint [
 
 	self w: aPoint x.
@@ -83,13 +83,13 @@ SDL_FRect >> h: anObject [
 	handle floatAt: OFFSET_H put: anObject
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : #accessing }
 SDL_FRect >> origin [
 
 	^ self x @ self y
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : #accessing }
 SDL_FRect >> origin: aPoint [
 
 	self x: aPoint x.

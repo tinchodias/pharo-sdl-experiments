@@ -59,7 +59,7 @@ SDL_FPoint class >> unownedNewX: x y: y [
 		  yourself
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : #converting }
 SDL_FPoint >> asPoint [
 
 	^ self x @ self y
@@ -72,7 +72,7 @@ SDL_FPoint >> printOn: aStream [
 	aStream print: self asPoint
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SDL_FPoint >> updateFrom: aPharoPoint [
 
 	self
