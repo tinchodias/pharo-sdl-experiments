@@ -9,7 +9,7 @@ SDL_Surface >> asFormARGB32 [
 	theData := FFIExternalArray
 		fromHandle: self pixels getHandle
 		type: FFIUInt32
-		size: self h * self pitch / 4.
+		size: (self h * self pitch) >> 2.
 
 	result := Form
 		extent: self w @ self h
