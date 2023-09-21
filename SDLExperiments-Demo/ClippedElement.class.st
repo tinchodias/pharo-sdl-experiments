@@ -40,7 +40,7 @@ ClippedElement >> ensureReadyToRender [
 		cairoContextToOverrideDo: [ :cairoContext |
 			cairoContext
 				in: clipPathBlock;
-				sourceColorRGB: Color white;
+				sourceColor: Color white;
 				fill ].
 	
 	clippedTargetTile beTargetDuring: [

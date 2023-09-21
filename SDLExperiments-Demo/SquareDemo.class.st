@@ -125,7 +125,7 @@ SquareDemo >> prepareSceneWindow [
 				SceneElement new
 					renderBlock: [ :cairoContext |
 						cairoContext
-							sourceColorRGBA: fillColor;
+							sourceColor: fillColor;
 							rectangleX: 0.0
 								y: 0.0
 								width: sideLength

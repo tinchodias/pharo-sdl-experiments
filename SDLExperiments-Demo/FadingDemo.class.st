@@ -106,7 +106,7 @@ FadingDemo >> prepareSceneWindow [
 				anElement opacityAsByte: (255 - (255.0 * progress) asInteger max: 0) ];
 			renderBlock: [ :cairoContext |
 				cairoContext
-					sourceColorRGB: initialColor;
+					sourceColor: initialColor;
 					circleRadius: circleRadius;
 					fill ]
 		]

@@ -254,7 +254,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 				anElement position: from + (relativeTo * amount) ];
 			renderBlock: [ :cairoContext |
 				cairoContext
-					sourceColorRGB: (isAnimated
+					sourceColor: (isAnimated
 						ifTrue: [ Color random: random ]
 						ifFalse: [ initialColor ]);
 					translateByX: padding y: padding;

@@ -111,9 +111,9 @@ AtlasTest >> testRender [
 		ifFailure: [ self fail ].
 	aTile cairoContextToOverrideDo: [ :aCairoContext |
 		aCairoContext
-			sourceColorRGB: Color blue;
+			sourceColor: Color blue;
 			paint;
-			sourceColorRGB: Color red;
+			sourceColor: Color red;
 			moveToX: 2 y: 0;
 			lineToX: 2 y: tileExtent y;
 			lineWidth: 2;

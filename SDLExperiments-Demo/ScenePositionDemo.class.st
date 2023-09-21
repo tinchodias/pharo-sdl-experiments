@@ -16,7 +16,7 @@ ScenePositionDemo >> initialize [
 	mouseWheelScale := 0.1
 ]
 
-{ #category : #running }
+{ #category : #initialization }
 ScenePositionDemo >> prepareSceneWindow [
 
 	| squareSide lineWidth padding |
@@ -34,7 +34,7 @@ ScenePositionDemo >> prepareSceneWindow [
 		stepBlock: [ :deltaMS :totalMS | ];
 		renderBlock: [ :cairoContext |
 			cairoContext
-				sourceColorRGB: Color black;
+				sourceColor: Color black;
 				lineWidth:  lineWidth;
 				translateByX: padding y: padding;
 				rectangleX: lineWidth
