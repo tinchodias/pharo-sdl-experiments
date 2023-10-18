@@ -192,6 +192,59 @@ AnimatedCirclesDemo class >> runCopyVsRenderGeometry [
 
 ]
 
+{ #category : #running }
+AnimatedCirclesDemo class >> runPixelatedOffVsOn [
+	<script: '[ self runPixelatedOffVsOn ] fork'>
+
+	| durationMS managers driverNames |
+	durationMS := 5000.
+	managers := {
+		TextureTileManager newStatic.
+		TextureTileManager new useSDLPixelatedStaticTile; yourself.
+		}.
+
+	driverNames := #(opengl).
+	driverNames do: [ :eachDriverName |
+		
+'
+=== Driver name: ' trace.
+		eachDriverName trace.
+		' ===' traceCr.
+		
+		#(
+			(200 0 '100 static none changing')
+			(200 100 '100 static 100 changing')
+		) do: [ :circleData |
+
+			'
+--- ' trace.
+			circleData third trace.
+			' ---' traceCr.
+
+			managers do: [ :eachManager |
+				| aDemo |
+				aDemo := self new.
+				aDemo
+					durationMS: durationMS;
+					numberOfCircles: circleData first;
+					numberOfAnimatedCircles: circleData second.
+				aDemo sceneWindow
+					tileManager: eachManager;
+					sdlRenderDriverName: eachDriverName.
+
+				3 timesRepeat: [
+					Smalltalk garbageCollect.
+					100 milliSeconds wait ].
+
+				aDemo run.
+				'' traceCr.
+				eachManager asString traceCr.
+				aDemo reportOnTranscript ] ] ].
+'
+=== Done ===' traceCr.
+
+]
+
 { #category : #initialization }
 AnimatedCirclesDemo >> initialize [
 
