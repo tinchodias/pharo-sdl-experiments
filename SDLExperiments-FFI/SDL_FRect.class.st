@@ -59,6 +59,12 @@ SDL_FRect >> asRectangle [
 ]
 
 { #category : #accessing }
+SDL_FRect >> bottom [
+
+	^ self y + self h
+]
+
+{ #category : #accessing }
 SDL_FRect >> extent [
 
 	^ self w @ self h
@@ -84,6 +90,12 @@ SDL_FRect >> h: anObject [
 ]
 
 { #category : #accessing }
+SDL_FRect >> left [
+	
+	^ self x
+]
+
+{ #category : #accessing }
 SDL_FRect >> origin [
 
 	^ self x @ self y
@@ -104,6 +116,18 @@ SDL_FRect >> printOn: aStream [
 		nextPut: $(;
 		print: self asRectangle;
 		nextPut: $)
+]
+
+{ #category : #accessing }
+SDL_FRect >> right [
+	
+	^ self x + self w
+]
+
+{ #category : #accessing }
+SDL_FRect >> top [
+
+	^ self y
 ]
 
 { #category : #'accessing - structure variables' }

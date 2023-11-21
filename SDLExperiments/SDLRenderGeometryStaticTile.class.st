@@ -59,17 +59,20 @@ SDLRenderGeometryStaticTile >> initialize [
 { #category : #rendering }
 SDLRenderGeometryStaticTile >> prepareToRenderTo: aSDLFRect [
 
-	| dstRectangle |
-	dstRectangle := aSDLFRect asRectangle.
+	| top left right bottom |
+	left := aSDLFRect x.
+	top := aSDLFRect y.
+	right := left + aSDLFRect w.
+	bottom := top + aSDLFRect h.
 
-	topLeftPosition x: dstRectangle left.
-	topLeftPosition y: dstRectangle top.
-	topRightPosition x: dstRectangle right.
-	topRightPosition y: dstRectangle top.
-	bottomRightPosition x: dstRectangle right.
-	bottomRightPosition y: dstRectangle bottom.
-	bottomLeftPosition x: dstRectangle left.
-	bottomLeftPosition y: dstRectangle bottom
+	topLeftPosition x: left.
+	topLeftPosition y: top.
+	topRightPosition x: right.
+	topRightPosition y: top.
+	bottomRightPosition x: right.
+	bottomRightPosition y: bottom.
+	bottomLeftPosition x: left.
+	bottomLeftPosition y: bottom
 ]
 
 { #category : #rendering }
