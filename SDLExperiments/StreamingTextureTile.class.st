@@ -25,13 +25,14 @@ StreamingTextureTile >> cairoContextToOverrideDo: aBlock [
 
 	"Draw on the buffer"
 	aCairoSurface := AeCairoImageSurface
-		newForData: pixelsAddress
-			 extent: pixelExtent
-			 stride: (pitchAddress signedLongAt: 1)
-			 format: AeCairoSurfaceFormat argb32.
+		unownedNewForData: pixelsAddress
+			         width: pixelExtent x
+		           height: pixelExtent y
+		           stride: (pitchAddress signedLongAt: 1)
+		 format: AeCairoSurfaceFormat argb32.
 	aCairoSurface deviceScale: deviceScalePoint.
 
-	aCairoContext := aCairoSurface newContext.
+	aCairoContext := AeCairoContext unownedNewFor: aCairoSurface.
 	aCairoContext clearTransparent.
 	aBlock value: aCairoContext.
 
