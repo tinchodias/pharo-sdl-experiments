@@ -1,3 +1,6 @@
+"
+I'm a `Tile` on a `SDL_Texture`. There are multiple alternative implementations that are expressed on my subclasses.
+"
 Class {
 	#name : #TextureTile,
 	#superclass : #Tile,
@@ -13,6 +16,12 @@ Class {
 	],
 	#category : #'SDLExperiments-Manager-Texture'
 }
+
+{ #category : #testing }
+TextureTile class >> isAbstract [
+
+	^ self == TextureTile
+]
 
 { #category : #'instance creation' }
 TextureTile class >> newWithSDLRenderer: aRenderer pixelExtent: aPoint deviceScalePoint: anotherPoint [

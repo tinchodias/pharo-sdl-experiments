@@ -1,3 +1,8 @@
+"
+I am a `TextureTile` that uses `SDL_UpdateTexture` API to update pixel contents.
+
+See: https://wiki.libsdl.org/SDL2/SDL_UpdateTexture
+"
 Class {
 	#name : #StaticTextureTile,
 	#superclass : #TextureTile,

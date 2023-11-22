@@ -1,5 +1,9 @@
 "
-I'm polymorphic with `Tile` but don't have an associated `Atlas`.
+I am a `TextureTile` that uses `SDL_LockTexture`/`SDL_UnlockTexture` API to update pixel contents.
+
+See:
+* https://wiki.libsdl.org/SDL2/SDL_LockTexture
+* https://wiki.libsdl.org/SDL2/SDL_UnlockTexture
 "
 Class {
 	#name : #StreamingTextureTile,
