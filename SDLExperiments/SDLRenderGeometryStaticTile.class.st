@@ -46,7 +46,7 @@ SDLRenderGeometryStaticTile >> initialize [
 
 	verticesExternalArray do: [ :each | each color updateFrom: Color white ].
 
-	indicesExternalArray := FFIExternalArray externalNewType: 'int' size: 6.
+	indicesExternalArray := FFIExternalArray externalNewType: FFIInt32 size: 6.
 	indicesExternalArray at: 1 put: 0.
 	indicesExternalArray at: 2 put: 1.
 	indicesExternalArray at: 3 put: 2.
