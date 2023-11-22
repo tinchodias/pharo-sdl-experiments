@@ -45,6 +45,13 @@ StreamingTextureTile >> cairoContextToOverrideDo: aBlock [
 
 { #category : #'life cycle' }
 StreamingTextureTile >> createCairoObjects [
+	"Cairo objects are created and freed on each draw."
+]
+
+{ #category : #initialization }
+StreamingTextureTile >> initialize [
+
+	super initialize.
 
 	pitchAddress := ExternalAddress newPointer.
 	pixelsAddress := ExternalAddress newPointer
