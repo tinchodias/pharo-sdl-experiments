@@ -13,6 +13,18 @@ Class {
 }
 
 { #category : #running }
+AnimatedCirclesDemo class >> driverNames [
+
+	| driverNames |
+	driverNames := SDL2 renderDriverInfos collect: #nameString.
+	driverNames := driverNames copyWithout: 'opengles2'.
+	driverNames := driverNames copyWithout: 'software'.
+"	driverNames := #(metal)."
+"	driverNames := #(opengl)."
+	^ driverNames
+]
+
+{ #category : #running }
 AnimatedCirclesDemo class >> runAlternatives [
 	<script: '[ self runAlternatives ] fork'>
 
@@ -25,13 +37,7 @@ AnimatedCirclesDemo class >> runAlternatives [
 		TextureTileManager newStreaming.
 		CairoDirectTileManager new }.
 
-	driverNames := SDL2 renderDriverInfos collect: #nameString.
-	driverNames := driverNames copyWithout: 'opengles2'.
-	driverNames := driverNames copyWithout: 'software'.
-"	driverNames := #(metal)."
-"	driverNames := #(opengl)."
-
-	driverNames do: [ :eachDriverName |
+	self driverNames do: [ :eachDriverName |
 		
 '
 === Driver name: ' trace.
@@ -72,10 +78,64 @@ AnimatedCirclesDemo class >> runAlternatives [
 ]
 
 { #category : #running }
+AnimatedCirclesDemo class >> runAnimatedTiles [
+	<script: '[ self runAnimatedTiles ] fork'>
+
+	| managers |
+	managers := {
+		AtlasTileManager new
+			atlasPixelExtent: 2048 asPoint;
+			yourself.
+		TextureTileManager newStatic.
+		TextureTileManager newStreaming.
+		CairoDirectTileManager new }.
+
+	self driverNames do: [ :eachDriverName |
+
+'
+=== Driver name: ' trace.
+		eachDriverName trace.
+		' ===' traceCr.
+		
+		#(
+			(50 50 '50 animated')
+			(100 100 '100 animated')
+			(200 200 '200 animated')
+		) do: [ :circleData |
+
+			'
+--- ' trace.
+			circleData third trace.
+			' ---' traceCr.
+
+			managers do: [ :eachManager |
+				| aDemo |
+				aDemo := self new.
+				aDemo
+					durationMS: 4000;
+					numberOfCircles: circleData first;
+					numberOfAnimatedCircles: circleData second.
+				aDemo sceneWindow
+					tileManager: eachManager;
+					sdlRenderDriverName: eachDriverName.
+
+				0.5 seconds wait.
+				Smalltalk garbageCollect.
+
+				aDemo run.
+				'' traceCr.
+				eachManager asString traceCr.
+				aDemo reportOnTranscript ] ] ].
+'
+=== Done ===' traceCr.
+
+]
+
+{ #category : #running }
 AnimatedCirclesDemo class >> runAtlasExtents [
 	<script: '[ self runAtlasExtents ] fork'>
 
-	| managers driverNames |
+	| managers |
 	managers := {
 		AtlasTileManager new.
 		AtlasTileManager new
@@ -88,13 +148,7 @@ AnimatedCirclesDemo class >> runAtlasExtents [
 			atlasPixelExtent: 2048 asPoint;
 			yourself }.
 
-	driverNames := SDL2 renderDriverInfos collect: #nameString.
-	driverNames := driverNames copyWithout: 'opengles2'.
-	driverNames := driverNames copyWithout: 'software'.
-	driverNames := #(metal).
-"	driverNames := #(opengl)."
-
-	driverNames do: [ :eachDriverName |
+	self driverNames do: [ :eachDriverName |
 		
 '
 === Driver name: ' trace.
@@ -139,20 +193,14 @@ AnimatedCirclesDemo class >> runAtlasExtents [
 AnimatedCirclesDemo class >> runCopyVsRenderGeometry [
 	<script: '[ self runCopyVsRenderGeometry ] fork'>
 
-	| durationMS managers driverNames |
+	| durationMS managers |
 	durationMS := 10000.
 	managers := {
 		TextureTileManager newStatic.
 		TextureTileManager new useSDLRenderGeometryStaticTile; yourself.
 		}.
 
-	driverNames := SDL2 renderDriverInfos collect: #nameString.
-	driverNames := driverNames copyWithout: 'opengles2'.
-	driverNames := driverNames copyWithout: 'software'.
-"	driverNames := #(metal)."
-"	driverNames := #(opengl)."
-
-	driverNames do: [ :eachDriverName |
+	self driverNames do: [ :eachDriverName |
 		
 '
 === Driver name: ' trace.
@@ -212,8 +260,8 @@ AnimatedCirclesDemo class >> runPixelatedOffVsOn [
 		' ===' traceCr.
 		
 		#(
-			(200 0 '100 static none changing')
-			(200 100 '100 static 100 changing')
+			(200 0 '100 static none animated')
+			(200 100 '100 static 100 animated')
 		) do: [ :circleData |
 
 			'
