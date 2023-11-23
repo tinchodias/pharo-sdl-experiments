@@ -313,7 +313,7 @@ AnimatedCirclesDemo >> prepareSceneWindow [
 					translateByX: padding y: padding;
 					lineWidth: lineWidth;
 					lineCap: AeCairoCapStyle square;
-					dash: (AeCairoDoubleArray
+					dash: (AeFFIDoubleArray
 						newFrom: { 0. (lineWidth*2) })
 						offset: 0;
 					circleRadius: circleRadius;

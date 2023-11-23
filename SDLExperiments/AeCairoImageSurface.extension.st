@@ -4,7 +4,7 @@ Extension { #name : #AeCairoImageSurface }
 AeCairoImageSurface >> asSDLSurface [
 
 	| data |
-	data := FFIExternalArray externalNewType: FFIUInt8 size: self byteSize.
+	data := AeFFIUInt8Array unownedNewOf: self byteSize.
 	LibC memCopy: self data to: data size: data size.
 
 	^ (SDL2 createRGBSurfaceFromPixels: data
