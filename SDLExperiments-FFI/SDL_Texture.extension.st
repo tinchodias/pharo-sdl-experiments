@@ -1,6 +1,6 @@
-Extension { #name : #'SDL_Texture' }
+Extension { #name : 'SDL_Texture' }
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Texture >> lockRect: rect pixels: pixelsAddress pitch: pitchAddress [
 	"See: https://wiki.libsdl.org/SDL2/SDL_UpdateTexture"
 
@@ -13,7 +13,7 @@ SDL_Texture >> lockRect: rect pixels: pixelsAddress pitch: pitchAddress [
 			int* pitchAddress ) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Texture >> setScaleModeNearest [
 	"Set the scale mode `SDL_ScaleModeNearest` for texture scale operations.
 	

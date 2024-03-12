@@ -1,12 +1,12 @@
-Extension { #name : #'SDL_Rect' }
+Extension { #name : 'SDL_Rect' }
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Rect >> asRectangle [
 
 	^ self origin extent: self extent
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Rect class >> autoReleasingNewOrigin: origin extent: extent [
 
 	^ self
@@ -16,7 +16,7 @@ SDL_Rect class >> autoReleasingNewOrigin: origin extent: extent [
 		  h: extent y
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Rect class >> autoReleasingNewX: x y: y w: w h: h [
 
 	^ self new
@@ -28,33 +28,33 @@ SDL_Rect class >> autoReleasingNewX: x y: y w: w h: h [
 		  yourself
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Rect >> extent [
 
 	^ self w @ self h
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Rect >> extent: aPoint [
 
 	self w: aPoint x.
 	self h: aPoint y
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Rect >> origin [
 
 	^ self x @ self y
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Rect >> origin: aPoint [
 
 	self x: aPoint x.
 	self y: aPoint y
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Rect >> printOn: aStream [
 
 	super printOn: aStream.

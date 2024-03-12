@@ -1,6 +1,6 @@
-Extension { #name : #'SDL_WindowEvent' }
+Extension { #name : 'SDL_WindowEvent' }
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_WindowEvent >> printOn: aStream [
 
 	aStream

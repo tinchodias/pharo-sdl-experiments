@@ -1,6 +1,6 @@
-Extension { #name : #'SDL_Renderer' }
+Extension { #name : 'SDL_Renderer' }
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> copy: texture srcRect: srcRect dstRectF: dstRect [
 	"See: https://wiki.libsdl.org/SDL_RenderCopyF"
 
@@ -14,7 +14,7 @@ SDL_Renderer >> copy: texture srcRect: srcRect dstRectF: dstRect [
 
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> disableVSync [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 
@@ -25,7 +25,7 @@ SDL_Renderer >> disableVSync [
 			0 ) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> enableVSync [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 
@@ -36,7 +36,7 @@ SDL_Renderer >> enableVSync [
 			1 ) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> fillRectF: rect [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderFillRectF"
 
@@ -47,7 +47,7 @@ SDL_Renderer >> fillRectF: rect [
 			SDL_FRect * rect ) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderReadPixels"
 
@@ -62,7 +62,7 @@ SDL_Renderer >> readPixelsInto: pixels pitch: pitch format: format rect: rect [
 
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> renderGeometryRawXY: xy xyStride: xy_stride color: color colorStride: color_stride uv: uv uvStride: uv_stride numVertices: num_vertices indices: indices numIndices: num_indices sizeIndices: size_indices texture: texture [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderGeometryRaw"
 
@@ -78,7 +78,7 @@ SDL_Renderer >> renderGeometryRawXY: xy xyStride: xy_stride color: color colorSt
 			void *indices, int num_indices, int size_indices) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> renderGeometryVertices: vertices numVertices: num_vertices indices: indices numIndices: num_indices texture: texture [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderGeometry"
 
@@ -91,7 +91,7 @@ SDL_Renderer >> renderGeometryVertices: vertices numVertices: num_vertices indic
 			void *indices, int num_indices ) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> setDrawColor: aColor [
 
 	^ self
@@ -102,7 +102,7 @@ SDL_Renderer >> setDrawColor: aColor [
 	
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> setVSync: vsync [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 

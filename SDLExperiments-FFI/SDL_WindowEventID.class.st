@@ -4,8 +4,8 @@ I'm a binding to the SDL2 enum named `SDL_WindowEventID`.
 See: https://wiki.libsdl.org/SDL2/SDL_WindowEventID
 "
 Class {
-	#name : #'SDL_WindowEventID',
-	#superclass : #FFIEnumeration,
+	#name : 'SDL_WindowEventID',
+	#superclass : 'FFIEnumeration',
 	#classVars : [
 		'SDL_WINDOWEVENT_CLOSE',
 		'SDL_WINDOWEVENT_DISPLAY_CHANGED',
@@ -27,124 +27,125 @@ Class {
 		'SDL_WINDOWEVENT_SIZE_CHANGED',
 		'SDL_WINDOWEVENT_TAKE_FOCUS'
 	],
-	#category : #'SDLExperiments-FFI'
+	#category : 'SDLExperiments-FFI',
+	#package : 'SDLExperiments-FFI'
 }
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_CLOSE [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_CLOSE
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_DISPLAY_CHANGED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_DISPLAY_CHANGED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_ENTER [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_ENTER
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_EXPOSED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_EXPOSED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_FOCUS_GAINED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_FOCUS_GAINED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_FOCUS_LOST [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_FOCUS_LOST
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_HIDDEN [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_HIDDEN
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_HIT_TEST [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_HIT_TEST
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_ICCPROF_CHANGED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_ICCPROF_CHANGED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_LEAVE [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_LEAVE
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_MAXIMIZED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_MAXIMIZED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_MINIMIZED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_MINIMIZED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_MOVED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_MOVED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_NONE [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_NONE
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_RESIZED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_RESIZED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_RESTORED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_RESTORED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_SHOWN [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_SHOWN
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_SIZE_CHANGED [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_SIZE_CHANGED
 ]
 
-{ #category : #'accessing enum' }
+{ #category : 'accessing enum' }
 SDL_WindowEventID class >> SDL_WINDOWEVENT_TAKE_FOCUS [
 	"This method was automatically generated"
 	^ SDL_WINDOWEVENT_TAKE_FOCUS
 ]
 
-{ #category : #'enum declaration' }
+{ #category : 'enum declaration' }
 SDL_WindowEventID class >> enumDecl [
 	"
 	self rebuildEnumAccessors
@@ -174,7 +175,7 @@ SDL_WindowEventID class >> enumDecl [
 	)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SDL_WindowEventID class >> initialize [
 	self initializeEnumeration
 ]

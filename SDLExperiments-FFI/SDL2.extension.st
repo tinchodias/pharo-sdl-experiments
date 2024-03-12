@@ -1,6 +1,6 @@
-Extension { #name : #SDL2 }
+Extension { #name : 'SDL2' }
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> convertSurface: src format: aSDLPixelFormat [
 	"See: https://wiki.libsdl.org/SDL2/SDL_ConvertSurfaceFormat"
 
@@ -9,11 +9,11 @@ SDL2 class >> convertSurface: src format: aSDLPixelFormat [
 		SDL_ConvertSurfaceFormat (
 			SDL_Surface * src,
 			Uint32 aSDLPixelFormat,
-			0 ) )
+			Uint32 0 ) )
 
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> createColorCursorFrom: surface hotX: hotX hotY: hotY [
 	"See: https://wiki.libsdl.org/SDL2/SDL_CreateColorCursor"
 
@@ -25,14 +25,14 @@ SDL2 class >> createColorCursorFrom: surface hotX: hotX hotY: hotY [
 			int hotY ) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: width height: height [
 	"See: https://wiki.libsdl.org/SDL_CreateRGBSurfaceWithFormat"
 
 	^ self ffiCall: #(
 		SDL_Surface*
 		SDL_CreateRGBSurfaceWithFormat (
-			0, 
+			Uint32 0, 
 			int width, 
 			int height, 
 			int depth, 
@@ -40,7 +40,7 @@ SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: wi
 
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> ensureSuccessCode: aReturnCode description: aString [
 	"SDL2 API tipically specify: 'Returns 0 on success or a negative error code on failure; call SDL_GetError() for more information.'"
 	
@@ -51,21 +51,21 @@ SDL2 class >> ensureSuccessCode: aReturnCode description: aString [
 		SDL2Error signal: msg ]
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> fromByteToFloat: anInteger [
 	"Linearly map an integer number between 0 and 255 to a floating-point number between 0.0 and 1.0."
 
 	^ (anInteger / 255.0) min: 1.0 max: 0.0
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> fromFloatToByte: aFloat [
 	"Linearly map a floating-point number between 0.0 and 1.0 to an integer number between 0 and 255."
 
 	^ (aFloat * 255.0) asInteger min: 255 max: 0
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> getCurrentDisplayMode: displayIndex into: mode [
 	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
 
@@ -76,13 +76,13 @@ SDL2 class >> getCurrentDisplayMode: displayIndex into: mode [
 			SDL_DisplayMode * mode) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> getHint: aName [
 
 	^ self ffiCall: #(String SDL_GetHint(String aName))
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> memCopy: src to: dest size: n [
 
 	^ self ffiCall: #(
@@ -94,21 +94,21 @@ SDL2 class >> memCopy: src to: dest size: n [
 			) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> performanceCounter [
 
 	^ self ffiCall: #(
 		Uint64 SDL_GetPerformanceCounter() )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> performanceFrequency [
 
 	^ self ffiCall: #(
 		Uint64 SDL_GetPerformanceFrequency() )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> premultipliedAlphaBlendMode [
 	"Answer the custom blend mode that corresponds to the well-known 'premultiplied alpha'.
 
@@ -127,14 +127,14 @@ SDL2 class >> premultipliedAlphaBlendMode [
 
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> primGetNumRenderDrivers [
 
 	^ self ffiCall: #(
 		int SDL_GetNumRenderDrivers ( void ) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> primGetRenderDriverInfo: info at: index [
 
 	^ self ffiCall: #( 
@@ -143,7 +143,7 @@ SDL2 class >> primGetRenderDriverInfo: info at: index [
 			SDL_RendererInfo * info) )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> renderDriverInfos [
 	"Get a collection of `SDL_RendererInfo` objects for the number of 2D rendering drivers available for the current display.
 
@@ -160,14 +160,14 @@ SDL2 class >> renderDriverInfos [
 		info ]
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> ticks [
 
 	^ self ffiCall: #(
 		Uint32 SDL_GetTicks() )
 ]
 
-{ #category : #'*SDLExperiments-FFI' }
+{ #category : '*SDLExperiments-FFI' }
 SDL2 class >> ticks64 [
 
 	^ self ffiCall: #(
