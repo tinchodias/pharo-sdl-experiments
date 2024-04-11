@@ -29,12 +29,9 @@ Class {
 	#name : 'CrRTree',
 	#superclass : 'Object',
 	#instVars : [
-		'nodes',
-		'size',
 		'kMinChildren',
 		'kMaxChildren',
-		'rootBranch',
-		'nonEmptyItemCount'
+		'rootBranch'
 	],
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
@@ -51,25 +48,21 @@ CrRTree >> initialize [
 
 	super initialize.
 	
-	nonEmptyItemCount := 0.
-	rootBranch := CrBranch new.
-	
-	"These values were empirically determined to produce reasonable performance in most cases."
+	"These values were empirically determined to produce
+	reasonable performance in most cases."
 	kMinChildren := 6.
 	kMaxChildren := 11
 ]
 
 { #category : 'initialization' }
-CrRTree >> load: anItemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
+CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 
 	| branches |
-	self assert: [ nonEmptyItemCount = 0 ].
-
-	size := anItemCount.
+	self assert: [ rootBranch isNil ].
 
 	"Nothing to do with items with zero extent"
-	branches := OrderedCollection new: size.
-	1 to: size do: [ :i |
+	branches := OrderedCollection new: itemCount.
+	1 to: itemCount do: [ :i |
 		| branchBounds |
 		branchBounds := boundsBlock value: i.
 		branchBounds isEmpty ifFalse: [
@@ -77,13 +70,9 @@ CrRTree >> load: anItemCount boundsBlock: boundsBlock payloadBlock: payloadBlock
 				(CrBranch
 					bounds: branchBounds
 					payload: (payloadBlock value: i)) ] ].
-	nonEmptyItemCount := branches size.
-	nonEmptyItemCount = 1
+	branches size = 1
 		ifTrue: [ self loadSingleBranch: branches first ]
-		ifFalse: [ self loadMultipleBranches: branches ].
-
-	"// We should've wasted at most kMinChildren nodes."
-	self assert: [ (nodes capacity - nodes size) <= kMinChildren ]
+		ifFalse: [ self loadMultipleBranches: branches ]
 ]
 
 { #category : 'initialization' }
@@ -157,21 +146,6 @@ CrRTree >> loadAll: branches count: branchCount level: level [
 { #category : 'private' }
 CrRTree >> loadMultipleBranches: branches [
 
-	| branchCount depth nodeCount |
-"   // Determine a reasonable upper bound on the number of nodes to prevent
-    // reallocations. This is basically (n**d - 1) / (n - 1), which is the
-    // number of nodes in a complete tree with n branches at each node. In the
-    // code n = |branch_count|, d = |depth|. However, we normally would have
-    // kMaxChildren branch factor, but that can be broken if some children
-    // don't have enough nodes. That can happen for at most kMinChildren nodes
-    // (since otherwise, we'd create a new node)."
-	branchCount := kMaxChildren.
-	depth := branches size log / branchCount log.
-	nodeCount :=
-		(((branchCount raisedTo: depth) - 1) /
-		(branchCount - 1)) truncated + kMinChildren.
-
-	nodes := OrderedCollection new: nodeCount.
 	rootBranch := self loadAll: branches count: branches size level: 0
 ]
 
@@ -179,35 +153,26 @@ CrRTree >> loadMultipleBranches: branches [
 CrRTree >> loadSingleBranch: aBranch [
 
 	| node |
-	nodes := OrderedCollection new: 1.
-
 	node := self newNodeAtLevel: 0.
 	node addChildBranch: aBranch.
-	rootBranch
-		subtree: node;
-		bounds: aBranch bounds
+	rootBranch :=
+		CrBranch 
+			bounds: aBranch bounds
+			subtree: node
 ]
 
 { #category : 'private' }
 CrRTree >> newNodeAtLevel: level [
 	
 	| newNode |
-" // We don't allow reallocations, since that would invalidate references to
-  // existing nodes, so verify that capacity > size."
-	self assert: [ nodes capacity > nodes size ].
-
-	newNode := CrNode level: level size: kMaxChildren.
-	nodes add: newNode.
+	newNode := CrNode2 level: level size: kMaxChildren.
 	^ newNode
 ]
 
 { #category : 'accessing' }
 CrRTree >> reset [
 
-  nonEmptyItemCount := 0.
-  nodes removeAll.
-  rootBranch subtree: nil.
-  rootBranch bounds setLeft: 0 right: 0 top: 0 bottom: 0
+  rootBranch := nil
 ]
 
 { #category : 'searching' }
