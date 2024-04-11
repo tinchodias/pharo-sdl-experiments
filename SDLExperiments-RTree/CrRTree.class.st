@@ -60,19 +60,31 @@ CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 	| branches |
 	self assert: [ rootBranch isNil ].
 
-	"Nothing to do with items with zero extent"
 	branches := OrderedCollection new: itemCount.
 	1 to: itemCount do: [ :i |
 		| branchBounds |
 		branchBounds := boundsBlock value: i.
+		"Reject items with zero extent"
 		branchBounds isEmpty ifFalse: [
 			branches addLast:
 				(CrBranch
 					bounds: branchBounds
 					payload: (payloadBlock value: i)) ] ].
-	branches size = 1
-		ifTrue: [ self loadSingleBranch: branches first ]
-		ifFalse: [ self loadMultipleBranches: branches ]
+
+	rootBranch :=
+		branches size = 1
+			ifTrue: [
+				| node |
+				node := CrNode level: 0 size: kMaxChildren.
+				node addChildBranch: branches first.
+				CrBranch
+					bounds: branches first bounds
+					subtree: node ]
+			ifFalse: [
+				self
+					loadAll: branches
+					count: branches size
+					level: 0 ]
 ]
 
 { #category : 'initialization' }
@@ -116,7 +128,7 @@ CrRTree >> loadAll: branches count: branchCount level: level [
 				ifFalse: [
 					incrementBy := kMinChildren.
 					remainder := remainder - (kMaxChildren - kMinChildren) ] ].
-		newNode := self newNodeAtLevel: level.
+		newNode := CrNode level: level size: kMaxChildren.
 		newNode addChildBranch: (branches at: sourceBranchIndex).
 
 		newBranch :=
@@ -141,32 +153,6 @@ CrRTree >> loadAll: branches count: branchCount level: level [
 		loadAll: branches
 		count: targetBranchIndex
 		level: level + 1
-]
-
-{ #category : 'private' }
-CrRTree >> loadMultipleBranches: branches [
-
-	rootBranch := self loadAll: branches count: branches size level: 0
-]
-
-{ #category : 'private' }
-CrRTree >> loadSingleBranch: aBranch [
-
-	| node |
-	node := self newNodeAtLevel: 0.
-	node addChildBranch: aBranch.
-	rootBranch :=
-		CrBranch 
-			bounds: aBranch bounds
-			subtree: node
-]
-
-{ #category : 'private' }
-CrRTree >> newNodeAtLevel: level [
-	
-	| newNode |
-	newNode := CrNode2 level: level size: kMaxChildren.
-	^ newNode
 ]
 
 { #category : 'accessing' }
