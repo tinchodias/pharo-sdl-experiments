@@ -45,29 +45,24 @@ CrRTreeTest >> test02TwoNodes [
 ]
 
 { #category : 'tests' }
-CrRTreeTest >> test03NoOverlap [
+CrRTreeTest >> test03SixteenNodes [
 
-	| rectangles rtree results |
+	| rectangles rtree |
 	rectangles := OrderedCollection new.
-	1 to: 50 do: [ :y |
-		1 to: 50 do: [ :x |
-			rectangles add: (CrBounds origin: (x-1)@(y-1) extent: 1@1) ] ].
+	1 to: 4 do: [ :y |
+		1 to: 4 do: [ :x |
+			rectangles add: (CrBounds origin: x@y extent: 1@1) ] ].
 
 	rtree := CrRTree new.
 	rtree loadAll: rectangles.
-
-	"Note: The results have to be sorted"
-	results := rtree search: (Rectangle origin: 0@0 corner: 50@50).
-	self assert: results size equals: 2500.
-	self assert: results equals: (1 to: results size).
-
-	results := rtree search: (Rectangle origin: 0@0 corner: 50@49).
-	self assert: results size equals: 2450.
-	self assert: results equals: (1 to: results size).
-
-	results := rtree search: (Rectangle origin: 5@6 extent: 1@1).
-	self assert: results size equals: 1.
-	self assert: results first equals: (6*50) + 5
+	
+	self assert: rtree bounds equals: (CrBounds origin: 1@1 extent: 4@4).
+	self
+		assert: (rtree search: (CrBounds origin: 1@1 extent: 2@1))
+		equals: #(1 2).
+	self
+		assert: (rtree search: (CrBounds origin: 3@3 extent: 2@2))
+		equals: #(11 12 15 16)
 ]
 
 { #category : 'tests' }
@@ -89,14 +84,40 @@ CrRTreeTest >> test04Overlap [
 
 	results := rtree search: (Rectangle origin: 0@49 extent: 1@1).
 	self assert: results size equals: 50.
-	self assert: results equals: (2450 to: results size)
+	self assert: results equals: (2451 to: 2500)
 ]
 
 { #category : 'tests' }
-CrRTreeTest >> test05Add100kNodesIsFast [
+CrRTreeTest >> test05NoOverlap [
+
+	| rectangles rtree results |
+	rectangles := OrderedCollection new.
+	1 to: 50 do: [ :y |
+		1 to: 50 do: [ :x |
+			rectangles add: (CrBounds origin: (x-1)@(y-1) extent: 1@1) ] ].
+
+	rtree := CrRTree new.
+	rtree loadAll: rectangles.
+
+	"Note: The results have to be sorted"
+	results := rtree search: (Rectangle origin: 0@0 corner: 50@50).
+	self assert: results size equals: 2500.
+	self assert: results equals: (1 to: results size).
+
+	results := rtree search: (Rectangle origin: 0@0 corner: 50@49).
+	self assert: results size equals: 2450.
+	self assert: results equals: (1 to: results size).
+
+	results := rtree search: (Rectangle origin: 5@6 extent: 1@1).
+	self assert: results size equals: 1.
+	self assert: results first equals: 1 + (6*50) + 5
+]
+
+{ #category : 'tests' }
+CrRTreeTest >> test06Add100kNodesIsFast [
 	
 	| rectangles rtree |
-	self timeLimit: 2 second.
+	self timeLimit: 1 second.
 	
 	rectangles := OrderedCollection new.
 	1 to: 1000 do: [ :x |
