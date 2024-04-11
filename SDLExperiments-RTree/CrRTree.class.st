@@ -97,12 +97,12 @@ CrRTree >> loadAll: aCollection [
 ]
 
 { #category : 'private' }
-CrRTree >> loadAll: branches level: level [
+CrRTree >> loadAll: branches count: branchCount level: level [
 
-	| remainder currentBranchIndex k newBranchIndex |
-	branches size = 1 ifTrue: [ ^ branches first ].
+	| remainder sourceBranchIndex targetBranchIndex |
+	branchCount = 1 ifTrue: [ ^ branches first ].
 	
-	remainder := branches size % kMaxChildren.
+	remainder := branchCount % kMaxChildren.
 	remainder > 0 ifTrue: [
 		"If the remainder isn't enough to fill a node, we'll add
 		fewer nodes to other branches."
@@ -110,10 +110,13 @@ CrRTree >> loadAll: branches level: level [
 			ifTrue: [ 0 ]
 			ifFalse: [ kMinChildren - remainder ] ].
 	
-	currentBranchIndex := 1.
-	newBranchIndex := 1.
-	[ currentBranchIndex <= branches size ] whileTrue: [ 
-		| incrementBy newNode newBranch |
+	"Several branches might be inserted at this level"
+	sourceBranchIndex := 1.
+	targetBranchIndex := 0.
+	[ sourceBranchIndex <= branchCount ] whileTrue: [ 
+		| incrementBy newNode newBranch k |
+		targetBranchIndex := targetBranchIndex + 1.
+		
 		incrementBy := kMaxChildren.
 		"If need be, omit some nodes to make up for remainder"
 		remainder = 0 ifFalse: [
@@ -125,28 +128,29 @@ CrRTree >> loadAll: branches level: level [
 					incrementBy := kMinChildren.
 					remainder := remainder - (kMaxChildren - kMinChildren) ] ].
 		newNode := self newNodeAtLevel: level.
-		newNode addChildBranch: (branches at: currentBranchIndex).
+		newNode addChildBranch: (branches at: sourceBranchIndex).
 
 		newBranch :=
 			CrBranch
-				bounds: (branches at: currentBranchIndex) bounds
+				bounds: (branches at: sourceBranchIndex) bounds
 				subtree: newNode.
-		currentBranchIndex := currentBranchIndex + 1.
+		sourceBranchIndex := sourceBranchIndex + 1.
 
 		k := 1.
 		[ k < incrementBy and: [
-		currentBranchIndex <= branches size ] ] whileTrue: [
-			newBranch bounds merge: (branches at: currentBranchIndex) bounds.
-			newNode addChildBranch: (branches at: currentBranchIndex).
-			currentBranchIndex := currentBranchIndex + 1.
+		sourceBranchIndex <= branchCount ] ] whileTrue: [
+			newBranch bounds merge: (branches at: sourceBranchIndex) bounds.
+			newNode addChildBranch: (branches at: sourceBranchIndex).
+			sourceBranchIndex := sourceBranchIndex + 1.
 			k := k + 1 ].
 
-		self assert: [ newBranchIndex < currentBranchIndex ].
-		branches at: newBranchIndex put: newBranch.
-		newBranchIndex := newBranchIndex + 1 ].
+		self assert: [ targetBranchIndex < sourceBranchIndex ].
+		branches at: targetBranchIndex put: newBranch ].
 
+	"Several branches more might be inserted at the lext level"
 	^ self
-		loadAll: (branches first: newBranchIndex - 1)
+		loadAll: branches
+		count: targetBranchIndex
 		level: level + 1
 ]
 
@@ -168,7 +172,7 @@ CrRTree >> loadMultipleBranches: branches [
 		(branchCount - 1)) truncated + kMinChildren.
 
 	nodes := OrderedCollection new: nodeCount.
-	rootBranch := self loadAll: branches level: 0
+	rootBranch := self loadAll: branches count: branches size level: 0
 ]
 
 { #category : 'private' }
