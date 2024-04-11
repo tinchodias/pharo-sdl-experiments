@@ -1,9 +1,10 @@
 Class {
 	#name : 'CrNode',
 	#superclass : 'Object',
+	#type : 'variable',
 	#instVars : [
-		'children',
-		'level'
+		'level',
+		'childrenBranchCount'
 	],
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
@@ -12,36 +13,37 @@ Class {
 { #category : 'instance creation' }
 CrNode class >> level: aLevel size: aSize [
 
-	^ self basicNew
-		initializeLevel: aLevel size: aSize;
+	^ (self basicNew: aSize)
+		initializeLevel: aLevel;
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : 'adding' }
 CrNode >> addChildBranch: aBranch [
 
-	children add: aBranch
+	childrenBranchCount := childrenBranchCount + 1.
+	self at: childrenBranchCount put: aBranch
 ]
 
 { #category : 'accessing' }
 CrNode >> childrenBranchCount [
 
-	^ children size
+	^ childrenBranchCount
 ]
 
-{ #category : 'accessing' }
+{ #category : 'enumerating' }
 CrNode >> childrenBranchesDo: aBlock [
 
-	children do: aBlock
+	1 to: childrenBranchCount do: [:index | aBlock value: (self at: index)]
 ]
 
 { #category : 'initialization' }
-CrNode >> initializeLevel: aLevel size: aSize [
+CrNode >> initializeLevel: aLevel [
 
 	self initialize.
 	
 	level := aLevel.
-	children := OrderedCollection new: aSize
+	childrenBranchCount := 0
 ]
 
 { #category : 'testing' }
@@ -65,5 +67,5 @@ CrNode >> printOn: aStream [
 		print: level.
 	aStream
 		nextPutAll: ' size: ';
-		print: children size
+		print: childrenBranchCount
 ]
