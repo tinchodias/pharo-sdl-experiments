@@ -99,12 +99,12 @@ CrRTree >> newRootForAll: leaves [
 		remainder := lastIndex % kMaxChildren.
 		remainder > 0 ifTrue: [
 			"If the remainder isn't enough to fill a node, we'll add
-			fewer nodes to other branches."
+			fewer children to other nodes."
 			remainder := remainder >= kMinChildren
 				ifTrue: [ 0 ]
 				ifFalse: [ kMinChildren - remainder ] ].
-		
-		"Several branches might be inserted at this level"
+
+		"Several nodes might be inserted at this tree level"
 		sourceIndex := 1.
 		targetIndex := 0.
 		[ sourceIndex <= lastIndex ] whileTrue: [ 
@@ -121,20 +121,21 @@ CrRTree >> newRootForAll: leaves [
 					ifFalse: [
 						sizeOfNewNode := kMinChildren.
 						remainder := remainder - (kMaxChildren - kMinChildren) ] ].
+			sizeOfNewNode := sizeOfNewNode min: (lastIndex - sourceIndex + 1).
 
-			"Create a new branch that will gather several input branches"
+			"Create a new node that will gather several input nodes"
 			newNode :=
 				CrNonLeafNode
 					new: sizeOfNewNode
 					firstChild: (leaves at: sourceIndex).
 
-			"First branch is already moved; now, fill node with the following."
+			"First node is already moved; now, fill node with the following."
+			[ newNode isFull ] whileFalse: [
+				sourceIndex := sourceIndex + 1.
+				newNode addChild: (leaves at: sourceIndex) ].
 			sourceIndex := sourceIndex + 1.
-			[ newNode isFull or: [ sourceIndex > lastIndex ] ] whileFalse: [
-				newNode addChild: (leaves at: sourceIndex).
-				sourceIndex := sourceIndex + 1 ].
 
-			"We're done with this new branch"
+			"We're done with this new non-leaf node"
 			leaves at: targetIndex put: newNode ].
 
 		lastIndex := targetIndex ].
