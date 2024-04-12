@@ -29,9 +29,9 @@ Class {
 	#name : 'CrRTree',
 	#superclass : 'Object',
 	#instVars : [
-		'kMinChildren',
-		'kMaxChildren',
-		'root'
+		'root',
+		'minChildren',
+		'maxChildren'
 	],
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
@@ -48,10 +48,10 @@ CrRTree >> initialize [
 
 	super initialize.
 	
-	"These values were empirically determined to produce
-	reasonable performance in most cases."
-	kMinChildren := 6.
-	kMaxChildren := 11
+	"These values were empirically determined to producereasonable
+	performance in most cases."
+	minChildren := 6.
+	maxChildren := 11
 ]
 
 { #category : 'initialization' }
@@ -89,54 +89,47 @@ CrRTree >> loadAll: aCollection [
 
 { #category : 'private' }
 CrRTree >> newRootForAll: leaves [
+	"Structure leaves in a tree structure. Override the input collection
+	from end to start, writing new non-leaf nodes."
 
 	| lastIndex |
 	lastIndex := leaves size.
 
 	[ lastIndex = 1 ] whileFalse: [ 
 		| remainder sourceIndex targetIndex |
-
-		remainder := lastIndex % kMaxChildren.
+		remainder := lastIndex % maxChildren.
 		remainder > 0 ifTrue: [
 			"If the remainder isn't enough to fill a node, we'll add
 			fewer children to other nodes."
-			remainder := remainder >= kMinChildren
+			remainder := remainder >= minChildren
 				ifTrue: [ 0 ]
-				ifFalse: [ kMinChildren - remainder ] ].
+				ifFalse: [ minChildren - remainder ] ].
 
-		"Several nodes might be inserted at this tree level"
+		"Insert nodes at this tree level"
 		sourceIndex := 1.
 		targetIndex := 0.
 		[ sourceIndex <= lastIndex ] whileTrue: [ 
-			| sizeOfNewNode newNode |
+			| size |
 			targetIndex := targetIndex + 1.
 			
-			sizeOfNewNode := kMaxChildren.
+			size := maxChildren.
 			"If need be, omit some nodes to make up for remainder"
 			remainder = 0 ifFalse: [
-				(remainder <= (kMaxChildren - kMinChildren))
+				(remainder <= (maxChildren - minChildren))
 					ifTrue: [
-						sizeOfNewNode := sizeOfNewNode - remainder.
+						size := size - remainder.
 						remainder := 0 ]
 					ifFalse: [
-						sizeOfNewNode := kMinChildren.
-						remainder := remainder - (kMaxChildren - kMinChildren) ] ].
-			sizeOfNewNode := sizeOfNewNode min: (lastIndex - sourceIndex + 1).
+						size := minChildren.
+						remainder := remainder - (maxChildren - minChildren) ] ].
+			size := size min: (lastIndex - sourceIndex + 1).
 
-			"Create a new node that will gather several input nodes"
-			newNode :=
-				CrNonLeafNode
-					new: sizeOfNewNode
-					firstChild: (leaves at: sourceIndex).
+			"Create a new node that will gather multiple leaf nodes"
+			leaves
+				at: targetIndex
+				put: (CrNonLeafNode newFrom: leaves startAt: sourceIndex size: size).
 
-			"First node is already moved; now, fill node with the following."
-			[ newNode isFull ] whileFalse: [
-				sourceIndex := sourceIndex + 1.
-				newNode addChild: (leaves at: sourceIndex) ].
-			sourceIndex := sourceIndex + 1.
-
-			"We're done with this new non-leaf node"
-			leaves at: targetIndex put: newNode ].
+			sourceIndex := sourceIndex + size ].
 
 		lastIndex := targetIndex ].
 	

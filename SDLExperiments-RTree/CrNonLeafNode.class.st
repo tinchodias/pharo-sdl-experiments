@@ -21,6 +21,14 @@ CrNonLeafNode class >> new: aSize firstChild: aNode [
 		yourself
 ]
 
+{ #category : 'instance creation' }
+CrNonLeafNode class >> newFrom: nodeCollection startAt: startIndex size: aSize [
+
+	^ (self basicNew: aSize)
+		initializeFrom: nodeCollection startAt: startIndex;
+		yourself
+]
+
 { #category : 'accessing' }
 CrNonLeafNode >> addChild: aNode [
 
@@ -56,6 +64,25 @@ CrNonLeafNode >> initializeFirstChild: aNode [
 	childrenCount := 1.
 	self at: 1 put: aNode.
 	childrenBounds := aNode bounds copy
+]
+
+{ #category : 'initialization' }
+CrNonLeafNode >> initializeFrom: nodeCollection startAt: startIndex [
+		
+	self initialize.
+
+	"Replace first node"
+	self at: 1 put: (nodeCollection at: startIndex).
+	childrenBounds := (self at: 1) bounds copy.
+
+	"Replace remaining nodes"
+	2 to: self size do: [ :index |
+		| sourceNode |
+		sourceNode := nodeCollection at: startIndex + index - 1.
+		self at: index put: sourceNode.
+		childrenBounds merge: sourceNode bounds ].
+
+	childrenCount := self size
 ]
 
 { #category : 'accessing' }
