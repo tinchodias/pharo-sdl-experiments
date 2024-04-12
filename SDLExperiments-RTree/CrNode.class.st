@@ -46,6 +46,12 @@ CrNode >> initializeLevel: aLevel [
 	branchCount := 0
 ]
 
+{ #category : 'accessing' }
+CrNode >> isFull [
+
+	^ self size = branchCount
+]
+
 { #category : 'testing' }
 CrNode >> isLeaf [
 

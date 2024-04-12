@@ -95,14 +95,14 @@ CrRTree >> loadAll: aCollection [
 { #category : 'private' }
 CrRTree >> newRootBranchForAll: branches [
 
-	| level branchCount |
-	branchCount := branches size.
+	| level lastIndex |
+	lastIndex := branches size.
 	level := 0.
 
-	[ branchCount > 1 ] whileTrue: [ 
-		| remainder sourceBranchIndex targetBranchIndex |
+	[ lastIndex = 1 ] whileFalse: [ 
+		| remainder sourceIndex targetIndex |
 
-		remainder := branchCount % kMaxChildren.
+		remainder := lastIndex % kMaxChildren.
 		remainder > 0 ifTrue: [
 			"If the remainder isn't enough to fill a node, we'll add
 			fewer nodes to other branches."
@@ -111,46 +111,42 @@ CrRTree >> newRootBranchForAll: branches [
 				ifFalse: [ kMinChildren - remainder ] ].
 		
 		"Several branches might be inserted at this level"
-		sourceBranchIndex := 1.
-		targetBranchIndex := 0.
-		[ sourceBranchIndex <= branchCount ] whileTrue: [ 
-			| incrementBy newNode newBranch k |
-			targetBranchIndex := targetBranchIndex + 1.
+		sourceIndex := 1.
+		targetIndex := 0.
+		[ sourceIndex <= lastIndex ] whileTrue: [ 
+			| sizeOfNewNode newNode newBranch |
+			targetIndex := targetIndex + 1.
 			
-			incrementBy := kMaxChildren.
+			sizeOfNewNode := kMaxChildren.
 			"If need be, omit some nodes to make up for remainder"
 			remainder = 0 ifFalse: [
 				(remainder <= (kMaxChildren - kMinChildren))
 					ifTrue: [
-						incrementBy := incrementBy - remainder.
+						sizeOfNewNode := sizeOfNewNode - remainder.
 						remainder := 0 ]
 					ifFalse: [
-						incrementBy := kMinChildren.
+						sizeOfNewNode := kMinChildren.
 						remainder := remainder - (kMaxChildren - kMinChildren) ] ].
 
 			"Create a new branch that will gather several input branches"
-			newNode := CrNode level: level size: kMaxChildren.
-			newNode addBranch: (branches at: sourceBranchIndex).
+			newNode := CrNode level: level size: sizeOfNewNode.
+			newNode addBranch: (branches at: sourceIndex).
 			newBranch :=
 				CrBranch
-					bounds: (branches at: sourceBranchIndex) bounds copy
+					bounds: (branches at: sourceIndex) bounds copy
 					node: newNode.
 
-			sourceBranchIndex := sourceBranchIndex + 1.
-
-			k := 1.
-			[ k < incrementBy and: [
-			sourceBranchIndex <= branchCount ] ] whileTrue: [
-				newBranch bounds merge: (branches at: sourceBranchIndex) bounds.
-				newNode addBranch: (branches at: sourceBranchIndex).
-				sourceBranchIndex := sourceBranchIndex + 1.
-				k := k + 1 ].
+			"First branch is already moved; now, fill node with the following."
+			sourceIndex := sourceIndex + 1.
+			[ newNode isFull or: [ sourceIndex > lastIndex ] ] whileFalse: [
+				newBranch bounds merge: (branches at: sourceIndex) bounds.
+				newNode addBranch: (branches at: sourceIndex).
+				sourceIndex := sourceIndex + 1 ].
 
 			"We're done with this new branch"
-			self assert: [ targetBranchIndex < sourceBranchIndex ].
-			branches at: targetBranchIndex put: newBranch ].
+			branches at: targetIndex put: newBranch ].
 
-		branchCount := targetBranchIndex.
+		lastIndex := targetIndex.
 		level := level + 1 ].
 	
 	^ branches first
