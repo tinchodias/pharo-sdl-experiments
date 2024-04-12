@@ -1,3 +1,6 @@
+"
+I represent a mutable rectangle.
+"
 Class {
 	#name : 'CrBounds',
 	#superclass : 'Object',

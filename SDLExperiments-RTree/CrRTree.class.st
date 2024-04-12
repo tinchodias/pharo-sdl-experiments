@@ -31,7 +31,7 @@ Class {
 	#instVars : [
 		'kMinChildren',
 		'kMaxChildren',
-		'rootBranch'
+		'root'
 	],
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
@@ -40,7 +40,7 @@ Class {
 { #category : 'accessing' }
 CrRTree >> bounds [
 
-	^ rootBranch bounds
+	^ root bounds
 ]
 
 { #category : 'initialization' }
@@ -57,29 +57,24 @@ CrRTree >> initialize [
 { #category : 'initialization' }
 CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 
-	| branches |
-	branches := OrderedCollection new: itemCount.
+	| leaves |
+	leaves := OrderedCollection new: itemCount.
 	1 to: itemCount do: [ :index |
-		| branchBounds |
-		branchBounds := boundsBlock value: index.
+		| eachBounds |
+		eachBounds := boundsBlock value: index.
 		"Reject items with zero extent"
-		branchBounds isEmpty ifFalse: [
-			branches addLast:
-				(CrBranch
-					bounds: branchBounds
+		eachBounds isEmpty ifFalse: [
+			leaves addLast:
+				(CrLeafNode
+					bounds: eachBounds
 					payload: (payloadBlock value: index)) ] ].
 
-	rootBranch :=
-		branches size = 1
+	root :=
+		leaves size = 1
 			ifTrue: [
-				| newNode |
-				newNode := CrNode level: 0 size: 1.
-				newNode addBranch: branches first.
-				CrBranch
-					bounds: branches first bounds
-					node: newNode ]
+				CrNonLeafNode new: 1 firstChild: leaves first ]
 			ifFalse: [
-				self newRootBranchForAll: branches ]
+				self newRootForAll: leaves ]
 ]
 
 { #category : 'initialization' }
@@ -93,11 +88,10 @@ CrRTree >> loadAll: aCollection [
 ]
 
 { #category : 'private' }
-CrRTree >> newRootBranchForAll: branches [
+CrRTree >> newRootForAll: leaves [
 
-	| level lastIndex |
-	lastIndex := branches size.
-	level := 0.
+	| lastIndex |
+	lastIndex := leaves size.
 
 	[ lastIndex = 1 ] whileFalse: [ 
 		| remainder sourceIndex targetIndex |
@@ -114,7 +108,7 @@ CrRTree >> newRootBranchForAll: branches [
 		sourceIndex := 1.
 		targetIndex := 0.
 		[ sourceIndex <= lastIndex ] whileTrue: [ 
-			| sizeOfNewNode newNode newBranch |
+			| sizeOfNewNode newNode |
 			targetIndex := targetIndex + 1.
 			
 			sizeOfNewNode := kMaxChildren.
@@ -129,33 +123,29 @@ CrRTree >> newRootBranchForAll: branches [
 						remainder := remainder - (kMaxChildren - kMinChildren) ] ].
 
 			"Create a new branch that will gather several input branches"
-			newNode := CrNode level: level size: sizeOfNewNode.
-			newNode addBranch: (branches at: sourceIndex).
-			newBranch :=
-				CrBranch
-					bounds: (branches at: sourceIndex) bounds copy
-					node: newNode.
+			newNode :=
+				CrNonLeafNode
+					new: sizeOfNewNode
+					firstChild: (leaves at: sourceIndex).
 
 			"First branch is already moved; now, fill node with the following."
 			sourceIndex := sourceIndex + 1.
 			[ newNode isFull or: [ sourceIndex > lastIndex ] ] whileFalse: [
-				newBranch bounds merge: (branches at: sourceIndex) bounds.
-				newNode addBranch: (branches at: sourceIndex).
+				newNode addChild: (leaves at: sourceIndex).
 				sourceIndex := sourceIndex + 1 ].
 
 			"We're done with this new branch"
-			branches at: targetIndex put: newBranch ].
+			leaves at: targetIndex put: newNode ].
 
-		lastIndex := targetIndex.
-		level := level + 1 ].
+		lastIndex := targetIndex ].
 	
-	^ branches first
+	^ leaves first
 ]
 
 { #category : 'accessing' }
 CrRTree >> reset [
 
-  rootBranch := nil
+  root := nil
 ]
 
 { #category : 'searching' }
@@ -174,22 +164,22 @@ CrRTree >> search: aRectangle do: aBlockClosure [
 	^ self
 		searchRecursive: aRectangle
 		do: aBlockClosure
-		from: rootBranch node
+		from: root
 ]
 
 { #category : 'private' }
 CrRTree >> searchRecursive: aRectangle do: aBlock from: aNode [
 
-	aNode branchesDo: [ :eachBranch |
-		(aRectangle intersects: eachBranch bounds) ifTrue: [
-			aNode isLeaf
-				ifTrue: [
-					aBlock
-						value: eachBranch payload
-						value: eachBranch bounds ]
-				ifFalse: [
+	aNode isLeaf
+		ifTrue: [
+			aBlock
+				value: aNode payload
+				value: aNode bounds ]
+		ifFalse: [
+			aNode childrenDo: [ :eachChild |
+				(aRectangle intersects: eachChild bounds) ifTrue: [
 					self
 						searchRecursive: aRectangle
 						do: aBlock
-						from: eachBranch node ] ] ]
+						from: eachChild ]]]
 ]
