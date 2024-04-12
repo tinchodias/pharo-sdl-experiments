@@ -58,8 +58,6 @@ CrRTree >> initialize [
 CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 
 	| branches |
-	self assert: [ rootBranch isNil ].
-
 	branches := OrderedCollection new: itemCount.
 	1 to: itemCount do: [ :index |
 		| branchBounds |
