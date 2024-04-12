@@ -11,8 +11,7 @@ CrRTreeTest >> test01SingleNode [
 	| rtree aRectangle |
 	aRectangle := CrBounds origin: 1@2 extent: 3@4.
 
-	rtree := CrRTree new.
-	rtree loadAll: { aRectangle }.
+	rtree := CrRTree withAll: { aRectangle }.
 	
 	self assert: rtree bounds equals: aRectangle.
 	self
@@ -33,8 +32,7 @@ CrRTreeTest >> test02SomeNodes [
 		1 to: 4 do: [ :x |
 			rectangles add: (CrBounds origin: x@y extent: 1@1) ] ].
 
-	rtree := CrRTree new.
-	rtree loadAll: rectangles.
+	rtree := CrRTree withAll: rectangles.
 	
 	self assert: rtree bounds equals: (CrBounds origin: 1@1 extent: 4@4).
 	self
@@ -54,8 +52,7 @@ CrRTreeTest >> test03NonOverlappingNodes [
 		1 to: 50 do: [ :x |
 			rectangles add: (CrBounds origin: (x-1)@(y-1) extent: 1@1) ] ].
 
-	rtree := CrRTree new.
-	rtree loadAll: rectangles.
+	rtree := CrRTree withAll: rectangles.
 
 	"Note: The results have to be sorted"
 	results := rtree search: (Rectangle origin: 0@0 corner: 50@50).
@@ -80,8 +77,7 @@ CrRTreeTest >> test04OverlappingNodes [
 		1 to: 50 do: [ :w |
 			rectangles add: (CrBounds origin: 0@0 extent: w@h) ] ].
 
-	rtree := CrRTree new.
-	rtree loadAll: rectangles.
+	rtree := CrRTree withAll: rectangles.
 
 	"Both the checks for the elements assume elements are sorted."
 	results := rtree search: (Rectangle origin: 0@0 extent: 1@1).

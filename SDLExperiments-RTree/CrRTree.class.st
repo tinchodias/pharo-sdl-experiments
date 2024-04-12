@@ -1,6 +1,7 @@
 "
-I'm an R-Tree based on Chrome's RTree.
+I'm an RTree that is not mutable.
 
+Inspired on Chrome's C++ implementation in rtree.h:
 ```
 // The following description and most of the implementation is borrowed from
 // Skia's SkRTree implementation.
@@ -36,6 +37,14 @@ Class {
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
 }
+
+{ #category : 'instance creation' }
+CrRTree class >> withAll: aCollection [
+
+	^ self new
+		loadAll: aCollection;
+		yourself
+]
 
 { #category : 'accessing' }
 CrRTree >> bounds [
