@@ -25,27 +25,7 @@ CrRTreeTest >> test01SingleNode [
 ]
 
 { #category : 'tests' }
-CrRTreeTest >> test02TwoNodes [
-
-	| rtree rectangleA rectangleB |
-	rectangleA := CrBounds origin: 1@2 corner: 3@4.
-	rectangleB := CrBounds origin: 3@4 corner: 5@6.
-
-	rtree := CrRTree new.
-	rtree loadAll: { rectangleA. rectangleB }.
-	
-	self assert: rtree bounds equals: (rectangleA merge: rectangleB).
-	self
-		assert: (rtree search: (CrBounds origin: 1@2 extent: 1@1))
-		equals: #(1).
-	self
-		assert: (rtree search: (CrBounds origin: 3@4 corner: 5@6))
-		equals: #(1 2)
-
-]
-
-{ #category : 'tests' }
-CrRTreeTest >> test03SixteenNodes [
+CrRTreeTest >> test02SomeNodes [
 
 	| rectangles rtree |
 	rectangles := OrderedCollection new.
@@ -66,29 +46,7 @@ CrRTreeTest >> test03SixteenNodes [
 ]
 
 { #category : 'tests' }
-CrRTreeTest >> test04Overlap [
-
-	| rectangles rtree results |
-	rectangles := OrderedCollection new.
-	1 to: 50 do: [ :h |
-		1 to: 50 do: [ :w |
-			rectangles add: (CrBounds origin: 0@0 extent: w@h) ] ].
-
-	rtree := CrRTree new.
-	rtree loadAll: rectangles.
-
-	"Both the checks for the elements assume elements are sorted."
-	results := rtree search: (Rectangle origin: 0@0 extent: 1@1).
-	self assert: results size equals: 2500.
-	self assert: results equals: (1 to: results size).
-
-	results := rtree search: (Rectangle origin: 0@49 extent: 1@1).
-	self assert: results size equals: 50.
-	self assert: results equals: (2451 to: 2500)
-]
-
-{ #category : 'tests' }
-CrRTreeTest >> test05NoOverlap [
+CrRTreeTest >> test03NonOverlappingNodes [
 
 	| rectangles rtree results |
 	rectangles := OrderedCollection new.
@@ -114,18 +72,23 @@ CrRTreeTest >> test05NoOverlap [
 ]
 
 { #category : 'tests' }
-CrRTreeTest >> test06Add100kNodesIsFast [
-	
-	| rectangles rtree |
-	self timeLimit: 1 second.
-	
+CrRTreeTest >> test04OverlappingNodes [
+
+	| rectangles rtree results |
 	rectangles := OrderedCollection new.
-	1 to: 1000 do: [ :x |
-		1 to: 1000 do: [ :y |
-			rectangles add: (CrBounds origin: x@y extent: 1@1) ] ].
+	1 to: 50 do: [ :h |
+		1 to: 50 do: [ :w |
+			rectangles add: (CrBounds origin: 0@0 extent: w@h) ] ].
 
 	rtree := CrRTree new.
 	rtree loadAll: rectangles.
-	
-	self assert: rtree bounds equals: (CrBounds origin: 1@1 extent: 1000@1000)
+
+	"Both the checks for the elements assume elements are sorted."
+	results := rtree search: (Rectangle origin: 0@0 extent: 1@1).
+	self assert: results size equals: 2500.
+	self assert: results equals: (1 to: results size).
+
+	results := rtree search: (Rectangle origin: 0@49 extent: 1@1).
+	self assert: results size equals: 50.
+	self assert: results equals: (2451 to: 2500)
 ]

@@ -76,10 +76,10 @@ CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 			ifTrue: [
 				| newNode |
 				newNode := CrNode level: 0 size: 1.
-				newNode addChildBranch: branches first.
+				newNode addBranch: branches first.
 				CrBranch
 					bounds: branches first bounds
-					subtree: newNode ]
+					node: newNode ]
 			ifFalse: [
 				self newRootBranchForAll: branches ]
 ]
@@ -132,11 +132,11 @@ CrRTree >> newRootBranchForAll: branches [
 
 			"Create a new branch that will gather several input branches"
 			newNode := CrNode level: level size: kMaxChildren.
-			newNode addChildBranch: (branches at: sourceBranchIndex).
+			newNode addBranch: (branches at: sourceBranchIndex).
 			newBranch :=
 				CrBranch
 					bounds: (branches at: sourceBranchIndex) bounds copy
-					subtree: newNode.
+					node: newNode.
 
 			sourceBranchIndex := sourceBranchIndex + 1.
 
@@ -144,7 +144,7 @@ CrRTree >> newRootBranchForAll: branches [
 			[ k < incrementBy and: [
 			sourceBranchIndex <= branchCount ] ] whileTrue: [
 				newBranch bounds merge: (branches at: sourceBranchIndex) bounds.
-				newNode addChildBranch: (branches at: sourceBranchIndex).
+				newNode addBranch: (branches at: sourceBranchIndex).
 				sourceBranchIndex := sourceBranchIndex + 1.
 				k := k + 1 ].
 
@@ -180,13 +180,13 @@ CrRTree >> search: aRectangle do: aBlockClosure [
 	^ self
 		searchRecursive: aRectangle
 		do: aBlockClosure
-		from: rootBranch subtree
+		from: rootBranch node
 ]
 
 { #category : 'private' }
 CrRTree >> searchRecursive: aRectangle do: aBlock from: aNode [
 
-	aNode childrenBranchesDo: [ :eachBranch |
+	aNode branchesDo: [ :eachBranch |
 		(aRectangle intersects: eachBranch bounds) ifTrue: [
 			aNode isLeaf
 				ifTrue: [
@@ -197,5 +197,5 @@ CrRTree >> searchRecursive: aRectangle do: aBlock from: aNode [
 					self
 						searchRecursive: aRectangle
 						do: aBlock
-						from: eachBranch subtree ] ] ]
+						from: eachBranch node ] ] ]
 ]

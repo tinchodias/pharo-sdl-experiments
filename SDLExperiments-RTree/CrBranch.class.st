@@ -15,26 +15,26 @@ Class {
 	#instVars : [
 		'payload',
 		'bounds',
-		'subtree'
+		'node'
 	],
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
 }
 
 { #category : 'instance creation' }
-CrBranch class >> bounds: aRectangle payload: anObject [
+CrBranch class >> bounds: aRectangle node: aNode [
 
 	^ self new
-		payload: anObject;
+		node: aNode;
 		bounds: aRectangle;
 		yourself
 ]
 
 { #category : 'instance creation' }
-CrBranch class >> bounds: aRectangle subtree: aNode [
+CrBranch class >> bounds: aRectangle payload: anObject [
 
 	^ self new
-		subtree: aNode;
+		payload: anObject;
 		bounds: aRectangle;
 		yourself
 ]
@@ -46,9 +46,21 @@ CrBranch >> bounds [
 ]
 
 { #category : 'accessing' }
-CrBranch >> bounds: aRectangle [
+CrBranch >> bounds: aBounds [
 
-	bounds := aRectangle
+	bounds := aBounds
+]
+
+{ #category : 'accessing' }
+CrBranch >> node [
+
+	^ node
+]
+
+{ #category : 'accessing' }
+CrBranch >> node: aNode [
+
+	node := aNode
 ]
 
 { #category : 'accessing' }
@@ -74,16 +86,4 @@ CrBranch >> printOn: aStream [
 	aStream
 		nextPutAll: ' bounds: ';
 		print: bounds
-]
-
-{ #category : 'accessing' }
-CrBranch >> subtree [
-
-	^ subtree
-]
-
-{ #category : 'accessing' }
-CrBranch >> subtree: aNode [
-
-	subtree := aNode
 ]
