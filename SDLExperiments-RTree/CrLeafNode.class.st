@@ -60,11 +60,10 @@ CrLeafNode >> payload [
 CrLeafNode >> printOn: aStream [
 
 	super printOn: aStream.
-	payload ifNotNil: [
-		aStream
-			nextPutAll: ' payload: ';
-			print: payload ].
 	aStream
 		nextPutAll: ' bounds: ';
-		print: bounds
+		print: bounds.
+	aStream
+		nextPutAll: ' payload: ';
+		print: payload
 ]

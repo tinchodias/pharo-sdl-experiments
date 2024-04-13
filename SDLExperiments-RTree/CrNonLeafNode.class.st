@@ -102,6 +102,9 @@ CrNonLeafNode >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
+		nextPutAll: ' bounds: ';
+		print: childrenBounds.
+	aStream
 		nextPutAll: ' children: ';
 		print: childrenCount
 ]

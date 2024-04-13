@@ -63,6 +63,22 @@ CrRTree >> initialize [
 	maxChildren := 11
 ]
 
+{ #category : 'inspector' }
+CrRTree >> inspectionTree: aBuilder [
+	<inspectorPresentationOrder: 1 title: 'Nodes'>
+
+	^ aBuilder newTree
+		roots: { root };
+		children: [ :each | each children ];
+		display: [ :each |
+			each isLeaf
+				ifTrue: [ '{1} [payload: {2}]' format: { each bounds. each payload } ]
+				ifFalse: [ '{1} [children: {2}]' format: { each bounds. each childrenCount } ] ];
+		expandRoots;
+		yourself
+
+]
+
 { #category : 'initialization' }
 CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 
