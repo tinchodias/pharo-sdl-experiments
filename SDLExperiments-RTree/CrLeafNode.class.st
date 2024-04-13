@@ -13,11 +13,10 @@ Class {
 }
 
 { #category : 'instance creation' }
-CrLeafNode class >> bounds: aRectangle payload: anObject [
+CrLeafNode class >> bounds: aBounds payload: anObject [
 
-	^ self new
-		payload: anObject;
-		bounds: aRectangle;
+	^ self basicNew
+		initializeWith: anObject bounds: aBounds;
 		yourself
 ]
 
@@ -27,9 +26,11 @@ CrLeafNode >> bounds [
 	^ bounds
 ]
 
-{ #category : 'accessing' }
-CrLeafNode >> bounds: aBounds [
+{ #category : 'initialization' }
+CrLeafNode >> initializeWith: anObject bounds: aBounds [
 
+	self initialize.
+	payload := anObject.
 	bounds := aBounds
 ]
 
@@ -43,12 +44,6 @@ CrLeafNode >> isLeaf [
 CrLeafNode >> payload [
 
 	^ payload
-]
-
-{ #category : 'accessing' }
-CrLeafNode >> payload: anObject [
-
-	payload := anObject
 ]
 
 { #category : 'printing' }
