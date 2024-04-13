@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfSDLExperiments,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfSDLExperiments
+	#name : 'BaselineOfSDLExperiments',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfSDLExperiments',
+	#package : 'BaselineOfSDLExperiments'
 }
 
-{ #category : #baseline }
+{ #category : 'baseline' }
 BaselineOfSDLExperiments >> baseline: spec [
 	<baseline>
 	spec
@@ -17,11 +18,12 @@ BaselineOfSDLExperiments >> baseline: spec [
 				package: 'SDLExperiments' with: [ spec requires: #('Alexandrie' 'SDLExperiments-FFI') ];
 				package: 'SDLExperiments-Demo' with: [ spec requires: #('Alexandrie' 'SDLExperiments') ];
 				package: 'SDLExperiments-FFI';
-				package: 'SDLExperiments-Tests' with: [ spec requires: #('SDLExperiments') ].
- ]
+				package: 'SDLExperiments-Tests' with: [ spec requires: #('SDLExperiments') ];
+				package: 'SDLExperiments-RTree'
+			]
 ]
 
-{ #category : #'external projects' }
+{ #category : 'external projects' }
 BaselineOfSDLExperiments >> declareAlexandrieOn: spec [
 	spec 
 		baseline: 'Alexandrie'
