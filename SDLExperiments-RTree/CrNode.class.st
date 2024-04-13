@@ -14,6 +14,25 @@ CrNode >> bounds [
 	^ self subclassResponsibility
 ]
 
+{ #category : 'enumerating' }
+CrNode >> children [
+
+	^ Array new: self childrenCount streamContents: [ :stream |
+		self childrenDo: [ :each | stream nextPut: each ]]
+]
+
+{ #category : 'enumerating' }
+CrNode >> childrenCount [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'enumerating' }
+CrNode >> childrenDo: aBlock [
+
+	^ self subclassResponsibility
+]
+
 { #category : 'testing' }
 CrNode >> isLeaf [
 

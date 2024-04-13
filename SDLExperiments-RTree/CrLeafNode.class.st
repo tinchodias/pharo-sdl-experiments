@@ -26,6 +26,16 @@ CrLeafNode >> bounds [
 	^ bounds
 ]
 
+{ #category : 'accessing' }
+CrLeafNode >> childrenCount [
+
+	^ 0
+]
+
+{ #category : 'enumerating' }
+CrLeafNode >> childrenDo: aBlock [
+]
+
 { #category : 'initialization' }
 CrLeafNode >> initializeWith: anObject bounds: aBounds [
 
