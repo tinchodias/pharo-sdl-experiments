@@ -1,1 +1,1 @@
-Package { #name : #'SDLExperiments-Tests' }
+Package { #name : 'SDLExperiments-Tests' }

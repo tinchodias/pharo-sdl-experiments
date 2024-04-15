@@ -2,8 +2,8 @@
 An AtlasTest is a test class for testing the behavior of Atlas
 "
 Class {
-	#name : #AtlasTest,
-	#superclass : #TestCase,
+	#name : 'AtlasTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'windowExtent',
 		'sdlWindow',
@@ -13,12 +13,15 @@ Class {
 		'SDL2Constants',
 		'SDL2Types'
 	],
-	#category : #'SDLExperiments-Tests'
+	#category : 'SDLExperiments-Tests',
+	#package : 'SDLExperiments-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 AtlasTest >> setUp [
 	super setUp.
+	
+	OSSDL2Driver current. "Ensure initialized"
 	
 	windowExtent := 200 @ 100.
 	sdlWindow := SDL2 createWindow: 'Test'
@@ -32,7 +35,7 @@ AtlasTest >> setUp [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AtlasTest >> tearDown [
 
 	sdlRenderer destroy.
@@ -41,7 +44,7 @@ AtlasTest >> tearDown [
 	super tearDown.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 AtlasTest >> testAddMultipleTiles [
 
 	| anAtlas result allocatedTiles |
@@ -73,7 +76,7 @@ AtlasTest >> testAddMultipleTiles [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 AtlasTest >> testHiDPIDevice [
 
 	| anAtlas aTile aDeviceScale |
@@ -95,7 +98,7 @@ AtlasTest >> testHiDPIDevice [
 	self assert: aDeviceScale equals: 2.0 asPoint
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 AtlasTest >> testRender [
 
 	| anAtlas aTile tileExtent renderedForm |
