@@ -83,7 +83,7 @@ SDL_DisplayMode >> printOn: aStream [
 		nextPut: $(;
 		print: self extent;
 		space;
-		print: self refresh_rate;
+		print: self refreshRate;
 		nextPutAll: 'hz)'
 
 ]
