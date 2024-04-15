@@ -1,7 +1,7 @@
 Extension { #name : 'SDL_Window' }
 
 { #category : '*SDLExperiments-FFI' }
-SDL_Window >> getCurrentDisplayMode [
+SDL_Window >> currentDisplayMode [
 	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
 
 	| aMode |
@@ -16,7 +16,7 @@ SDL_Window >> getCurrentDisplayMode [
 ]
 
 { #category : '*SDLExperiments-FFI' }
-SDL_Window >> getDisplayMode [
+SDL_Window >> displayMode [
 
 	| aMode |
 	aMode := SDL_DisplayMode externalNew
@@ -30,18 +30,7 @@ SDL_Window >> getDisplayMode [
 ]
 
 { #category : '*SDLExperiments-FFI' }
-SDL_Window >> getDisplayModeInto: mode [
-	"See: https://wiki.libsdl.org/SDL2/SDL_GetWindowDisplayMode"
-
-	^ self ffiCall: #(
-		int
-		SDL_GetWindowDisplayMode(
-			self,
-			SDL_DisplayMode * mode ) )
-]
-
-{ #category : '*SDLExperiments-FFI' }
-SDL_Window >> logicalExtent [
+SDL_Window >> extent [
 	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
 
 	| w h |
@@ -50,6 +39,24 @@ SDL_Window >> logicalExtent [
 	self getSizeW: w h: h.
 	^ (w signedLongAt: 1) @ (h signedLongAt: 1)
 
+]
+
+{ #category : '*SDLExperiments-FFI' }
+SDL_Window >> extent: aPoint [
+	"Set the logical size of this window. See renderer's outputSize for the pixel size."
+
+	self setSizeW: aPoint x h: aPoint y
+]
+
+{ #category : '*SDLExperiments-FFI' }
+SDL_Window >> getDisplayModeInto: mode [
+	"See: https://wiki.libsdl.org/SDL2/SDL_GetWindowDisplayMode"
+
+	^ self ffiCall: #(
+		int
+		SDL_GetWindowDisplayMode(
+			self,
+			SDL_DisplayMode * mode ) )
 ]
 
 { #category : '*SDLExperiments-FFI' }

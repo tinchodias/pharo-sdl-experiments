@@ -137,7 +137,7 @@ SceneWindow >> open [
 	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND.
 "	sdlRenderer drawBlendMode: SDL2 premultipliedAlphaBlendMode."
 
-	deviceScalePoint := sdlRenderer outputExtent / sdlWindow logicalExtent.
+	deviceScalePoint := sdlRenderer outputExtent / sdlWindow extent.
 
 	
 	tileManager prepareOn: self
@@ -147,7 +147,7 @@ SceneWindow >> open [
 SceneWindow >> refreshRate [
 	"Answer the window display's refresh rate, in Hertz."
 
-	^ sdlWindow getDisplayMode refreshRate
+	^ sdlWindow displayMode refreshRate
 ]
 
 { #category : 'initialization' }
