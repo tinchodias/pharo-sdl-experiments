@@ -62,7 +62,7 @@ SDL2 class >> fromByteToFloat: anInteger [
 SDL2 class >> fromFloatToByte: aFloat [
 	"Linearly map a floating-point number between 0.0 and 1.0 to an integer number between 0 and 255."
 
-	^ (aFloat * 255.0) asInteger min: 255 max: 0
+	^ (aFloat * 255.0) rounded min: 255 max: 0
 ]
 
 { #category : '*SDLExperiments-FFI' }
