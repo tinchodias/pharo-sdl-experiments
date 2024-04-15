@@ -65,6 +65,12 @@ SDL_Window >> position [
 ]
 
 { #category : '*SDLExperiments-FFI' }
+SDL_Window >> position: aPoint [
+
+	self setPositionX: aPoint x y: aPoint y
+]
+
+{ #category : '*SDLExperiments-FFI' }
 SDL_Window >> setInputFocus [
 	"Explicitly set input focus to the window.
 	
