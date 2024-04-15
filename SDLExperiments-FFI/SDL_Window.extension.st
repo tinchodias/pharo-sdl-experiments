@@ -1,6 +1,11 @@
 Extension { #name : 'SDL_Window' }
 
 { #category : '*SDLExperiments-FFI' }
+SDL_Window >> createSoftwareRenderer [
+	^ self createRenderer: -1 flags: SDL_RENDERER_SOFTWARE 
+]
+
+{ #category : '*SDLExperiments-FFI' }
 SDL_Window >> currentDisplayMode [
 	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
 
