@@ -18,22 +18,14 @@ SDL_Renderer >> copy: texture srcRect: srcRect dstRectF: dstRect [
 SDL_Renderer >> disableVSync [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 
-	^ self ffiCall: #(
-		int
-		SDL_RenderSetVSync (
-			self,
-			0 ) )
+	^ self setVSync: 0
 ]
 
 { #category : '*SDLExperiments-FFI' }
 SDL_Renderer >> enableVSync [
 	"See: https://wiki.libsdl.org/SDL2/SDL_RenderSetVSync"
 
-	^ self ffiCall: #(
-		int
-		SDL_RenderSetVSync (
-			self,
-			1 ) )
+	^ self setVSync: 1
 ]
 
 { #category : '*SDLExperiments-FFI' }
