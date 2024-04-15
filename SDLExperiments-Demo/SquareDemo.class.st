@@ -1,16 +1,18 @@
 Class {
-	#name : #SquareDemo,
-	#superclass : #BenchmarkingDemo,
+	#name : 'SquareDemo',
+	#superclass : 'BenchmarkingDemo',
 	#instVars : [
 		'numberOfRectangles',
 		'sideLength',
 		'useSpecialized',
 		'useTranslucent'
 	],
-	#category : #'SDLExperiments-Demo-Benchmarks'
+	#category : 'SDLExperiments-Demo-Benchmarks',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Benchmarks'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 SquareDemo class >> runAlternatives [
 	<script: '[ self runAlternatives ] fork'>
 
@@ -81,7 +83,7 @@ Specialized' traceCr.
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SquareDemo >> initialize [
 
 	super initialize.
@@ -93,13 +95,13 @@ SquareDemo >> initialize [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SquareDemo >> numberOfRectangles: aNumber [
 
 	numberOfRectangles := aNumber
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 SquareDemo >> prepareSceneWindow [
 
 	1 to: numberOfRectangles do: [ :index |
@@ -148,20 +150,20 @@ SquareDemo >> prepareSceneWindow [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 SquareDemo >> run [
 	<script: '[self new run; reportOnTranscript] fork'>
 
 	super run
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SquareDemo >> useSpecialized: aBoolean [
 
 	useSpecialized := aBoolean
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 SquareDemo >> windowTitle [
 
 	^ useSpecialized

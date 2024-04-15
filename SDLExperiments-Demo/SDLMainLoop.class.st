@@ -1,6 +1,6 @@
 Class {
-	#name : #SDLMainLoop,
-	#superclass : #Object,
+	#name : 'SDLMainLoop',
+	#superclass : 'Object',
 	#instVars : [
 		'delay',
 		'priority',
@@ -10,29 +10,31 @@ Class {
 	#pools : [
 		'SDL2Constants'
 	],
-	#category : #'SDLExperiments-Demo-Utility-Interactive'
+	#category : 'SDLExperiments-Demo-Utility-Interactive',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Utility-Interactive'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SDLMainLoop >> eventHandler [
 
 	^ eventHandler
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SDLMainLoop >> eventHandler: anObject [
 	"Set as handler an object that responds to `process:` with a `SDL_Event` as argument."
 
 	eventHandler := anObject
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 SDLMainLoop >> fork [
 
 	process := [ self run ] forkAt: priority
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SDLMainLoop >> initialize [
 
 	super initialize.
@@ -42,7 +44,7 @@ SDLMainLoop >> initialize [
 	self useNullEventHandler
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 SDLMainLoop >> initializeSDL2 [
 
 	| subsystemsFlag |
@@ -56,13 +58,13 @@ SDLMainLoop >> initializeSDL2 [
 		description: 'Initialize SDL2'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SDLMainLoop >> isRunning [
 
 	^ process notNil and: [ process isTerminated not ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 SDLMainLoop >> run [
 
 	| event session |
@@ -76,13 +78,13 @@ SDLMainLoop >> run [
 			delay wait ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SDLMainLoop >> useNullEventHandler [
 
 	eventHandler := NullSDLEventHandler new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SDLMainLoop >> useTracerEventHandler [
 
 	eventHandler := TracerSDLEventHandler new

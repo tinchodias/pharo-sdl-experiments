@@ -30,6 +30,18 @@ SDL_Window >> getDisplayMode [
 ]
 
 { #category : '*SDLExperiments-FFI' }
+SDL_Window >> logicalExtent [
+	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
+
+	| w h |
+	w := FFIInt32 newBuffer.
+	h := FFIInt32 newBuffer.
+	self getSizeW: w h: h.
+	^ (w signedLongAt: 1) @ (h signedLongAt: 1)
+
+]
+
+{ #category : '*SDLExperiments-FFI' }
 SDL_Window >> position [
 	"Answer the logical position of this window."
 
@@ -50,16 +62,4 @@ SDL_Window >> setInputFocus [
 	See: https://wiki.libsdl.org/SDL2/SDL_SetWindowInputFocus"
 
 	^ self ffiCall: #( int SDL_SetWindowInputFocus ( self ) )
-]
-
-{ #category : '*SDLExperiments-FFI' }
-SDL_Window >> size [
-	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
-
-	| w h |
-	w := FFIInt32 newBuffer.
-	h := FFIInt32 newBuffer.
-	self getSizeW: w h: h.
-	^ (w signedLongAt: 1) @ (h signedLongAt: 1)
-
 ]

@@ -1,6 +1,6 @@
 Class {
-	#name : #SceneInteractiveDemo,
-	#superclass : #Object,
+	#name : 'SceneInteractiveDemo',
+	#superclass : 'Object',
 	#traits : 'TSDL2MappedEventHandler',
 	#classTraits : 'TSDL2MappedEventHandler classTrait',
 	#instVars : [
@@ -11,10 +11,12 @@ Class {
 		'SDL2Constants',
 		'SDL2Types'
 	],
-	#category : #'SDLExperiments-Demo-Interactive'
+	#category : 'SDLExperiments-Demo-Interactive',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Interactive'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 SceneInteractiveDemo >> close [
 
 	sceneWindow steppingLoop stop.
@@ -22,7 +24,7 @@ SceneInteractiveDemo >> close [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SceneInteractiveDemo >> initialize [
 
 	super initialize.
@@ -34,7 +36,7 @@ SceneInteractiveDemo >> initialize [
 		yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 SceneInteractiveDemo >> open [
 
 	sdlMainLoop fork.
@@ -48,31 +50,31 @@ SceneInteractiveDemo >> open [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SceneInteractiveDemo >> prepareSceneWindow [
 
 	self subclassResponsibility
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 SceneInteractiveDemo >> quitNow [
 
 	Smalltalk snapshot: false andQuit: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneInteractiveDemo >> sceneWindow [
 
 	^ sceneWindow
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneInteractiveDemo >> sdlMainLoop [
 
 	^ sdlMainLoop
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 SceneInteractiveDemo >> visitKeyDownEvent: aSDL_KeyDownEvent [
 
 	"Escape"
@@ -84,13 +86,13 @@ SceneInteractiveDemo >> visitKeyDownEvent: aSDL_KeyDownEvent [
 		self quitNow ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 SceneInteractiveDemo >> visitQuitEvent: aSDL2MappedEvent [
 
 	self quitNow
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SceneInteractiveDemo >> windowTitle [
 
 	^ sceneWindow sdlRenderer info nameString, '; Interactive Demo'

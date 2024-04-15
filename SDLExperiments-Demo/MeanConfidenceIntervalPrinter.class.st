@@ -13,16 +13,18 @@ Based on SMarkSimpleStatisticsReporter from SMark benchmark project.
 
 "
 Class {
-	#name : #MeanConfidenceIntervalPrinter,
-	#superclass : #Object,
+	#name : 'MeanConfidenceIntervalPrinter',
+	#superclass : 'Object',
 	#instVars : [
 		'fixedDecimalPlaces',
 		'unitString'
 	],
-	#category : #'SDLExperiments-Demo-Utility-Print'
+	#category : 'SDLExperiments-Demo-Utility-Print',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Utility-Print'
 }
 
-{ #category : #statistics }
+{ #category : 'statistics' }
 MeanConfidenceIntervalPrinter >> confidenceIntervalFor: aCollectionOfNumbers [
 
 	| populationSize factor |
@@ -35,7 +37,7 @@ MeanConfidenceIntervalPrinter >> confidenceIntervalFor: aCollectionOfNumbers [
 	^ factor * aCollectionOfNumbers stdev / populationSize asFloat sqrt
 ]
 
-{ #category : #statistics }
+{ #category : 'statistics' }
 MeanConfidenceIntervalPrinter >> defaultDecimalPlacesFor: confidenceVariance [
 
 	confidenceVariance = 0 ifTrue: [ ^ 2 ].
@@ -43,19 +45,19 @@ MeanConfidenceIntervalPrinter >> defaultDecimalPlacesFor: confidenceVariance [
 	^ 1 - confidenceVariance log floor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MeanConfidenceIntervalPrinter >> fixedDecimalPlaces [
 
 	^ fixedDecimalPlaces
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MeanConfidenceIntervalPrinter >> fixedDecimalPlaces: aPositiveInteger [
 
 	fixedDecimalPlaces := aPositiveInteger
 ]
 
-{ #category : #statistics }
+{ #category : 'statistics' }
 MeanConfidenceIntervalPrinter >> gaussianConfidenceFactor [
 	"Used when size >= 30."
 	"1 ~ 68.27%"
@@ -65,14 +67,14 @@ MeanConfidenceIntervalPrinter >> gaussianConfidenceFactor [
 	^ 1.644853626951
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 MeanConfidenceIntervalPrinter >> print: aCollectionOfNumbers [
 
 	^ String streamContents: [ :aStream | 
 		  self print: aCollectionOfNumbers on: aStream ]
 ]
 
-{ #category : #reporting }
+{ #category : 'reporting' }
 MeanConfidenceIntervalPrinter >> print: population on: aStream [
 	"Print average ± confidence interval. The colleciton must be not empty."
 
@@ -97,7 +99,7 @@ MeanConfidenceIntervalPrinter >> print: population on: aStream [
 		showingDecimalPlaces: decimalPlaces
 ]
 
-{ #category : #statistics }
+{ #category : 'statistics' }
 MeanConfidenceIntervalPrinter >> studentsTConfidenceFactorFor: size [
 	"Answer a pre-calculated value for a confidence interval of ~90%."
 	"Supported for 1 <= size <= 30."
@@ -139,13 +141,13 @@ MeanConfidenceIntervalPrinter >> studentsTConfidenceFactorFor: size [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MeanConfidenceIntervalPrinter >> unitString [
 
 	^ unitString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MeanConfidenceIntervalPrinter >> unitString: aStringOrNil [
 
 	unitString := aStringOrNil

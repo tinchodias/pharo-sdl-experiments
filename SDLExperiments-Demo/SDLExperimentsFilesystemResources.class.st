@@ -1,16 +1,17 @@
 Class {
-	#name : #SDLExperimentsFilesystemResources,
-	#superclass : #Object,
-	#category : #'SDLExperiments-Demo'
+	#name : 'SDLExperimentsFilesystemResources',
+	#superclass : 'Object',
+	#category : 'SDLExperiments-Demo',
+	#package : 'SDLExperiments-Demo'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SDLExperimentsFilesystemResources class >> cursorsDirectory [
 
 	^ self repositoryDirectory / 'cursors'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SDLExperimentsFilesystemResources class >> repositoryDirectory [
 
 	| expectedName myRepository |

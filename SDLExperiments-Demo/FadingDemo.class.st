@@ -1,13 +1,15 @@
 Class {
-	#name : #FadingDemo,
-	#superclass : #BenchmarkingDemo,
+	#name : 'FadingDemo',
+	#superclass : 'BenchmarkingDemo',
 	#instVars : [
 		'numberOfCircles'
 	],
-	#category : #'SDLExperiments-Demo-Benchmarks'
+	#category : 'SDLExperiments-Demo-Benchmarks',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Benchmarks'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FadingDemo class >> runAlternatives [
 	<script: '[ self runAlternatives ] fork'>
 
@@ -62,7 +64,7 @@ FadingDemo class >> runAlternatives [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FadingDemo >> initialize [
 
 	super initialize.
@@ -71,13 +73,13 @@ FadingDemo >> initialize [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FadingDemo >> numberOfCircles: aNumber [
 
 	numberOfCircles := aNumber
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FadingDemo >> prepareSceneWindow [
 
 	1 to: numberOfCircles do: [ :index |
@@ -113,7 +115,7 @@ FadingDemo >> prepareSceneWindow [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FadingDemo >> run [
 	<script: '[self new run; reportOnTranscript] fork'>
 

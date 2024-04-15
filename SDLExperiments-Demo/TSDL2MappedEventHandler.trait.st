@@ -1,86 +1,88 @@
 Trait {
-	#name : #TSDL2MappedEventHandler,
-	#category : #'SDLExperiments-Demo-Utility-Interactive'
+	#name : 'TSDL2MappedEventHandler',
+	#category : 'SDLExperiments-Demo-Utility-Interactive',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Utility-Interactive'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TSDL2MappedEventHandler >> process: aRawSDLEvent [
 
 	aRawSDLEvent mapped accept: self
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitCommonEvent: aSDL_CommonEvent [
 
 	^ self visitEvent: aSDL_CommonEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitDropEvent: aSDL_DropEvent [
 
 	^ self visitEvent: aSDL_DropEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitEvent: aSDL2MappedEvent [
 	"Default"
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitKeyDownEvent: aSDL_KeyDownEvent [
 
 	^ self visitEvent: aSDL_KeyDownEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitKeyUpEvent: aSDL_KeyUpEvent [
 
 	^ self visitEvent: aSDL_KeyUpEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitMouseButtonDownEvent: aSDL_MouseButtonDownEvent [
 
 	^ self visitEvent: aSDL_MouseButtonDownEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitMouseButtonUpEvent: aSDL_MouseButtonUpEvent [
 
 	^ self visitEvent: aSDL_MouseButtonUpEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitMouseMotionEvent: aSDL_MouseMotionEvent [
 
 	^ self visitEvent: aSDL_MouseMotionEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitMouseWheelEvent: aSDL_MouseWheelEvent [
 
 	^ self visitEvent: aSDL_MouseWheelEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitQuitEvent: aSDL_QuitEvent [
 
 	^ self visitEvent: aSDL_QuitEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitTextEditingEvent: aSDL_TextEditingEvent [
 
 	^ self visitEvent: aSDL_TextEditingEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitTextInputEvent: aSDL_TextInputEvent [
 
 	^ self visitEvent: aSDL_TextInputEvent
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 TSDL2MappedEventHandler >> visitWindowEvent: aSDL2MappedEvent [
 
 	^ self visitEvent: aSDL2MappedEvent

@@ -1,22 +1,24 @@
 Class {
-	#name : #BenchmarkingDemo,
-	#superclass : #Object,
+	#name : 'BenchmarkingDemo',
+	#superclass : 'Object',
 	#instVars : [
 		'sceneWindow',
 		'random',
 		'durationMS',
 		'executionError'
 	],
-	#category : #'SDLExperiments-Demo-Benchmarks'
+	#category : 'SDLExperiments-Demo-Benchmarks',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Benchmarks'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BenchmarkingDemo >> durationMS: aDuration [
 
 	durationMS := aDuration
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BenchmarkingDemo >> initialize [
 
 	super initialize.
@@ -30,19 +32,19 @@ BenchmarkingDemo >> initialize [
 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 BenchmarkingDemo >> prepareSceneWindow [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BenchmarkingDemo >> random: aRandom [
 
 	random := aRandom
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 BenchmarkingDemo >> reportOnTranscript [
 
 	sceneWindow steppingLoop hasStoppingError
@@ -50,7 +52,7 @@ BenchmarkingDemo >> reportOnTranscript [
 		ifFalse: [ sceneWindow timeCounter reportString traceCr ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 BenchmarkingDemo >> run [
 
 	self prepareSceneWindow.
@@ -66,25 +68,25 @@ BenchmarkingDemo >> run [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BenchmarkingDemo >> sceneWindow [
 
 	^ sceneWindow
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BenchmarkingDemo >> tileManager: aTileManager [
 
 	sceneWindow tileManager: aTileManager
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BenchmarkingDemo >> windowLogicalExtent: aPoint [
 
 	sceneWindow logicalExtent: aPoint
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 BenchmarkingDemo >> windowTitle [
 
 	^ sceneWindow sdlRenderer info nameString, ';', sceneWindow tileManager asString

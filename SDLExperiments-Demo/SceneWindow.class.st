@@ -1,6 +1,6 @@
 Class {
-	#name : #SceneWindow,
-	#superclass : #Object,
+	#name : 'SceneWindow',
+	#superclass : 'Object',
 	#instVars : [
 		'sdlWindow',
 		'sdlRenderer',
@@ -18,10 +18,12 @@ Class {
 		'SDL2ConstantsHint',
 		'SDL2Types'
 	],
-	#category : #'SDLExperiments-Demo-Utility-Window'
+	#category : 'SDLExperiments-Demo-Utility-Window',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Utility-Window'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> addElement [
 
 	| newElement |
@@ -34,7 +36,7 @@ SceneWindow >> addElement [
 	^ newElement 
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 SceneWindow >> addElement: anElement [ 
 
 	anElement sceneWindow: self.
@@ -42,7 +44,7 @@ SceneWindow >> addElement: anElement [
 
 ]
 
-{ #category : #'life cycle' }
+{ #category : 'life cycle' }
 SceneWindow >> close [
 	
 	tileManager finalize.
@@ -51,30 +53,30 @@ SceneWindow >> close [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> deviceScalePoint [
 	^ deviceScalePoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> elements [
 
 	^ elements
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> initialPosition [
 
 	^ initialPosition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> initialPosition: aPoint [
 
 	initialPosition := aPoint
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SceneWindow >> initialize [
 
 	super initialize.
@@ -89,19 +91,19 @@ SceneWindow >> initialize [
 	self useUncappedSteppingLoop.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> logicalExtent [
 
 	^ logicalExtent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> logicalExtent: aPoint [
 
 	logicalExtent := aPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> logicalRectangle [
 
 	^ sdlWindow position extent: logicalExtent
@@ -109,7 +111,7 @@ SceneWindow >> logicalRectangle [
 	
 ]
 
-{ #category : #'life cycle' }
+{ #category : 'life cycle' }
 SceneWindow >> open [
 
 	sdlRenderDriverName ifNotNil: [
@@ -135,44 +137,44 @@ SceneWindow >> open [
 	sdlRenderer drawBlendMode: SDL_BLENDMODE_BLEND.
 "	sdlRenderer drawBlendMode: SDL2 premultipliedAlphaBlendMode."
 
-	deviceScalePoint := sdlRenderer outputExtent / sdlWindow size.
+	deviceScalePoint := sdlRenderer outputExtent / sdlWindow logicalExtent.
 
 	
 	tileManager prepareOn: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> refreshRate [
 	"Answer the window display's refresh rate, in Hertz."
 
 	^ sdlWindow getDisplayMode refreshRate
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SceneWindow >> resetTimeCounter [
 	
 	timeCounter := SceneTimeCounter new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> sdlRenderDriverName: aString [
 
 	sdlRenderDriverName := aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> sdlRenderer [
 
 	^ sdlRenderer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> sdlWindow [
 
 	^ sdlWindow
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 SceneWindow >> step [
 
 	timeCounter step.
@@ -193,37 +195,37 @@ SceneWindow >> step [
 	sdlRenderer present
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> steppingLoop [
 
 	^ steppingLoop
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> tileManager [
 	
 	^ tileManager
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> tileManager: aTileManager [ 
 	
 	tileManager := aTileManager
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> timeCounter [
 
 	^ timeCounter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneWindow >> title: aString [
 
 	sdlWindow title: aString
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SceneWindow >> useCappedSteppingLoop [
 
 	steppingLoop := SceneCappedLoop new
@@ -232,7 +234,7 @@ SceneWindow >> useCappedSteppingLoop [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SceneWindow >> useUncappedSteppingLoop [
 
 	steppingLoop := SceneLoop new

@@ -1,6 +1,6 @@
-Extension { #name : #Color }
+Extension { #name : 'Color' }
 
-{ #category : #'*SDLExperiments-Demo' }
+{ #category : '*SDLExperiments-Demo' }
 Color class >> newRandomWith: aRandom [
 	"Return a random color that isn't too dark or under-saturated."
 

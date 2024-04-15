@@ -1,6 +1,6 @@
 Class {
-	#name : #SceneLoop,
-	#superclass : #Object,
+	#name : 'SceneLoop',
+	#superclass : 'Object',
 	#instVars : [
 		'session',
 		'stepBlock',
@@ -8,39 +8,41 @@ Class {
 		'stoppingError',
 		'preStepBlock'
 	],
-	#category : #'SDLExperiments-Demo-Utility-Window'
+	#category : 'SDLExperiments-Demo-Utility-Window',
+	#package : 'SDLExperiments-Demo',
+	#tag : 'Utility-Window'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 SceneLoop >> hasStoppingError [
 
 	^ stoppingError notNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SceneLoop >> isRunning [
 
 	^ process notNil and: [ process isRunning ]
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 SceneLoop >> postStep [
 
 	Processor yield
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 SceneLoop >> preStep [
 
 	preStepBlock value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneLoop >> preStepBlock: aFullBlockClosure [ 
 	preStepBlock := aFullBlockClosure
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 SceneLoop >> start [
 
 	[[	session := Smalltalk session.
@@ -69,18 +71,18 @@ SceneLoop >> start [
 
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 SceneLoop >> step [
 
 	stepBlock value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneLoop >> stepBlock: aFullBlockClosure [ 
 	stepBlock := aFullBlockClosure
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 SceneLoop >> stop [
 
 	process ifNil: [ ^self ].
@@ -88,13 +90,13 @@ SceneLoop >> stop [
 	process := nil.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SceneLoop >> stoppingError [
 
 	^ stoppingError
 ]
 
-{ #category : #stepping }
+{ #category : 'stepping' }
 SceneLoop >> waitIfNeeded [
 	"Wait the appropriate amount of time for the next step"
 ]
