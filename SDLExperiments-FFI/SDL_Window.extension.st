@@ -30,6 +30,17 @@ SDL_Window >> getDisplayMode [
 ]
 
 { #category : '*SDLExperiments-FFI' }
+SDL_Window >> getDisplayModeInto: mode [
+	"See: https://wiki.libsdl.org/SDL2/SDL_GetWindowDisplayMode"
+
+	^ self ffiCall: #(
+		int
+		SDL_GetWindowDisplayMode(
+			self,
+			SDL_DisplayMode * mode ) )
+]
+
+{ #category : '*SDLExperiments-FFI' }
 SDL_Window >> logicalExtent [
 	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
 
