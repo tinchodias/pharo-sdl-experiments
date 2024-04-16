@@ -5,8 +5,7 @@ Class {
 	#name : 'CrLeafNode',
 	#superclass : 'CrNode',
 	#instVars : [
-		'payload',
-		'bounds'
+		'payload'
 	],
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
@@ -18,12 +17,6 @@ CrLeafNode class >> bounds: aBounds payload: anObject [
 	^ self basicNew
 		initializeWith: anObject bounds: aBounds;
 		yourself
-]
-
-{ #category : 'accessing' }
-CrLeafNode >> bounds [
-
-	^ bounds
 ]
 
 { #category : 'accessing' }
@@ -39,9 +32,12 @@ CrLeafNode >> childrenDo: aBlock [
 { #category : 'initialization' }
 CrLeafNode >> initializeWith: anObject bounds: aBounds [
 
-	self initialize.
 	payload := anObject.
-	bounds := aBounds
+
+	left := aBounds left.
+	right := aBounds right.
+	top := aBounds top.
+	bottom := aBounds bottom
 ]
 
 { #category : 'testing' }
@@ -60,9 +56,6 @@ CrLeafNode >> payload [
 CrLeafNode >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream
-		nextPutAll: ' bounds: ';
-		print: bounds.
 	aStream
 		nextPutAll: ' payload: ';
 		print: payload

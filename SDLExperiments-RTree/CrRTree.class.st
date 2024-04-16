@@ -70,29 +70,60 @@ CrRTree >> inspectionTree: aBuilder [
 	^ aBuilder newTree
 		roots: { root };
 		children: [ :each | each children ];
-		display: [ :each |
-			each isLeaf
-				ifTrue: [ '{1} [payload: {2}]' format: { each bounds. each payload } ]
-				ifFalse: [ '{1} [children: {2}]' format: { each bounds. each childrenCount } ] ];
 		expandRoots;
 		yourself
 
+]
+
+{ #category : 'searching' }
+CrRTree >> intersectionAt: aRectangle [ 
+	
+	^ Array streamContents: [ :stream |
+		self
+			intersectionAt: aRectangle
+			do: [ :eachPayload :eachBounds |
+				stream nextPut: eachPayload ] ]
+]
+
+{ #category : 'searching' }
+CrRTree >> intersectionAt: aRectangle do: aBlockClosure [
+
+	^ self
+		intersectionAt: aRectangle
+		do: aBlockClosure
+		from: root
+]
+
+{ #category : 'private' }
+CrRTree >> intersectionAt: aRectangle do: aBlock from: aNode [
+
+	aNode isLeaf
+		ifTrue: [
+			aBlock
+				value: aNode payload
+				value: aNode bounds ]
+		ifFalse: [
+			aNode childrenDo: [ :each |
+				(each intersects: aRectangle) ifTrue: [
+					self
+						intersectionAt: aRectangle
+						do: aBlock
+						from: each ]]]
 ]
 
 { #category : 'initialization' }
 CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 
 	| leaves |
-	leaves := OrderedCollection new: itemCount.
+	leaves := Array new: itemCount.
 	1 to: itemCount do: [ :index |
 		| eachBounds |
 		eachBounds := boundsBlock value: index.
-		"Reject items with zero extent"
-		eachBounds isEmpty ifFalse: [
-			leaves addLast:
-				(CrLeafNode
-					bounds: eachBounds
-					payload: (payloadBlock value: index)) ] ].
+		leaves
+			at: index
+			put: (CrLeafNode
+						bounds: eachBounds
+						payload: (payloadBlock value: index)) ].
 
 	root :=
 		leaves size = 1
@@ -166,7 +197,7 @@ CrRTree >> nodeCount [
 
 	| count |
 	count := 0.
-	self childrenDepthFirstDo: [ :each | count := count + 1 ].
+	root childrenDepthFirstDo: [ :each | count := count + 1 ].
 	^ count
 ]
 
@@ -174,40 +205,4 @@ CrRTree >> nodeCount [
 CrRTree >> reset [
 
   root := nil
-]
-
-{ #category : 'searching' }
-CrRTree >> search: aRectangle [ 
-	
-	^ Array streamContents: [ :stream |
-		self
-			search: aRectangle
-			do: [ :eachPayload :eachBounds |
-				stream nextPut: eachPayload ] ]
-]
-
-{ #category : 'searching' }
-CrRTree >> search: aRectangle do: aBlockClosure [
-
-	^ self
-		searchRecursive: aRectangle
-		do: aBlockClosure
-		from: root
-]
-
-{ #category : 'private' }
-CrRTree >> searchRecursive: aRectangle do: aBlock from: aNode [
-
-	aNode isLeaf
-		ifTrue: [
-			aBlock
-				value: aNode payload
-				value: aNode bounds ]
-		ifFalse: [
-			aNode childrenDo: [ :eachChild |
-				(aRectangle intersects: eachChild bounds) ifTrue: [
-					self
-						searchRecursive: aRectangle
-						do: aBlock
-						from: eachChild ]]]
 ]

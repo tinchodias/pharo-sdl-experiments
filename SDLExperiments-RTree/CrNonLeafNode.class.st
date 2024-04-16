@@ -1,13 +1,10 @@
 "
-I am an RTree node that has one or mode children.
+I am a RTree node that has one or more children nodes.
 "
 Class {
 	#name : 'CrNonLeafNode',
 	#superclass : 'CrNode',
 	#type : 'variable',
-	#instVars : [
-		'childrenBounds'
-	],
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
 }
@@ -20,13 +17,7 @@ CrNonLeafNode class >> newFrom: nodeCollection startAt: startIndex size: aSize [
 		yourself
 ]
 
-{ #category : 'accessing' }
-CrNonLeafNode >> bounds [
-
-	^ childrenBounds
-]
-
-{ #category : 'accessing' }
+{ #category : 'enumerating' }
 CrNonLeafNode >> childrenCount [
 
 	^ self size
@@ -35,24 +26,31 @@ CrNonLeafNode >> childrenCount [
 { #category : 'enumerating' }
 CrNonLeafNode >> childrenDo: aBlock [
 
-	1 to: self size do: [:index | aBlock value: (self at: index) ]
+	1 to: self size do: [ :index | aBlock value: (self at: index) ]
 ]
 
 { #category : 'initialization' }
 CrNonLeafNode >> initializeFrom: nodeCollection startAt: startIndex [
 		
-	self initialize.
+	"First node"
+	| firstNode |
+	firstNode := nodeCollection at: startIndex.
+	self at: 1 put: firstNode.
+	left := firstNode left.
+	right := firstNode right.
+	top := firstNode top.
+	bottom := firstNode bottom.
 
-	"Replace first node"
-	self at: 1 put: (nodeCollection at: startIndex).
-	childrenBounds := (self at: 1) bounds copy.
-
-	"Replace remaining nodes"
+	"Remaining nodes"
 	2 to: self size do: [ :index |
-		| sourceNode |
-		sourceNode := nodeCollection at: startIndex + index - 1.
-		self at: index put: sourceNode.
-		childrenBounds merge: sourceNode bounds ]
+		| aNode |
+		aNode := nodeCollection at: startIndex + index - 1.
+		self at: index put: aNode.
+
+		aNode left < left ifTrue: [ left := aNode left ].
+		aNode right > right ifTrue: [ right := aNode right ].
+		aNode top < top ifTrue: [ top := aNode top ].
+		aNode bottom > bottom ifTrue: [ bottom := aNode bottom ] ]
 ]
 
 { #category : 'testing' }
@@ -65,9 +63,6 @@ CrNonLeafNode >> isLeaf [
 CrNonLeafNode >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream
-		nextPutAll: ' bounds: ';
-		print: self bounds.
 	aStream
 		nextPutAll: ' children: ';
 		print: self childrenCount
