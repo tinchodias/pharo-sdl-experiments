@@ -39,11 +39,22 @@ Class {
 }
 
 { #category : 'instance creation' }
+CrRTree class >> new: itemCount boundsBlock: boundsBlock valueBlock: valueBlock [
+
+	^ self basicNew
+		initializeWith: itemCount
+			boundsBlock: boundsBlock
+			valueBlock: valueBlock;
+		yourself
+]
+
+{ #category : 'instance creation' }
 CrRTree class >> withAll: aCollection [
 
-	^ self new
-		loadAll: aCollection;
-		yourself
+	^ self
+		new: aCollection size 
+		boundsBlock: [ :index | aCollection at: index ]
+		valueBlock: [ :index | index ]
 ]
 
 { #category : 'accessing' }
@@ -53,14 +64,25 @@ CrRTree >> bounds [
 ]
 
 { #category : 'initialization' }
-CrRTree >> initialize [
+CrRTree >> initializeWith: itemCount boundsBlock: boundsBlock valueBlock: valueBlock [
 
-	super initialize.
-	
-	"These values were empirically determined to producereasonable
+	| leaves |
+	"These values were empirically determined to produce reasonable
 	performance in most cases."
 	minChildren := 6.
-	maxChildren := 11
+	maxChildren := 11.
+
+	leaves :=
+		(1 to: itemCount)
+			collect: [ :index |
+				(CrLeafNode
+					bounds: (boundsBlock value: index)
+					value: (valueBlock value: index)) ].
+
+	root :=
+		itemCount = 1
+			ifTrue: [ leaves first ]
+			ifFalse: [ self newRootForAll: leaves ]
 ]
 
 { #category : 'inspector' }
@@ -93,34 +115,6 @@ CrRTree >> intersectionAt: aRectangle do: aBlockClosure [
 ]
 
 { #category : 'initialization' }
-CrRTree >> load: itemCount boundsBlock: boundsBlock valueBlock: valueBlock [
-
-	| leaves |
-	leaves := Array new: itemCount.
-	1 to: itemCount do: [ :index |
-		leaves
-			at: index
-			put: (CrLeafNode
-				bounds: (boundsBlock value: index)
-				value: (valueBlock value: index)) ].
-
-	root :=
-		itemCount = 1
-			ifTrue: [ leaves first ]
-			ifFalse: [ self newRootForAll: leaves ]
-]
-
-{ #category : 'initialization' }
-CrRTree >> loadAll: aCollection [ 
-	"Mostly for testing purposes"
-
-	self
-		load: aCollection size
-		boundsBlock: [ :index | aCollection at: index ]
-		valueBlock: [ :index | index ]
-]
-
-{ #category : 'private' }
 CrRTree >> newRootForAll: leaves [
 	"Structure leaves in a tree structure. Override the input collection
 	from end to start, writing new non-leaf nodes."
