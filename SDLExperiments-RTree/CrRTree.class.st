@@ -64,6 +64,47 @@ CrRTree >> bounds [
 ]
 
 { #category : 'initialization' }
+CrRTree >> bulkLoad: leaves until: lastIndex [
+
+	| remainder sourceIndex targetIndex |
+	remainder := lastIndex % maxChildren.
+	remainder > 0 ifTrue: [
+		"If the remainder isn't enough to fill a node, we'll add
+		fewer children to other nodes."
+		remainder := remainder >= minChildren
+			ifTrue: [ 0 ]
+			ifFalse: [ minChildren - remainder ] ].
+
+	"Insert nodes at this tree level"
+	sourceIndex := 1.
+	targetIndex := 0.
+	[ sourceIndex <= lastIndex ] whileTrue: [ 
+		| size |
+		targetIndex := targetIndex + 1.
+		
+		size := maxChildren.
+		"If need be, omit some nodes to make up for remainder"
+		remainder = 0 ifFalse: [
+			(remainder <= (maxChildren - minChildren))
+				ifTrue: [
+					size := size - remainder.
+					remainder := 0 ]
+				ifFalse: [
+					size := minChildren.
+					remainder := remainder - (maxChildren - minChildren) ] ].
+		size := size min: (lastIndex - sourceIndex + 1).
+
+		"Create a new node that will gather multiple leaf nodes"
+		leaves
+			at: targetIndex
+			put: (CrNonLeafNode newFrom: leaves startAt: sourceIndex size: size).
+
+		sourceIndex := sourceIndex + size ].
+	
+	^ targetIndex
+]
+
+{ #category : 'initialization' }
 CrRTree >> initializeWith: itemCount boundsBlock: boundsBlock valueBlock: valueBlock [
 
 	| leaves |
@@ -79,10 +120,7 @@ CrRTree >> initializeWith: itemCount boundsBlock: boundsBlock valueBlock: valueB
 					bounds: (boundsBlock value: index)
 					value: (valueBlock value: index)) ].
 
-	root :=
-		itemCount = 1
-			ifTrue: [ leaves first ]
-			ifFalse: [ self newRootForAll: leaves ]
+	root := self newRootForAll: leaves
 ]
 
 { #category : 'inspector' }
@@ -116,50 +154,18 @@ CrRTree >> intersectionAt: aRectangle do: aBlockClosure [
 
 { #category : 'initialization' }
 CrRTree >> newRootForAll: leaves [
-	"Structure leaves in a tree structure. Override the input collection
-	from end to start, writing new non-leaf nodes."
+	"Create the structure from the leaves. Override the input
+	collection with new non-leaf nodes."
 
 	| lastIndex |
 	lastIndex := leaves size.
 
-	[ lastIndex = 1 ] whileFalse: [ 
-		| remainder sourceIndex targetIndex |
-		remainder := lastIndex % maxChildren.
-		remainder > 0 ifTrue: [
-			"If the remainder isn't enough to fill a node, we'll add
-			fewer children to other nodes."
-			remainder := remainder >= minChildren
-				ifTrue: [ 0 ]
-				ifFalse: [ minChildren - remainder ] ].
+	[ lastIndex > 1 ] whileTrue: [
+	 	lastIndex :=
+			self
+				bulkLoad: leaves
+				until: lastIndex ].
 
-		"Insert nodes at this tree level"
-		sourceIndex := 1.
-		targetIndex := 0.
-		[ sourceIndex <= lastIndex ] whileTrue: [ 
-			| size |
-			targetIndex := targetIndex + 1.
-			
-			size := maxChildren.
-			"If need be, omit some nodes to make up for remainder"
-			remainder = 0 ifFalse: [
-				(remainder <= (maxChildren - minChildren))
-					ifTrue: [
-						size := size - remainder.
-						remainder := 0 ]
-					ifFalse: [
-						size := minChildren.
-						remainder := remainder - (maxChildren - minChildren) ] ].
-			size := size min: (lastIndex - sourceIndex + 1).
-
-			"Create a new node that will gather multiple leaf nodes"
-			leaves
-				at: targetIndex
-				put: (CrNonLeafNode newFrom: leaves startAt: sourceIndex size: size).
-
-			sourceIndex := sourceIndex + size ].
-
-		lastIndex := targetIndex ].
-	
 	^ leaves first
 ]
 
