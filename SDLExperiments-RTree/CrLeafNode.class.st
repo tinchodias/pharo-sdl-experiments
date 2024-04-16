@@ -62,3 +62,11 @@ CrLeafNode >> value [
 
 	^ value
 ]
+
+{ #category : 'enumerating' }
+CrLeafNode >> valuesAtX: x y: y do: aBlock [
+
+	(self containsX: x y: y) ifFalse: [ ^ self ].
+
+	aBlock value: value
+]

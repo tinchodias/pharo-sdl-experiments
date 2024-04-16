@@ -55,6 +55,24 @@ CrNode >> childrenDo: aBlock [
 	self subclassResponsibility
 ]
 
+{ #category : 'testing' }
+CrNode >> containsPoint: aPoint [
+	"Answer whether aPoint is within the receiver. Pay attention the self origin is considered less than but the corner is strict"
+
+	^ self containsX: aPoint x y: aPoint y
+]
+
+{ #category : 'testing' }
+CrNode >> containsX: x y: y [
+	"Answer whether a point is within the receiver. Pay attention the self origin is considered less than but the corner is strict"
+
+	x < left   ifTrue: [ ^ false ].
+	y < top    ifTrue: [ ^ false ].
+	x >= right  ifTrue: [ ^ false ].
+	y >= bottom ifTrue: [ ^ false ].
+	^ true
+]
+
 { #category : 'enumerating' }
 CrNode >> intersectionAt: aRectangle do: aBlock [
 

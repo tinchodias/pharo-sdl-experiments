@@ -183,3 +183,18 @@ CrRTree >> reset [
 
   root := nil
 ]
+
+{ #category : 'searching' }
+CrRTree >> valuesAtPoint: aPoint [
+	
+	^ Array streamContents: [ :stream |
+		self
+			valuesAtPoint: aPoint
+			do: [ :each | stream nextPut: each ] ]
+]
+
+{ #category : 'searching' }
+CrRTree >> valuesAtPoint: aPoint do: aBlock [
+
+	^ root valuesAtX: aPoint x y: aPoint y do: aBlock
+]
