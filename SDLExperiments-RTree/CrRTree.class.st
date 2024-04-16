@@ -98,20 +98,16 @@ CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 	| leaves |
 	leaves := Array new: itemCount.
 	1 to: itemCount do: [ :index |
-		| eachBounds |
-		eachBounds := boundsBlock value: index.
 		leaves
 			at: index
 			put: (CrLeafNode
-						bounds: eachBounds
-						payload: (payloadBlock value: index)) ].
+				bounds: (boundsBlock value: index)
+				payload: (payloadBlock value: index)) ].
 
 	root :=
-		leaves size = 1
-			ifTrue: [
-				CrNonLeafNode newFrom: leaves startAt: 1 size: 1 ]
-			ifFalse: [
-				self newRootForAll: leaves ]
+		itemCount = 1
+			ifTrue: [ leaves first ]
+			ifFalse: [ self newRootForAll: leaves ]
 ]
 
 { #category : 'initialization' }
