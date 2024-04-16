@@ -75,7 +75,6 @@ CrRTree >> bulkLoad: leaves until: lastIndex [
 			ifTrue: [ 0 ]
 			ifFalse: [ minChildren - remainder ] ].
 
-	"Insert nodes at this tree level"
 	sourceIndex := 1.
 	targetIndex := 0.
 	[ sourceIndex <= lastIndex ] whileTrue: [ 
@@ -94,10 +93,13 @@ CrRTree >> bulkLoad: leaves until: lastIndex [
 					remainder := remainder - (maxChildren - minChildren) ] ].
 		size := size min: (lastIndex - sourceIndex + 1).
 
-		"Create a new node that will gather multiple leaf nodes"
 		leaves
 			at: targetIndex
-			put: (CrNonLeafNode newFrom: leaves startAt: sourceIndex size: size).
+			put:
+				(CrNonLeafNode
+					newFrom: leaves
+					startAt: sourceIndex
+					size: size).
 
 		sourceIndex := sourceIndex + size ].
 	
@@ -106,8 +108,10 @@ CrRTree >> bulkLoad: leaves until: lastIndex [
 
 { #category : 'initialization' }
 CrRTree >> initializeWith: itemCount boundsBlock: boundsBlock valueBlock: valueBlock [
+	"Create the structure from the leaves. Override the input
+	collection with new non-leaf nodes."
 
-	| leaves |
+	| leaves lastIndex |
 	"These values were empirically determined to produce reasonable
 	performance in most cases."
 	minChildren := 6.
@@ -120,7 +124,12 @@ CrRTree >> initializeWith: itemCount boundsBlock: boundsBlock valueBlock: valueB
 					bounds: (boundsBlock value: index)
 					value: (valueBlock value: index)) ].
 
-	root := self newRootForAll: leaves
+	lastIndex := leaves size.
+
+	[ lastIndex > 1 ] whileTrue: [
+	 	lastIndex := self bulkLoad: leaves until: lastIndex ].
+
+	root := leaves first
 ]
 
 { #category : 'inspector' }
@@ -150,23 +159,6 @@ CrRTree >> intersectionAt: aRectangle do: aBlockClosure [
 	^ root
 		intersectionAt: aRectangle
 		do: aBlockClosure
-]
-
-{ #category : 'initialization' }
-CrRTree >> newRootForAll: leaves [
-	"Create the structure from the leaves. Override the input
-	collection with new non-leaf nodes."
-
-	| lastIndex |
-	lastIndex := leaves size.
-
-	[ lastIndex > 1 ] whileTrue: [
-	 	lastIndex :=
-			self
-				bulkLoad: leaves
-				until: lastIndex ].
-
-	^ leaves first
 ]
 
 { #category : 'accessing' }
