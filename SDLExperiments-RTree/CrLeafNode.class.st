@@ -40,10 +40,12 @@ CrLeafNode >> initializeWith: anObject bounds: aBounds [
 	bottom := aBounds bottom
 ]
 
-{ #category : 'testing' }
-CrLeafNode >> isLeaf [
+{ #category : 'enumerating' }
+CrLeafNode >> intersectionAt: aRectangle do: aBlock [
 
-	^ true
+	(self intersects: aRectangle) ifFalse: [ ^self ].
+
+	aBlock value: payload
 ]
 
 { #category : 'accessing' }

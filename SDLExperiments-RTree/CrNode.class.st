@@ -33,7 +33,7 @@ CrNode >> children [
 		self childrenDo: [ :each | stream nextPut: each ]]
 ]
 
-{ #category : 'enumerating' }
+{ #category : 'accessing' }
 CrNode >> childrenCount [
 
 	^ self subclassResponsibility
@@ -53,21 +53,31 @@ CrNode >> childrenDo: aBlock [
 	^ self subclassResponsibility
 ]
 
+{ #category : 'enumerating' }
+CrNode >> intersectionAt: aRectangle do: aBlock [
+
+	self subclassResponsibility
+]
+
 { #category : 'testing' }
 CrNode >> intersects: aRectangle [
 	"Answer whether aRectangle intersects the receiver anywhere."
 
-	aRectangle right  <= left   ifTrue: [ ^ false ].
-	aRectangle bottom <= top    ifTrue: [ ^ false ].
-	aRectangle left   >= right  ifTrue: [ ^ false ].
-	aRectangle top    >= bottom ifTrue: [ ^ false ].
-	^ true
+	^ self
+		intersectsLeft: aRectangle left
+		top: aRectangle top
+		right: aRectangle right
+		bottom: aRectangle bottom
 ]
 
 { #category : 'testing' }
-CrNode >> isLeaf [
+CrNode >> intersectsLeft: aLeft top: aTop right: aRight bottom: aBottom [
 
-	^ self subclassResponsibility
+	aRight  <= left   ifTrue: [ ^ false ].
+	aBottom <= top    ifTrue: [ ^ false ].
+	aLeft   >= right  ifTrue: [ ^ false ].
+	aTop    >= bottom ifTrue: [ ^ false ].
+	^ true
 ]
 
 { #category : 'accessing' }

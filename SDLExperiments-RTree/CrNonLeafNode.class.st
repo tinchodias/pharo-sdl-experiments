@@ -17,7 +17,7 @@ CrNonLeafNode class >> newFrom: nodeCollection startAt: startIndex size: aSize [
 		yourself
 ]
 
-{ #category : 'enumerating' }
+{ #category : 'accessing' }
 CrNonLeafNode >> childrenCount [
 
 	^ self size
@@ -53,10 +53,13 @@ CrNonLeafNode >> initializeFrom: nodeCollection startAt: startIndex [
 		aNode bottom > bottom ifTrue: [ bottom := aNode bottom ] ]
 ]
 
-{ #category : 'testing' }
-CrNonLeafNode >> isLeaf [
+{ #category : 'enumerating' }
+CrNonLeafNode >> intersectionAt: aRectangle do: aBlock [
+	
+	(self intersects: aRectangle) ifFalse: [ ^self ].
 
-	^ false
+	self childrenDo: [ :each |
+		each intersectionAt: aRectangle do: aBlock ]
 ]
 
 { #category : 'printing' }

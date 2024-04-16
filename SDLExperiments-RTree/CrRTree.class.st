@@ -81,34 +81,15 @@ CrRTree >> intersectionAt: aRectangle [
 	^ Array streamContents: [ :stream |
 		self
 			intersectionAt: aRectangle
-			do: [ :eachPayload :eachBounds |
-				stream nextPut: eachPayload ] ]
+			do: [ :each | stream nextPut: each ] ]
 ]
 
 { #category : 'searching' }
 CrRTree >> intersectionAt: aRectangle do: aBlockClosure [
 
-	^ self
+	^ root
 		intersectionAt: aRectangle
 		do: aBlockClosure
-		from: root
-]
-
-{ #category : 'private' }
-CrRTree >> intersectionAt: aRectangle do: aBlock from: aNode [
-
-	aNode isLeaf
-		ifTrue: [
-			aBlock
-				value: aNode payload
-				value: aNode bounds ]
-		ifFalse: [
-			aNode childrenDo: [ :each |
-				(each intersects: aRectangle) ifTrue: [
-					self
-						intersectionAt: aRectangle
-						do: aBlock
-						from: each ]]]
 ]
 
 { #category : 'initialization' }
