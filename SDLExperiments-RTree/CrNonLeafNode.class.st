@@ -6,7 +6,6 @@ Class {
 	#superclass : 'CrNode',
 	#type : 'variable',
 	#instVars : [
-		'childrenCount',
 		'childrenBounds'
 	],
 	#category : 'SDLExperiments-RTree',
@@ -14,28 +13,11 @@ Class {
 }
 
 { #category : 'instance creation' }
-CrNonLeafNode class >> new: aSize firstChild: aNode [
-
-	^ (self basicNew: aSize)
-		initializeFirstChild: aNode;
-		yourself
-]
-
-{ #category : 'instance creation' }
 CrNonLeafNode class >> newFrom: nodeCollection startAt: startIndex size: aSize [
 
 	^ (self basicNew: aSize)
 		initializeFrom: nodeCollection startAt: startIndex;
 		yourself
-]
-
-{ #category : 'accessing' }
-CrNonLeafNode >> addChild: aNode [
-
-	childrenCount := childrenCount + 1.
-	self at: childrenCount put: aNode.
-	
-	childrenBounds merge: aNode bounds
 ]
 
 { #category : 'accessing' }
@@ -47,23 +29,13 @@ CrNonLeafNode >> bounds [
 { #category : 'accessing' }
 CrNonLeafNode >> childrenCount [
 
-	^ childrenCount
+	^ self size
 ]
 
 { #category : 'enumerating' }
 CrNonLeafNode >> childrenDo: aBlock [
 
-	1 to: childrenCount do: [:index | aBlock value: (self at: index) ]
-]
-
-{ #category : 'initialization' }
-CrNonLeafNode >> initializeFirstChild: aNode [
-		
-	self initialize.
-	
-	childrenCount := 1.
-	self at: 1 put: aNode.
-	childrenBounds := aNode bounds copy
+	1 to: self size do: [:index | aBlock value: (self at: index) ]
 ]
 
 { #category : 'initialization' }
@@ -80,15 +52,7 @@ CrNonLeafNode >> initializeFrom: nodeCollection startAt: startIndex [
 		| sourceNode |
 		sourceNode := nodeCollection at: startIndex + index - 1.
 		self at: index put: sourceNode.
-		childrenBounds merge: sourceNode bounds ].
-
-	childrenCount := self size
-]
-
-{ #category : 'accessing' }
-CrNonLeafNode >> isFull [
-
-	^ self size = childrenCount
+		childrenBounds merge: sourceNode bounds ]
 ]
 
 { #category : 'testing' }
@@ -103,8 +67,8 @@ CrNonLeafNode >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		nextPutAll: ' bounds: ';
-		print: childrenBounds.
+		print: self bounds.
 	aStream
 		nextPutAll: ' children: ';
-		print: childrenCount
+		print: self childrenCount
 ]

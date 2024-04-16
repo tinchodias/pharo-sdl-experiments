@@ -97,7 +97,7 @@ CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 	root :=
 		leaves size = 1
 			ifTrue: [
-				CrNonLeafNode new: 1 firstChild: leaves first ]
+				CrNonLeafNode newFrom: leaves startAt: 1 size: 1 ]
 			ifFalse: [
 				self newRootForAll: leaves ]
 ]
