@@ -1,18 +1,18 @@
 "
-I am a leaf RTree node that knows a payload value.
+I am a leaf RTree node that knows an associated value.
 "
 Class {
 	#name : 'CrLeafNode',
 	#superclass : 'CrNode',
 	#instVars : [
-		'payload'
+		'value'
 	],
 	#category : 'SDLExperiments-RTree',
 	#package : 'SDLExperiments-RTree'
 }
 
 { #category : 'instance creation' }
-CrLeafNode class >> bounds: aBounds payload: anObject [
+CrLeafNode class >> bounds: aBounds value: anObject [
 
 	^ self basicNew
 		initializeWith: anObject bounds: aBounds;
@@ -32,7 +32,7 @@ CrLeafNode >> childrenDo: aBlock [
 { #category : 'initialization' }
 CrLeafNode >> initializeWith: anObject bounds: aBounds [
 
-	payload := anObject.
+	value := anObject.
 
 	left := aBounds left.
 	right := aBounds right.
@@ -45,13 +45,7 @@ CrLeafNode >> intersectionAt: aRectangle do: aBlock [
 
 	(self intersects: aRectangle) ifFalse: [ ^self ].
 
-	aBlock value: payload
-]
-
-{ #category : 'accessing' }
-CrLeafNode >> payload [
-
-	^ payload
+	aBlock value: value
 ]
 
 { #category : 'printing' }
@@ -59,6 +53,12 @@ CrLeafNode >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
-		nextPutAll: ' payload: ';
-		print: payload
+		nextPutAll: ' value: ';
+		print: value
+]
+
+{ #category : 'accessing' }
+CrLeafNode >> value [
+
+	^ value
 ]

@@ -1,5 +1,7 @@
 "
-I'm an abstract RTree node that has rectangular bounds, and may have children nodes and a payload value.
+I'm an abstract R-Tree node that has rectangular bounds. 
+
+My subclasses represent specific nodes that either have children nodes (non-leaf nodes) or an associated value (leaf nodes).
 "
 Class {
 	#name : 'CrNode',
@@ -50,7 +52,7 @@ CrNode >> childrenDepthFirstDo: aBlock [
 { #category : 'enumerating' }
 CrNode >> childrenDo: aBlock [
 
-	^ self subclassResponsibility
+	self subclassResponsibility
 ]
 
 { #category : 'enumerating' }

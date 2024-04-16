@@ -93,7 +93,7 @@ CrRTree >> intersectionAt: aRectangle do: aBlockClosure [
 ]
 
 { #category : 'initialization' }
-CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
+CrRTree >> load: itemCount boundsBlock: boundsBlock valueBlock: valueBlock [
 
 	| leaves |
 	leaves := Array new: itemCount.
@@ -102,7 +102,7 @@ CrRTree >> load: itemCount boundsBlock: boundsBlock payloadBlock: payloadBlock [
 			at: index
 			put: (CrLeafNode
 				bounds: (boundsBlock value: index)
-				payload: (payloadBlock value: index)) ].
+				value: (valueBlock value: index)) ].
 
 	root :=
 		itemCount = 1
@@ -117,7 +117,7 @@ CrRTree >> loadAll: aCollection [
 	self
 		load: aCollection size
 		boundsBlock: [ :index | aCollection at: index ]
-		payloadBlock: [ :index | index ]
+		valueBlock: [ :index | index ]
 ]
 
 { #category : 'private' }
