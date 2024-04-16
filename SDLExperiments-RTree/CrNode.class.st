@@ -28,6 +28,14 @@ CrNode >> childrenCount [
 ]
 
 { #category : 'enumerating' }
+CrNode >> childrenDepthFirstDo: aBlock [
+
+	self childrenDo: [ :each |
+		each childrenDepthFirstDo: aBlock ].
+	aBlock value: self
+]
+
+{ #category : 'enumerating' }
 CrNode >> childrenDo: aBlock [
 
 	^ self subclassResponsibility

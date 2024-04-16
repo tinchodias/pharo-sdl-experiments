@@ -162,6 +162,15 @@ CrRTree >> newRootForAll: leaves [
 ]
 
 { #category : 'accessing' }
+CrRTree >> nodeCount [
+
+	| count |
+	count := 0.
+	self childrenDepthFirstDo: [ :each | count := count + 1 ].
+	^ count
+]
+
+{ #category : 'accessing' }
 CrRTree >> reset [
 
   root := nil
