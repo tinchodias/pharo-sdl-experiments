@@ -88,12 +88,13 @@ BooleanArrayTest >> testCopy [
 	copy := original copy.
 
 	self assert: copy size equals: 1.
-
+	self assert: copy equals: original.
+	
 	copy at: 1 put: true.
 
 	self deny: (original at: 1).
 	self assert: (copy at: 1).
-
+	self deny: copy equals: original.
 ]
 
 { #category : 'tests' }

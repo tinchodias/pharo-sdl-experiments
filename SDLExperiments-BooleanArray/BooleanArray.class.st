@@ -52,6 +52,15 @@ BooleanArray class >> new: size [
 	^ self basicNew initialize: size; yourself
 ]
 
+{ #category : 'comparing' }
+BooleanArray >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject ifTrue: [ ^ true ].
+	self class = anObject class ifFalse: [ ^ false ].
+	^ bits = anObject bits
+]
+
 { #category : 'accessing' }
 BooleanArray >> at: index [
 
@@ -179,6 +188,13 @@ BooleanArray >> fromWord: firstWordIndex bit: firstBitIndex toWord: lastWordInde
 		fromBit: 1
 		toBit: lastBitIndex
 		put: aBoolean
+]
+
+{ #category : 'comparing' }
+BooleanArray >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
+
+	^ bits hash
 ]
 
 { #category : 'initialization' }
