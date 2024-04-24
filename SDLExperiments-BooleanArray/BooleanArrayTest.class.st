@@ -79,6 +79,24 @@ BooleanArrayTest >> testAtPut [
 ]
 
 { #category : 'tests' }
+BooleanArrayTest >> testCopy [
+
+	| size original copy |
+	size := 1.
+	original := BooleanArray new: size.
+	
+	copy := original copy.
+
+	self assert: copy size equals: 1.
+
+	copy at: 1 put: true.
+
+	self deny: (original at: 1).
+	self assert: (copy at: 1).
+
+]
+
+{ #category : 'tests' }
 BooleanArrayTest >> testDo [
 
 	1 to: 100 do: [ :size |

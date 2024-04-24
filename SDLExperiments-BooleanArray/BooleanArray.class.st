@@ -188,6 +188,12 @@ BooleanArray >> initialize: bitSize [
 	size := bitSize
 ]
 
+{ #category : 'copying' }
+BooleanArray >> postCopy [
+
+	bits := bits copy
+]
+
 { #category : 'accessing' }
 BooleanArray >> size [
 
