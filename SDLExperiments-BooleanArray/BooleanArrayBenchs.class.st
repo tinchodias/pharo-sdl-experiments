@@ -59,6 +59,15 @@ BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 
 	| array |
 	array := anArrayedCollectionClass new: arraySize.
+
+	"Assume array has all false"
+	self
+		benchTag: #do_homogeneous
+		with: [
+			| count |
+			count := 0.
+			array do: [ :each | count := count + 1 ].
+			self assert: count = arraySize ].
 	
 	self
 		benchTag: #atAllPut:
@@ -70,6 +79,15 @@ BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 		benchTag: #at:put:
 		with: [
 			1 to: arraySize do: [ :i | array at: i put: i even ] ].
+
+	"Assume array has true only at even positions"
+	self
+		benchTag: #do_heterogeneous
+		with: [
+			| count |
+			count := 0.
+			array do: [ :each | each ifTrue: [count := count + 1] ].
+			self assert: count = (arraySize // 2) ].
 
 	self
 		benchTag: #at:
