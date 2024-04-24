@@ -128,6 +128,34 @@ BooleanArray >> atIntervalFrom: first to: last put: aBoolean [
 ]
 
 { #category : 'private' }
+BooleanArray >> atLastWordDo: aBlock [
+	"Enumerate all booleans in the last word of the internal representation (some bits may be ignored)."
+
+	| word |
+	word := bits last.
+	1 to: (self bitIndexFor: self size wordIndex: bits size)
+		do: [ :bitIndex |
+			aBlock value: (self valueOf: word at: bitIndex) ]
+]
+
+{ #category : 'enumerating' }
+BooleanArray >> atNonLastWord: wordIndex do: aBlock [
+	"Enumerate all booleans in certain word of the internal representation (assuming it's not last word)."
+
+	| word |
+	word := bits at: wordIndex.
+
+	word = 0 ifTrue: [
+		WordSize timesRepeat: [ aBlock value: false ]. ^self ].
+
+	word = WordOfOnes ifTrue: [
+		WordSize timesRepeat: [ aBlock value: true ]. ^self ].
+
+	1 to: WordSize do: [ :bitIndex |
+		aBlock value: (self valueOf: word at: bitIndex) ]
+]
+
+{ #category : 'private' }
 BooleanArray >> atWord: wordIndex fromBit: firstBitIndex toBit: lastBitIndex put: aBoolean [
 
 	| newByte |
@@ -167,16 +195,10 @@ BooleanArray >> bits [
 { #category : 'enumerating' }
 BooleanArray >> do: aBlock [
 
-	| word |
 	1 to: bits size - 1 do: [ :wordIndex |
-		word := bits at: wordIndex.
-		1 to: WordSize do: [ :bitIndex |
-			aBlock value: (self valueOf: word at: bitIndex) ] ].
+		self atNonLastWord: wordIndex do: aBlock ].
 
-	word := bits last.
-	1 to: (self bitIndexFor: self size wordIndex: bits size)
-		do: [ :bitIndex |
-			aBlock value: (self valueOf: word at: bitIndex) ]
+	self atLastWordDo: aBlock
 ]
 
 { #category : 'private' }
