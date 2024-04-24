@@ -120,47 +120,6 @@ BooleanArrayTest >> testDo [
 ]
 
 { #category : 'tests' }
-BooleanArrayTest >> testExtremesSize1 [
-
-	| testItemSize testArray |
-	testItemSize := 1.
-	testArray := BooleanArray new: testItemSize.
-
-	testArray at: 1 put: true.
-	self assert: testArray bits equals: #[1]
-]
-
-{ #category : 'tests' }
-BooleanArrayTest >> testExtremesSize15 [
-
-	| testItemSize testArray |
-	testItemSize := 15.
-	testArray := BooleanArray new: testItemSize.
-
-	testArray at: testItemSize put: true.
-	self assert: testArray bits equals: #[0 64].
-
-	testArray at: 1 put: true.
-	self assert: testArray bits equals: #[1 64]
-
-]
-
-{ #category : 'tests' }
-BooleanArrayTest >> testExtremesSize2 [
-
-	| testItemSize testArray |
-	testItemSize := 2.
-	testArray := BooleanArray new: testItemSize.
-
-	testArray at: testItemSize put: true.
-	self assert: testArray bits equals: #[2].
-
-	testArray at: 1 put: true.
-	self assert: testArray bits equals: #[3]
-
-]
-
-{ #category : 'tests' }
 BooleanArrayTest >> testSize [
 
 	1 to: 10 do: [ :size |

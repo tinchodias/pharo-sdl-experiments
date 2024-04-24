@@ -58,6 +58,15 @@ CrRTree class >> withAll: aCollection [
 ]
 
 { #category : 'accessing' }
+CrRTree >> allNodes [
+
+	| result |
+	result := OrderedCollection new.
+	root childrenDepthFirstDo: [ :each | result add: each ].
+	^ result
+]
+
+{ #category : 'accessing' }
 CrRTree >> bounds [
 
 	^ root bounds
