@@ -52,6 +52,16 @@ BooleanArray class >> new: size [
 	^ self basicNew initialize: size; yourself
 ]
 
+{ #category : 'instance creation' }
+BooleanArray class >> withAll: aCollection [
+
+	| result |
+	result := self new: aCollection size.
+	aCollection withIndexDo: [ :each :index |
+		result at: index put: each ].
+	^ result
+]
+
 { #category : 'comparing' }
 BooleanArray >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."

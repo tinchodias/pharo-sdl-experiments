@@ -147,3 +147,19 @@ BooleanArrayTest >> testStress [
 			ifTrue: [ self assert: actual ]
 			ifFalse: [ self deny: actual ] ]
 ]
+
+{ #category : 'tests' }
+BooleanArrayTest >> testWithAll [
+
+	| array |
+	array := BooleanArray withAll: #().
+	self assert: array size equals: 0.
+
+	array := BooleanArray withAll: #(true false false true false).
+	self assert: array size equals: 5.
+	self assert: (array at: 1).
+	self deny:   (array at: 2).
+	self deny:   (array at: 3).
+	self assert: (array at: 4).
+	self deny:   (array at: 5)
+]
