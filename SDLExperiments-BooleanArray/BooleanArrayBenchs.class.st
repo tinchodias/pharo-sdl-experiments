@@ -30,26 +30,26 @@ BooleanArrayBenchs >> runAll [
 	'---' traceCr.
 	
 	'
-Array:' traceCr.
+Array (8 bytes):' traceCr.
 	self runWith: Array.
 
 	'
-BooleanArray w/DoubleWordArray:' traceCr.
+BooleanArray w/DoubleWordArray (8 bytes):' traceCr.
 	BooleanArray initializeFor: DoubleWordArray.
 	self runWith: BooleanArray.
 
 	'
-BooleanArray w/WordArray:' traceCr.
+BooleanArray w/WordArray (4 bytes):' traceCr.
 	BooleanArray initializeFor: WordArray.
 	self runWith: BooleanArray.
 
 	'
-BooleanArray w/DoubleByteArray:' traceCr.
+BooleanArray w/DoubleByteArray (2 bytes):' traceCr.
 	BooleanArray initializeFor: DoubleByteArray.
 	self runWith: BooleanArray.
 
 	'
-BooleanArray w/ByteArray:' traceCr.
+BooleanArray w/ByteArray (1 byte):' traceCr.
 	BooleanArray initialize. "ByteArray by default"
 	self runWith: BooleanArray
 ]
