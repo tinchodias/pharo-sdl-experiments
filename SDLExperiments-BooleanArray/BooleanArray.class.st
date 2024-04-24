@@ -1,3 +1,6 @@
+"
+I'm an Array of Boolean values.
+"
 Class {
 	#name : 'BooleanArray',
 	#superclass : 'Object',
@@ -31,7 +34,10 @@ BooleanArray class >> initializeFor: arrayedCollectionClass [
 	ArrayClass := arrayedCollectionClass.
 	WordSize := ArrayClass classLayout bytesPerSlot * 8 "bits per byte".
 
-	WordOfOnes := 16rFF.
+	WordOfOnes := 0.
+	WordSize timesRepeat: [
+		WordOfOnes := WordOfOnes bitShift: 1.
+		WordOfOnes := WordOfOnes bitOr: 1 ].
 	BitMasks := ArrayClass streamContents: [ :stream |
 		0 to: WordSize-1 do: [ :index |
 			stream nextPut: (1 bitShift: index) ] ].
@@ -47,27 +53,27 @@ BooleanArray class >> new: size [
 ]
 
 { #category : 'accessing' }
-BooleanArray >> at: i [
+BooleanArray >> at: index [
 
 	| wordIndex bitIndex |
-	wordIndex := self wordIndexFor: i.
-	bitIndex  := self bitIndexFor: i.
-	^ ((bits at: wordIndex) bitAnd: (BitMasks at: bitIndex)) > 0
+	wordIndex := self wordIndexFor: index.
+	bitIndex := self bitIndexFor: index wordIndex: wordIndex.
+	^ self valueOf: (bits at: wordIndex) at: bitIndex
 ]
 
 { #category : 'accessing' }
-BooleanArray >> at: i put: newValue [
+BooleanArray >> at: index put: newValue [
 
-	| wordIndex bitIndex oldByte |
-	wordIndex := self wordIndexFor: i.
-	bitIndex  := self bitIndexFor: i.
-	oldByte := bits at: wordIndex.
+	| wordIndex bitIndex word |
+	wordIndex := self wordIndexFor: index.
+	bitIndex  := self bitIndexFor: index wordIndex: wordIndex.
+	word := bits at: wordIndex.
 
 	bits
 		at: wordIndex
 		put: (newValue
-			ifTrue:  [ oldByte bitOr:  (BitMasks at: bitIndex) ]
-			ifFalse: [ oldByte bitAnd: (InversedBitMask at: bitIndex) ])
+			ifTrue:  [ word bitOr:  (BitMasks at: bitIndex) ]
+			ifFalse: [ word bitAnd: (InversedBitMask at: bitIndex) ])
 ]
 
 { #category : 'accessing' }
@@ -77,13 +83,14 @@ BooleanArray >> atAllPut: aBoolean [
 ]
 
 { #category : 'accessing' }
-BooleanArray >> atIntervalFrom: first to: last put: newValue [
+BooleanArray >> atIntervalFrom: first to: last put: aBoolean [
 
 	| indexOfFirstWord indexOfLastWord startBitIndex lastBitIndex |
 	indexOfFirstWord := self wordIndexFor: first.
+	startBitIndex := self bitIndexFor: first wordIndex: indexOfFirstWord.
+
 	indexOfLastWord  := self wordIndexFor: last.
-	startBitIndex := self bitIndexFor: first.
-	lastBitIndex  := self bitIndexFor: last.
+	lastBitIndex  := self bitIndexFor: last wordIndex: indexOfLastWord.
 
 	indexOfFirstWord = indexOfLastWord
 		ifTrue: [
@@ -91,36 +98,48 @@ BooleanArray >> atIntervalFrom: first to: last put: newValue [
 				atWord: indexOfFirstWord
 				fromBit: startBitIndex
 				toBit: lastBitIndex
-				put: newValue ]
+				put: aBoolean ]
 		ifFalse: [
 			self
 				fromWord: indexOfFirstWord
 				bit: startBitIndex
 				toWord: indexOfLastWord
 				bit: lastBitIndex
-				put: newValue ]
+				put: aBoolean ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
 BooleanArray >> atWord: wordIndex fromBit: firstBitIndex toBit: lastBitIndex put: aBoolean [
 
-	| newByte bit |
+	| newByte |
 	newByte := bits at: wordIndex.
-	bit := aBoolean asBit.
 	
-	firstBitIndex to: lastBitIndex do: [ :index |
-		newByte := newByte bitAt: index put: bit ].
+	aBoolean
+		ifTrue: [
+			firstBitIndex to: lastBitIndex do: [ :index |
+				newByte := newByte bitOr: (BitMasks at: index) ] ]
+		ifFalse: [
+			firstBitIndex to: lastBitIndex do: [ :index |
+				newByte := newByte bitAnd: (InversedBitMask at: index) ] ].
 	
 	bits at: wordIndex put: newByte
 ]
 
-{ #category : 'initialization' }
-BooleanArray >> bitIndexFor: i [
+{ #category : 'private' }
+BooleanArray >> bitIndexFor: index [
+	"Answer the bit index that corresponds to an index of this boolean array."
 
-	^ ((i - 1) \\ WordSize) + 1
+	^ ((index - 1) \\ WordSize) + 1
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private' }
+BooleanArray >> bitIndexFor: index wordIndex: wordIndex [
+	"Same as bitIndexFor: but faster."
+
+	^ index - ((wordIndex - 1) * WordSize)
+]
+
+{ #category : 'private' }
 BooleanArray >> bits [
 
 	^ bits
@@ -129,38 +148,37 @@ BooleanArray >> bits [
 { #category : 'enumerating' }
 BooleanArray >> do: aBlock [
 
+	| word |
 	1 to: bits size - 1 do: [ :wordIndex |
-		| word |
 		word := bits at: wordIndex.
 		1 to: WordSize do: [ :bitIndex |
-			aBlock value: ((word bitAt: bitIndex) = 1) ] ].
-	
-	1 to: (self bitIndexFor: self size) do: [ :bitIndex |
-		| word |
-		word := bits last.
-		aBlock value: ((word bitAt: bitIndex) = 1) ]
+			aBlock value: (self valueOf: word at: bitIndex) ] ].
+
+	word := bits last.
+	1 to: (self bitIndexFor: self size wordIndex: bits size)
+		do: [ :bitIndex |
+			aBlock value: (self valueOf: word at: bitIndex) ]
 ]
 
-{ #category : 'accessing' }
-BooleanArray >> fromWord: firstWordIndex bit: firstBitIndex toWord: lastWordIndex bit: lastBitIndex put: newValue [
+{ #category : 'private' }
+BooleanArray >> fromWord: firstWordIndex bit: firstBitIndex toWord: lastWordIndex bit: lastBitIndex put: aBoolean [
 
 	| fullWord |
 	self
 		atWord: firstWordIndex
 		fromBit: firstBitIndex
 		toBit: WordSize
-		put: newValue.
+		put: aBoolean.
 	
-	fullWord := newValue
-		ifTrue: [ WordOfOnes ]
-		ifFalse: [ 0 ].
+	fullWord := aBoolean ifTrue: [ WordOfOnes ] ifFalse: [ 0 ].
 	firstWordIndex + 1 to: lastWordIndex - 1 do: [ :index |
 		bits at: index put: fullWord ].
+
 	self
 		atWord: lastWordIndex
 		fromBit: 1
 		toBit: lastBitIndex
-		put: newValue
+		put: aBoolean
 ]
 
 { #category : 'initialization' }
@@ -176,7 +194,13 @@ BooleanArray >> size [
 	^ size
 ]
 
-{ #category : 'initialization' }
+{ #category : 'private' }
+BooleanArray >> valueOf: word at: bitIndex [
+
+	^ ((word bitShift: 1 - bitIndex) bitAnd: 1) ~= 0
+]
+
+{ #category : 'private' }
 BooleanArray >> wordIndexFor: i [
 
 	^ ((i - 1) // WordSize) + 1

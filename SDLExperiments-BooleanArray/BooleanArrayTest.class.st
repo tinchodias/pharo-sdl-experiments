@@ -30,7 +30,7 @@ BooleanArrayTest >> testAtAllPut [
 	"Set true at all"
 	array atAllPut: true.
 
-	"Assert it's all false"
+	"Assert it's all true"
 	1 to: size do: [ :index |
 		self assert: (array at: index) ].
 
