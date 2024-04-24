@@ -120,6 +120,22 @@ BooleanArrayTest >> testDo [
 ]
 
 { #category : 'tests' }
+BooleanArrayTest >> testGroupByRuns [
+
+	| array groups |
+	array := BooleanArray new: 5.
+	array at: 1 put: true.
+	array at: 2 put: true.
+	array at: 3 put: false.
+	array at: 4 put: false.
+	array at: 5 put: true.
+	
+	groups := array groupByRuns: [ :each | each ].
+	
+	self assert: groups equals: #(#(true true) #(false false) #(true))
+]
+
+{ #category : 'tests' }
 BooleanArrayTest >> testSize [
 
 	1 to: 10 do: [ :size |

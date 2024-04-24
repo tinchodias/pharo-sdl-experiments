@@ -200,6 +200,36 @@ BooleanArray >> fromWord: firstWordIndex bit: firstBitIndex toWord: lastWordInde
 		put: aBoolean
 ]
 
+{ #category : 'enumerating' }
+BooleanArray >> groupByRuns: selectBlock [
+
+	^ Array streamContents: [ :stream |
+		self
+			groupByRuns: selectBlock
+			do: [ :group | stream nextPut: group ] ]
+]
+
+{ #category : 'enumerating' }
+BooleanArray >> groupByRuns: aBlock do: outputBlock [
+
+	| buffer r |
+	r := nil.
+	buffer := Array new writeStream.
+
+	self do: [ :e |
+		| t |
+		t := aBlock value: e.
+		t = r ifFalse: [
+			r := t.
+			buffer isEmpty ifFalse: [
+				outputBlock value: buffer contents.
+				buffer reset ] ].
+		buffer nextPut: e ].
+
+	"There may be a last group to output"
+	buffer isEmpty ifFalse: [ outputBlock value: buffer contents ]
+]
+
 { #category : 'comparing' }
 BooleanArray >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
