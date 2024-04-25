@@ -138,18 +138,18 @@ BooleanArray >> atNonLastWord: wordIndex do: aBlock [
 { #category : 'private' }
 BooleanArray >> atWord: wordIndex fromBit: firstBitIndex toBit: lastBitIndex put: aBoolean [
 
-	| newByte |
-	newByte := words at: wordIndex.
+	| word |
+	word := words at: wordIndex.
 	
 	aBoolean
 		ifTrue: [
 			firstBitIndex to: lastBitIndex do: [ :index |
-				newByte := newByte bitOr: (BitMasks at: index) ] ]
+				word := word bitOr: (BitMasks at: index) ] ]
 		ifFalse: [
 			firstBitIndex to: lastBitIndex do: [ :index |
-				newByte := newByte bitAnd: (InversedBitMask at: index) ] ].
+				word := word bitAnd: (InversedBitMask at: index) ] ].
 	
-	words at: wordIndex put: newByte
+	words at: wordIndex put: word
 ]
 
 { #category : 'private' }
@@ -242,6 +242,13 @@ BooleanArray >> initialize: bitSize [
 	"To avoid checks, ensure the array has at least one word"
 	words := ArrayClass new: ((self wordIndexFor: bitSize) max: 1).
 	size := bitSize
+]
+
+{ #category : 'newtools' }
+BooleanArray >> inspectionItems: aBuilder [
+	<inspectorPresentationOrder: 0 title: 'Items'> 
+	
+	^ (self as: OrderedCollection) inspectionItems: aBuilder
 ]
 
 { #category : 'testing' }
