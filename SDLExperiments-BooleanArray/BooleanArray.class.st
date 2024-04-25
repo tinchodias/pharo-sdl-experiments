@@ -101,32 +101,6 @@ BooleanArray >> atAllPut: aBoolean [
 	words atAllPut: (aBoolean ifTrue: [ WordOfOnes ] ifFalse: [ 0 ])
 ]
 
-{ #category : 'accessing' }
-BooleanArray >> atIntervalFrom: first to: last put: aBoolean [
-
-	| indexOfFirstWord indexOfLastWord startBitIndex lastBitIndex |
-	indexOfFirstWord := self wordIndexFor: first.
-	startBitIndex := self bitIndexFor: first wordIndex: indexOfFirstWord.
-
-	indexOfLastWord  := self wordIndexFor: last.
-	lastBitIndex  := self bitIndexFor: last wordIndex: indexOfLastWord.
-
-	indexOfFirstWord = indexOfLastWord
-		ifTrue: [
-			self
-				atWord: indexOfFirstWord
-				fromBit: startBitIndex
-				toBit: lastBitIndex
-				put: aBoolean ]
-		ifFalse: [
-			self
-				fromWord: indexOfFirstWord
-				bit: startBitIndex
-				toWord: indexOfLastWord
-				bit: lastBitIndex
-				put: aBoolean ]
-]
-
 { #category : 'private' }
 BooleanArray >> atLastWordDo: aBlock [
 	"Enumerate all booleans in the last word of the internal representation (some bits may be ignored)."
@@ -257,7 +231,8 @@ BooleanArray >> hash [
 { #category : 'initialization' }
 BooleanArray >> initialize: bitSize [
 
-	words := ArrayClass new: (self wordIndexFor: bitSize).
+	"To avoid checks, ensure the array has at least one word"
+	words := ArrayClass new: ((self wordIndexFor: bitSize) max: 1).
 	size := bitSize
 ]
 
@@ -265,6 +240,33 @@ BooleanArray >> initialize: bitSize [
 BooleanArray >> postCopy [
 
 	words := words copy
+]
+
+{ #category : 'accessing' }
+BooleanArray >> replaceFrom: start to: stop withAll: aBoolean [
+	"Dstructively replace with a boolean from start to stop."
+
+	| indexOfFirstWord indexOfLastWord startBitIndex lastBitIndex |
+	indexOfFirstWord := self wordIndexFor: start.
+	startBitIndex := self bitIndexFor: start wordIndex: indexOfFirstWord.
+
+	indexOfLastWord  := self wordIndexFor: stop.
+	lastBitIndex  := self bitIndexFor: stop wordIndex: indexOfLastWord.
+
+	indexOfFirstWord = indexOfLastWord
+		ifTrue: [
+			self
+				atWord: indexOfFirstWord
+				fromBit: startBitIndex
+				toBit: lastBitIndex
+				put: aBoolean ]
+		ifFalse: [
+			self
+				fromWord: indexOfFirstWord
+				bit: startBitIndex
+				toWord: indexOfLastWord
+				bit: lastBitIndex
+				put: aBoolean ]
 ]
 
 { #category : 'accessing' }

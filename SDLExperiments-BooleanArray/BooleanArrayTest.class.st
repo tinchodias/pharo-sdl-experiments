@@ -43,21 +43,6 @@ BooleanArrayTest >> testAtAllPut [
 ]
 
 { #category : 'tests' }
-BooleanArrayTest >> testAtIntervalFromToPut [
-
-	1 to: 100 do: [ :size |
-		| array middleIndex |
-		array := BooleanArray new: size.
-		middleIndex := 1 max: (size // 2).
-		array atIntervalFrom: 1 to: middleIndex put: true.
-
-		1 to: middleIndex do: [ :index |
-			self assert: (array at: index) ].
-		middleIndex+1 to: size do: [ :index |
-			self deny: (array at: index) ] ]
-]
-
-{ #category : 'tests' }
 BooleanArrayTest >> testAtPut [
 
 	| size array |
@@ -133,6 +118,21 @@ BooleanArrayTest >> testGroupByRuns [
 	groups := array groupByRuns: [ :each | each ].
 	
 	self assert: groups equals: #(#(true true) #(false false) #(true))
+]
+
+{ #category : 'tests' }
+BooleanArrayTest >> testReplaceFromToWithAll [
+
+	0 to: 100 by: 7 do: [ :size |
+		| array middleIndex |
+		array := BooleanArray new: size.
+		middleIndex := 1 max: (size // 2).
+		array replaceFrom: 1 to: middleIndex withAll: true.
+
+		1 to: middleIndex do: [ :index |
+			self assert: (array at: index) ].
+		middleIndex+1 to: size do: [ :index |
+			self deny: (array at: index) ] ]
 ]
 
 { #category : 'tests' }
