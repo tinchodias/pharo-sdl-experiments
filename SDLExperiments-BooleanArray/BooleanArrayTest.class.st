@@ -121,6 +121,13 @@ BooleanArrayTest >> testGroupByRuns [
 ]
 
 { #category : 'tests' }
+BooleanArrayTest >> testIsEmpty [
+
+	self assert: (BooleanArray new: 0) isEmpty.
+	self deny:   (BooleanArray new: 1) isEmpty.
+]
+
+{ #category : 'tests' }
 BooleanArrayTest >> testReplaceFromToWithAll [
 
 	0 to: 100 by: 7 do: [ :size |
@@ -138,7 +145,7 @@ BooleanArrayTest >> testReplaceFromToWithAll [
 { #category : 'tests' }
 BooleanArrayTest >> testSize [
 
-	1 to: 10 do: [ :size |
+	0 to: 10 do: [ :size |
 		self assert: (BooleanArray new: size) size equals: size ]
 ]
 
@@ -177,5 +184,12 @@ BooleanArrayTest >> testWithAll [
 	self deny:   (array at: 2).
 	self deny:   (array at: 3).
 	self assert: (array at: 4).
-	self deny:   (array at: 5)
+	self deny:   (array at: 5).
+	
+	"Test with a pattern that doesn't match with word size"
+	array := BooleanArray withAll: ((1 to: 100) collect: [ :i | (i % 5) = 0 ]).
+	1 to: 100 do: [ :i | self assert: (array at: i) equals: (i % 5) = 0 ].
+
+	array := BooleanArray withAll: (Array new: 1000 withAll: true).
+	1 to: 1000 do: [ :i | self assert: (array at: i) ]
 ]

@@ -241,6 +241,12 @@ BooleanArray >> initialize: bitSize [
 	size := bitSize
 ]
 
+{ #category : 'testing' }
+BooleanArray >> isEmpty [
+	
+	^ size = 0
+]
+
 { #category : 'copying' }
 BooleanArray >> postCopy [
 
