@@ -12,6 +12,8 @@ Class {
 BooleanArrayBenchs >> benchTag: aString with: aBlock [
 
 	| benchResult |
+	3 timesRepeat: [ Smalltalk garbageCollect ].
+
 	benchResult := aBlock bench.
 
 	('{1} ({2})' format: {
@@ -57,49 +59,60 @@ BooleanArray w/ByteArray (1 byte):' traceCr.
 { #category : 'running' }
 BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 
-	| array |
+	| array source fuzzyParameters |
 	array := anArrayedCollectionClass new: arraySize.
-
-	"Assume array has all false"
-	self
-		benchTag: #do_homogeneous
-		with: [
-			| count |
-			count := 0.
-			array do: [ :each | count := count + 1 ].
-			"self assert: count = arraySize" ].
-	
-	self
-		benchTag: #atAllPut:
-		with: [
-			array atAllPut: true.
-			array atAllPut: false ].
+	source := Array new: arraySize withAll: true.
+	1 to: arraySize do: [ :i | source at: i put: i even ].
+	fuzzyParameters := Array new: arraySize streamContents: [ :stream |
+		| random from to start |
+		random := Random seed: 0.
+		arraySize timesRepeat: [
+			from := random nextIntegerBetween: 1 and: arraySize//2.
+			to := random nextIntegerBetween: arraySize//2 and: arraySize.
+			start := random nextIntegerBetween: 1 and: arraySize//2.
+			{ from. to. start } ] ].
 
 	self
 		benchTag: #at:put:
 		with: [
-			1 to: arraySize do: [ :i | array at: i put: i even ] ].
+			1 to: arraySize do: [ :i |
+				array at: i put: i even ] ].
+
+	self
+		benchTag: #at:
+		with: [ 1 to: arraySize do: [ :i | array at: i ] ].
 
 	"Assume array has true only at even positions"
 	self
 		benchTag: #do_heterogeneous
-		with: [
-			| count |
-			count := 0.
-			array do: [ :each | each ifTrue: [count := count + 1] ].
-			"self assert: count = (arraySize // 2)" ].
+		with: [ array do: [ :each | ] ].
 
 	self
-		benchTag: #at:
-		with: [
-			1 to: arraySize do: [ :i | array at: i ] ].
+		benchTag: #atAllPut:
+		with: [ array atAllPut: true ].
+
+	"Assume array has all true"
+	self
+		benchTag: #do_homogeneous
+		with: [ array do: [ :each | ] ].
 
 	self
 		benchTag: #replaceFrom:to:withAll:
 		with: [
-			1 to: arraySize // 2 do: [ :i |
+			fuzzyParameters withIndexDo: [ :a :i |
 				array
-					replaceFrom: i
-					to: i + (arraySize // 2)
-					withAll: i even ] ]
+					replaceFrom: a first
+					to: a second
+					withAll: i even ] ].
+
+	self
+		benchTag: #replaceFrom:to:with:startingAt:
+		with: [
+			fuzzyParameters do: [ :a |
+				array
+					replaceFrom: a first
+					to: a second
+					with: source
+					startingAt: a third ] ]
+
 ]
