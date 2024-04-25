@@ -23,14 +23,14 @@ BooleanArrayBenchs >> benchTag: aString with: aBlock [
 BooleanArrayBenchs >> runAll [
 	<script: 'self new runAll'>
 
-	arraySize := 1000.
+	arraySize := 5000.
 
 	'--- size: ' trace.
 	arraySize trace.
 	'---' traceCr.
 	
 	'
-Array (8 bytes):' traceCr.
+Array:' traceCr.
 	self runWith: Array.
 
 	'
@@ -50,7 +50,7 @@ BooleanArray w/DoubleByteArray (2 bytes):' traceCr.
 
 	'
 BooleanArray w/ByteArray (1 byte):' traceCr.
-	BooleanArray initialize. "ByteArray by default"
+	BooleanArray initializeFor: ByteArray.
 	self runWith: BooleanArray
 ]
 

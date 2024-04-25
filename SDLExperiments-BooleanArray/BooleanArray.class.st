@@ -25,7 +25,7 @@ BooleanArray class >> initialize [
 	self initialize
 	"
 
-	self initializeFor: ByteArray
+	self initializeFor: WordArray
 ]
 
 { #category : 'class initialization' }
