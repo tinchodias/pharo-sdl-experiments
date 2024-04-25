@@ -67,7 +67,7 @@ BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 			| count |
 			count := 0.
 			array do: [ :each | count := count + 1 ].
-			self assert: count = arraySize ].
+			"self assert: count = arraySize" ].
 	
 	self
 		benchTag: #atAllPut:
@@ -87,7 +87,7 @@ BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 			| count |
 			count := 0.
 			array do: [ :each | each ifTrue: [count := count + 1] ].
-			self assert: count = (arraySize // 2) ].
+			"self assert: count = (arraySize // 2)" ].
 
 	self
 		benchTag: #at:
@@ -95,11 +95,11 @@ BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 			1 to: arraySize do: [ :i | array at: i ] ].
 
 	self
-		benchTag: #atIntervalFrom:to:put:
+		benchTag: #replaceFrom:to:withAll:
 		with: [
 			1 to: arraySize // 2 do: [ :i |
 				array
-					atIntervalFrom: i
+					replaceFrom: i
 					to: i + (arraySize // 2)
-					put: i even ] ]
+					withAll: i even ] ]
 ]

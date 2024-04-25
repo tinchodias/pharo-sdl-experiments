@@ -59,8 +59,11 @@ BooleanArray class >> withAll: aCollection [
 
 	| result |
 	result := self new: aCollection size.
-	aCollection withIndexDo: [ :each :index |
-		result at: index put: each ].
+	result
+		replaceFrom: 1
+		to: aCollection size
+		with: aCollection
+		startingAt: 1.
 	^ result
 ]
 
@@ -251,6 +254,18 @@ BooleanArray >> isEmpty [
 BooleanArray >> postCopy [
 
 	words := words copy
+]
+
+{ #category : 'enumerating' }
+BooleanArray >> replaceFrom: start to: stop with: replacement startingAt: replacementStart [
+	"Replace booleans from start to stop positions in the receiver with
+	the booleans in the replacement collection, starting at the replacementStart of it."
+
+	| index offset |
+	offset := replacementStart - start.
+	index := start - 1.
+	[ (index := index + 1) <= stop ] whileTrue: [
+		self at: index put: (replacement at: offset + index) ]
 ]
 
 { #category : 'accessing' }

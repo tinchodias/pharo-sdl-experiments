@@ -143,6 +143,49 @@ BooleanArrayTest >> testReplaceFromToWithAll [
 ]
 
 { #category : 'tests' }
+BooleanArrayTest >> testReplaceFromToWithStartingAt [
+
+	| multiplesOf5 booleans size baseline random |
+	size := 5000.
+
+	multiplesOf5 := Array new: size.
+	1 to: multiplesOf5 size do: [ :index |
+		multiplesOf5 at: index put: ((index % 5) = 0) ].
+
+	baseline := Array 	new: size withAll: false.
+	booleans := BooleanArray new: size.
+
+	"Test a simple and concrete case"
+	baseline replaceFrom: 2 to: 50 with: multiplesOf5 startingAt: 3.
+	booleans replaceFrom: 2 to: 50 with: multiplesOf5 startingAt: 3.
+	baseline with: booleans do: [ :a :b | self assert: a equals: b ].
+
+	"Test with some fuzziness"
+	random := Random seed: 0.
+	500 timesRepeat: [ 
+		| from to start |
+		from  := random nextIntegerBetween: 1 and: size//2.
+		to    := random nextIntegerBetween: 1 and: size//2.
+		start := random nextIntegerBetween: 1 and: size//2.
+
+		baseline
+			replaceFrom: from
+			to: to
+			with: multiplesOf5
+			startingAt: start.
+		booleans
+			replaceFrom: from
+			to: to
+			with: multiplesOf5
+			startingAt: start.
+
+		baseline
+			with: booleans
+			do: [ :a :b | self assert: a equals: b ] ].	
+
+]
+
+{ #category : 'tests' }
 BooleanArrayTest >> testSize [
 
 	0 to: 10 do: [ :size |
