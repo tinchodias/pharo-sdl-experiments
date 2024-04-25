@@ -49,7 +49,9 @@ BooleanArray class >> initializeFor: arrayedCollectionClass [
 { #category : 'instance creation' }
 BooleanArray class >> new: size [
 
-	^ self basicNew initialize: size; yourself
+	^ self basicNew
+		initialize: size;
+		yourself
 ]
 
 { #category : 'instance creation' }
@@ -164,8 +166,8 @@ BooleanArray >> bitIndexFor: index wordIndex: wordIndex [
 { #category : 'enumerating' }
 BooleanArray >> do: aBlock [
 
-	1 to: words size - 1 do: [ :wordIndex |
-		self atNonLastWord: wordIndex do: aBlock ].
+	1 to: words size - 1 do: [ :index |
+		self atNonLastWord: index do: aBlock ].
 
 	self atLastWordDo: aBlock
 ]
@@ -174,16 +176,19 @@ BooleanArray >> do: aBlock [
 BooleanArray >> fromWord: firstWordIndex bit: firstBitIndex toWord: lastWordIndex bit: lastBitIndex put: aBoolean [
 
 	| fullWord |
+	"Replace first word"
 	self
 		atWord: firstWordIndex
 		fromBit: firstBitIndex
 		toBit: WordSize
 		put: aBoolean.
-	
+
+	"Fast replace words in the middle"
 	fullWord := aBoolean ifTrue: [ WordOfOnes ] ifFalse: [ 0 ].
 	firstWordIndex + 1 to: lastWordIndex - 1 do: [ :index |
 		words at: index put: fullWord ].
 
+	"Replace last word"
 	self
 		atWord: lastWordIndex
 		fromBit: 1
