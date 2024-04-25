@@ -133,9 +133,9 @@ BooleanArray >> atLastWordDo: aBlock [
 
 	| word |
 	word := bits last.
-	1 to: (self bitIndexFor: self size wordIndex: bits size)
-		do: [ :bitIndex |
-			aBlock value: (self valueOf: word at: bitIndex) ]
+	(self bitIndexFor: self size wordIndex: bits size) timesRepeat: [
+		aBlock value: (word bitAnd: 1) ~= 0.
+		word := (word bitShift: -1) ]
 ]
 
 { #category : 'enumerating' }
@@ -151,8 +151,9 @@ BooleanArray >> atNonLastWord: wordIndex do: aBlock [
 	word = WordOfOnes ifTrue: [
 		WordSize timesRepeat: [ aBlock value: true ]. ^self ].
 
-	1 to: WordSize do: [ :bitIndex |
-		aBlock value: (self valueOf: word at: bitIndex) ]
+	WordSize timesRepeat: [
+		aBlock value: (word bitAnd: 1) ~= 0.
+		word := (word bitShift: -1) ]
 ]
 
 { #category : 'private' }
