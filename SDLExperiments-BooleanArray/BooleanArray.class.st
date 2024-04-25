@@ -1,12 +1,12 @@
 "
-I'm an Array of Boolean values.
+I'm an arrayed collection of Boolean values with a compact representation where each boolean value maps to a bit.
 "
 Class {
 	#name : 'BooleanArray',
 	#superclass : 'Object',
 	#instVars : [
-		'bits',
-		'size'
+		'size',
+		'words'
 	],
 	#classVars : [
 		'ArrayClass',
@@ -68,7 +68,7 @@ BooleanArray >> = anObject [
 
 	self == anObject ifTrue: [ ^ true ].
 	self class = anObject class ifFalse: [ ^ false ].
-	^ bits = anObject bits
+	^ words = anObject words
 ]
 
 { #category : 'accessing' }
@@ -77,7 +77,7 @@ BooleanArray >> at: index [
 	| wordIndex bitIndex |
 	wordIndex := self wordIndexFor: index.
 	bitIndex := self bitIndexFor: index wordIndex: wordIndex.
-	^ self valueOf: (bits at: wordIndex) at: bitIndex
+	^ self valueOf: (words at: wordIndex) at: bitIndex
 ]
 
 { #category : 'accessing' }
@@ -86,9 +86,9 @@ BooleanArray >> at: index put: newValue [
 	| wordIndex bitIndex word |
 	wordIndex := self wordIndexFor: index.
 	bitIndex  := self bitIndexFor: index wordIndex: wordIndex.
-	word := bits at: wordIndex.
+	word := words at: wordIndex.
 
-	bits
+	words
 		at: wordIndex
 		put: (newValue
 			ifTrue:  [ word bitOr:  (BitMasks at: bitIndex) ]
@@ -98,7 +98,7 @@ BooleanArray >> at: index put: newValue [
 { #category : 'accessing' }
 BooleanArray >> atAllPut: aBoolean [
 	
-	bits atAllPut: (aBoolean ifTrue: [ WordOfOnes ] ifFalse: [ 0 ])
+	words atAllPut: (aBoolean ifTrue: [ WordOfOnes ] ifFalse: [ 0 ])
 ]
 
 { #category : 'accessing' }
@@ -132,8 +132,8 @@ BooleanArray >> atLastWordDo: aBlock [
 	"Enumerate all booleans in the last word of the internal representation (some bits may be ignored)."
 
 	| word |
-	word := bits last.
-	(self bitIndexFor: self size wordIndex: bits size) timesRepeat: [
+	word := words last.
+	(self bitIndexFor: self size wordIndex: words size) timesRepeat: [
 		aBlock value: (word bitAnd: 1) ~= 0.
 		word := (word bitShift: -1) ]
 ]
@@ -143,7 +143,7 @@ BooleanArray >> atNonLastWord: wordIndex do: aBlock [
 	"Enumerate all booleans in certain word of the internal representation (assuming it's not last word)."
 
 	| word |
-	word := bits at: wordIndex.
+	word := words at: wordIndex.
 
 	word = 0 ifTrue: [
 		WordSize timesRepeat: [ aBlock value: false ]. ^self ].
@@ -160,7 +160,7 @@ BooleanArray >> atNonLastWord: wordIndex do: aBlock [
 BooleanArray >> atWord: wordIndex fromBit: firstBitIndex toBit: lastBitIndex put: aBoolean [
 
 	| newByte |
-	newByte := bits at: wordIndex.
+	newByte := words at: wordIndex.
 	
 	aBoolean
 		ifTrue: [
@@ -170,7 +170,7 @@ BooleanArray >> atWord: wordIndex fromBit: firstBitIndex toBit: lastBitIndex put
 			firstBitIndex to: lastBitIndex do: [ :index |
 				newByte := newByte bitAnd: (InversedBitMask at: index) ] ].
 	
-	bits at: wordIndex put: newByte
+	words at: wordIndex put: newByte
 ]
 
 { #category : 'private' }
@@ -187,16 +187,10 @@ BooleanArray >> bitIndexFor: index wordIndex: wordIndex [
 	^ index - ((wordIndex - 1) * WordSize)
 ]
 
-{ #category : 'private' }
-BooleanArray >> bits [
-
-	^ bits
-]
-
 { #category : 'enumerating' }
 BooleanArray >> do: aBlock [
 
-	1 to: bits size - 1 do: [ :wordIndex |
+	1 to: words size - 1 do: [ :wordIndex |
 		self atNonLastWord: wordIndex do: aBlock ].
 
 	self atLastWordDo: aBlock
@@ -214,7 +208,7 @@ BooleanArray >> fromWord: firstWordIndex bit: firstBitIndex toWord: lastWordInde
 	
 	fullWord := aBoolean ifTrue: [ WordOfOnes ] ifFalse: [ 0 ].
 	firstWordIndex + 1 to: lastWordIndex - 1 do: [ :index |
-		bits at: index put: fullWord ].
+		words at: index put: fullWord ].
 
 	self
 		atWord: lastWordIndex
@@ -257,20 +251,20 @@ BooleanArray >> groupByRuns: aBlock do: outputBlock [
 BooleanArray >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
-	^ bits hash
+	^ words hash
 ]
 
 { #category : 'initialization' }
 BooleanArray >> initialize: bitSize [
 
-	bits := ArrayClass new: (self wordIndexFor: bitSize).
+	words := ArrayClass new: (self wordIndexFor: bitSize).
 	size := bitSize
 ]
 
 { #category : 'copying' }
 BooleanArray >> postCopy [
 
-	bits := bits copy
+	words := words copy
 ]
 
 { #category : 'accessing' }
@@ -289,4 +283,11 @@ BooleanArray >> valueOf: word at: bitIndex [
 BooleanArray >> wordIndexFor: i [
 
 	^ ((i - 1) // WordSize) + 1
+]
+
+{ #category : 'private' }
+BooleanArray >> words [
+	"Answer an array that is my internal representation for booleans."
+
+	^ words
 ]
