@@ -292,6 +292,29 @@ BooleanArray >> valueOf: word at: bitIndex [
 	^ ((word bitShift: 1 - bitIndex) bitAnd: 1) ~= 0
 ]
 
+{ #category : 'enumerating' }
+BooleanArray >> withStartStopAndValueDo: aBlock [
+
+	| stream start stop current |
+	self isEmpty ifTrue: [ ^self ].
+
+	stream := ReadStream on: self.
+	start := 1.
+	stop := 1.
+	current := stream next.
+	[ stream atEnd ] whileFalse: [
+		| next |
+		(next := stream next) = current
+			ifTrue: [ 
+				stop := stop + 1 ]
+			ifFalse: [
+				aBlock value: start value: stop value: current.
+				stop := stop + 1.
+				start := stop.
+				current := next ] ].
+	aBlock value: start value: stop value: current
+]
+
 { #category : 'private' }
 BooleanArray >> wordIndexFor: i [
 

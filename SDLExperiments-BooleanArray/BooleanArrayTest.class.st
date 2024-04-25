@@ -193,3 +193,29 @@ BooleanArrayTest >> testWithAll [
 	array := BooleanArray withAll: (Array new: 1000 withAll: true).
 	1 to: 1000 do: [ :i | self assert: (array at: i) ]
 ]
+
+{ #category : 'tests' }
+BooleanArrayTest >> testWithStartStopAndValueDo [
+
+	| array booleans indexIntervals |
+	array :=
+		BooleanArray withAll:
+			#(true false false true true true false false).
+
+	booleans := OrderedCollection new.
+	indexIntervals := OrderedCollection new.
+	array withStartStopAndValueDo: [ :start :stop :value |
+		booleans add: value.
+		indexIntervals add: (start to: stop)].
+
+	self
+		assert: booleans asArray
+		equals: #(true false true false).
+	self
+		assert: indexIntervals asArray
+		equals: {
+			1 to: 1.
+			2 to: 3.
+			4 to: 6.
+			7 to: 8 }
+]
