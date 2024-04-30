@@ -2,8 +2,8 @@
 I'm an arrayed collection of Boolean values with a compact representation where each boolean value maps to a bit.
 "
 Class {
-	#name : 'BooleanArray',
-	#superclass : 'Object',
+	#name : #BooleanArray,
+	#superclass : #Object,
 	#instVars : [
 		'size',
 		'words'
@@ -15,11 +15,10 @@ Class {
 		'WordOfOnes',
 		'WordSize'
 	],
-	#category : 'SDLExperiments-BooleanArray',
-	#package : 'SDLExperiments-BooleanArray'
+	#category : #'SDLExperiments-BooleanArray'
 }
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 BooleanArray class >> initialize [
 	"
 	self initialize
@@ -28,7 +27,7 @@ BooleanArray class >> initialize [
 	self initializeFor: WordArray
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 BooleanArray class >> initializeFor: arrayedCollectionClass [
 
 	ArrayClass := arrayedCollectionClass.
@@ -46,7 +45,7 @@ BooleanArray class >> initializeFor: arrayedCollectionClass [
 			stream nextPut: (WordOfOnes bitAnd: (1 bitShift: index) bitInvert) ] ]
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BooleanArray class >> new: size [
 
 	^ self basicNew
@@ -54,7 +53,7 @@ BooleanArray class >> new: size [
 		yourself
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 BooleanArray class >> withAll: aCollection [
 
 	| result |
@@ -67,13 +66,13 @@ BooleanArray class >> withAll: aCollection [
 	^ result
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BooleanArray class >> wordSize [
 
 	^ WordSize
 ]
 
-{ #category : 'comparing' }
+{ #category : #comparing }
 BooleanArray >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -82,7 +81,7 @@ BooleanArray >> = anObject [
 	^ words = anObject words
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BooleanArray >> at: index [
 
 	| wordIndex bitIndex |
@@ -91,7 +90,7 @@ BooleanArray >> at: index [
 	^ self valueOf: (words at: wordIndex) at: bitIndex
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BooleanArray >> at: index put: newValue [
 
 	| wordIndex bitIndex word |
@@ -106,13 +105,13 @@ BooleanArray >> at: index put: newValue [
 			ifFalse: [ word bitAnd: (InversedBitMask at: bitIndex) ])
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BooleanArray >> atAllPut: aBoolean [
 	
 	words atAllPut: (aBoolean ifTrue: [ WordOfOnes ] ifFalse: [ 0 ])
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> atLastWordDo: aBlock [
 	"Enumerate all booleans in the last word of the internal representation (some bits may be ignored)."
 
@@ -123,7 +122,7 @@ BooleanArray >> atLastWordDo: aBlock [
 		word := (word bitShift: -1) ]
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 BooleanArray >> atNonLastWord: wordIndex do: aBlock [
 	"Enumerate all booleans in certain word of the internal representation (assuming it's not last word)."
 
@@ -141,7 +140,7 @@ BooleanArray >> atNonLastWord: wordIndex do: aBlock [
 		word := (word bitShift: -1) ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> atWord: wordIndex fromBit: firstBitIndex toBit: lastBitIndex put: aBoolean [
 
 	| word |
@@ -158,27 +157,27 @@ BooleanArray >> atWord: wordIndex fromBit: firstBitIndex toBit: lastBitIndex put
 	words at: wordIndex put: word
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> bitIndexFor: index [
 	"Answer the bit index that corresponds to an index of this boolean array."
 
 	^ ((index - 1) \\ WordSize) + 1
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> bitIndexFor: index wordIndex: wordIndex [
 	"Same as bitIndexFor: but faster."
 
 	^ index - ((wordIndex - 1) * WordSize)
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> bitSizeOfLastWord [
 
 	^ self bitIndexFor: size wordIndex: words size
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 BooleanArray >> do: aBlock [
 
 	1 to: words size - 1 do: [ :index |
@@ -187,7 +186,7 @@ BooleanArray >> do: aBlock [
 	self atLastWordDo: aBlock
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> fromWord: firstWordIndex bit: firstBitIndex toWord: lastWordIndex bit: lastBitIndex put: aBoolean [
 
 	| fullWord |
@@ -211,7 +210,7 @@ BooleanArray >> fromWord: firstWordIndex bit: firstBitIndex toWord: lastWordInde
 		put: aBoolean
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 BooleanArray >> groupByRuns: selectBlock [
 
 	^ Array streamContents: [ :stream |
@@ -220,7 +219,7 @@ BooleanArray >> groupByRuns: selectBlock [
 			do: [ :group | stream nextPut: group ] ]
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 BooleanArray >> groupByRuns: aBlock do: outputBlock [
 
 	| buffer r |
@@ -241,14 +240,14 @@ BooleanArray >> groupByRuns: aBlock do: outputBlock [
 	buffer isEmpty ifFalse: [ outputBlock value: buffer contents ]
 ]
 
-{ #category : 'comparing' }
+{ #category : #comparing }
 BooleanArray >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ words hash
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BooleanArray >> includesTrueStartingAt: index [
 
 	| wordIndex bitIndex |
@@ -263,7 +262,7 @@ BooleanArray >> includesTrueStartingAt: index [
 	^ false
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 BooleanArray >> initialize: bitSize [
 
 	"To avoid checks, ensure the array has at least one word"
@@ -271,20 +270,20 @@ BooleanArray >> initialize: bitSize [
 	size := bitSize
 ]
 
-{ #category : 'newtools' }
+{ #category : #newtools }
 BooleanArray >> inspectionItems: aBuilder [
 	<inspectorPresentationOrder: 0 title: 'Items'> 
 	
 	^ (self as: OrderedCollection) inspectionItems: aBuilder
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 BooleanArray >> isEmpty [
 	
 	^ size = 0
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BooleanArray >> lastIndexOfTrueIfAbsent: absentBlock [
 
 	| word result |
@@ -296,20 +295,23 @@ BooleanArray >> lastIndexOfTrueIfAbsent: absentBlock [
 
 	words size - 1 to: 1 by: -1 do: [ :wordIndex |
 		word := words at: wordIndex.
-		WordSize to: 1 by: -1 do: [ :bitIndex |
-			(word bitAt: bitIndex) = 1 ifTrue: [ ^ result ].
-			result := result - 1 ] ].
+		word = 0
+			ifTrue: [ result := result - WordSize ]
+			ifFalse: [
+				WordSize to: 1 by: -1 do: [ :bitIndex |
+					(word bitAt: bitIndex) = 1 ifTrue: [ ^ result ].
+					result := result - 1 ] ] ].
 
 	^ absentBlock value
 ]
 
-{ #category : 'copying' }
+{ #category : #copying }
 BooleanArray >> postCopy [
 
 	words := words copy
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 BooleanArray >> replaceFrom: start to: stop with: replacement startingAt: replacementStart [
 	"Replace booleans from start to stop positions in the receiver with
 	the booleans in the replacement collection, starting at the replacementStart of it."
@@ -321,7 +323,7 @@ BooleanArray >> replaceFrom: start to: stop with: replacement startingAt: replac
 		self at: index put: (replacement at: offset + index) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BooleanArray >> replaceFrom: start to: stop withAll: aBoolean [
 	"Dstructively replace with a boolean from start to stop."
 
@@ -348,7 +350,7 @@ BooleanArray >> replaceFrom: start to: stop withAll: aBoolean [
 				put: aBoolean ]
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 BooleanArray >> reverseDo: aBlock [
 	"Evaluate aBlock with each of the receiver's elements as the argument,
 	starting with the last element and taking each in sequence up to the
@@ -358,7 +360,7 @@ BooleanArray >> reverseDo: aBlock [
 	self size to: 1 by: -1 do: [:index | (self at: index) ifTrue: [aBlock value: index ] ]
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 BooleanArray >> shiftLeftBy: gap startingAt: start fillWithAll: fill [
 
 	"Copy items some positions to the left"
@@ -372,7 +374,7 @@ BooleanArray >> shiftLeftBy: gap startingAt: start fillWithAll: fill [
 		withAll: fill
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 BooleanArray >> shiftRightBy: gap startingAt: start fillWithAll: fill [
 
 	self flag: #todo. "Take advantage of bit operations"
@@ -388,13 +390,13 @@ BooleanArray >> shiftRightBy: gap startingAt: start fillWithAll: fill [
 		withAll: fill
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 BooleanArray >> size [
 
 	^ size
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 BooleanArray >> toploShift: gap startingAt: start [
 
 	self isEmpty ifTrue: [ ^ self ].
@@ -411,13 +413,13 @@ BooleanArray >> toploShift: gap startingAt: start [
 			self shiftLeftBy: gap negated startingAt: start fillWithAll: false ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> valueOf: word at: bitIndex [
 
 	^ ((word bitShift: 1 - bitIndex) bitAnd: 1) ~= 0
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 BooleanArray >> withStartStopAndValueDo: aBlock [
 
 	| stream start stop current |
@@ -440,13 +442,13 @@ BooleanArray >> withStartStopAndValueDo: aBlock [
 	aBlock value: start value: stop value: current
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> wordIndexFor: i [
 
 	^ ((i - 1) // WordSize) + 1
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 BooleanArray >> words [
 	"Answer an array that is my internal representation for booleans."
 

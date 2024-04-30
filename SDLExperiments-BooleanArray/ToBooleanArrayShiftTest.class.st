@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToBooleanArrayShiftTest',
-	#superclass : 'TestCase',
-	#category : 'SDLExperiments-BooleanArray',
-	#package : 'SDLExperiments-BooleanArray'
+	#name : #ToBooleanArrayShiftTest,
+	#superclass : #TestCase,
+	#category : #'SDLExperiments-BooleanArray'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBooleanArrayShiftTest >> test01TinyPositiveGap [
 
 	| array |
@@ -29,7 +28,7 @@ ToBooleanArrayShiftTest >> test01TinyPositiveGap [
 	self assert: (array as: Array) equals: #(false false false)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBooleanArrayShiftTest >> test02TinyNegativeGap [
 
 	| array |
@@ -53,7 +52,7 @@ ToBooleanArrayShiftTest >> test02TinyNegativeGap [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBooleanArrayShiftTest >> test03LargerPositiveGap [
 
 	| array |
@@ -77,7 +76,7 @@ ToBooleanArrayShiftTest >> test03LargerPositiveGap [
 	self deny: (array at: BooleanArray wordSize * 2)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBooleanArrayShiftTest >> test04LargerNegativeGap [
 
 	| array |
@@ -101,7 +100,7 @@ ToBooleanArrayShiftTest >> test04LargerNegativeGap [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToBooleanArrayShiftTest >> test05FuzzyShiftRight [
 
 	self timeLimit: 2 minutes.
