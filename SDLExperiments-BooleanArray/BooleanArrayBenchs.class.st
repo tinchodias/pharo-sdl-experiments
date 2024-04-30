@@ -1,3 +1,6 @@
+"
+I know how to run benchmarks on a `BooleanArray`.
+"
 Class {
 	#name : 'BooleanArrayBenchs',
 	#superclass : 'Object',
@@ -35,21 +38,21 @@ BooleanArrayBenchs >> runAll [
 Array:' traceCr.
 	self runWith: Array.
 
-	'
+"	'
 BooleanArray w/DoubleWordArray (8 bytes):' traceCr.
 	BooleanArray initializeFor: DoubleWordArray.
-	self runWith: BooleanArray.
+	self runWith: BooleanArray."
 
 	'
 BooleanArray w/WordArray (4 bytes):' traceCr.
 	BooleanArray initializeFor: WordArray.
 	self runWith: BooleanArray.
 
-	'
+"	'
 BooleanArray w/DoubleByteArray (2 bytes):' traceCr.
 	BooleanArray initializeFor: DoubleByteArray.
 	self runWith: BooleanArray.
-
+"
 	'
 BooleanArray w/ByteArray (1 byte):' traceCr.
 	BooleanArray initializeFor: ByteArray.
@@ -67,10 +70,10 @@ BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 		| random from to start |
 		random := Random seed: 0.
 		arraySize timesRepeat: [
-			from := random nextIntegerBetween: 1 and: arraySize//2.
-			to := random nextIntegerBetween: arraySize//2 and: arraySize.
-			start := random nextIntegerBetween: 1 and: arraySize//2.
-			{ from. to. start } ] ].
+			from := random nextIntegerBetween: 1 and: arraySize//3.
+			to := random nextIntegerBetween: arraySize//3 and: arraySize//2.
+			start := random nextIntegerBetween: 1 and: arraySize//3.
+			stream nextPut: { from. to. start } ] ].
 
 	self
 		benchTag: #at:put:
