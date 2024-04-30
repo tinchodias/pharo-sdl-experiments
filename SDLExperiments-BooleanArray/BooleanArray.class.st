@@ -177,6 +177,33 @@ BooleanArray >> bitSizeOfLastWord [
 	^ self bitIndexFor: size wordIndex: words size
 ]
 
+{ #category : #accessing }
+BooleanArray >> countTrue [
+
+	| word result |
+	result := 0.
+
+	1 to: words size - 1 do: [ :wordIndex |
+		word := words at: wordIndex.
+		word = WordOfOnes
+			ifTrue: [ result := result + WordSize ]
+			ifFalse: [
+				word = 0 ifFalse: [
+					WordSize timesRepeat: [
+						(word bitAnd: 1) = 1 ifTrue: [
+							result := result + 1 ].
+						word := word bitShift: -1 ] ] ] ].
+
+	word := words last.
+	word = 0 ifFalse: [
+		self bitSizeOfLastWord timesRepeat: [
+			(word bitAnd: 1) = 1 ifTrue: [
+				result := result + 1 ].
+			word := word bitShift: -1 ] ].
+
+	^ result
+]
+
 { #category : #enumerating }
 BooleanArray >> do: aBlock [
 

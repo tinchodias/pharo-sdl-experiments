@@ -82,6 +82,25 @@ BooleanArrayTest >> testCopy [
 ]
 
 { #category : #tests }
+BooleanArrayTest >> testCountTrue [
+
+	| array |
+	array := BooleanArray new: 100.
+
+	"It's all false after instance creation"
+	self assert: array countTrue equals: 0.
+
+	"Set true at even indices"
+	1 to: array size do: [ :index |
+		array at: index put: index even ].
+
+	self assert: array countTrue equals: 50.
+	
+	array atAllPut: true.
+	self assert: array countTrue equals: 100
+]
+
+{ #category : #tests }
 BooleanArrayTest >> testDo [
 
 	1 to: 100 do: [ :size |
