@@ -242,6 +242,21 @@ BooleanArray >> hash [
 	^ words hash
 ]
 
+{ #category : 'accessing' }
+BooleanArray >> includesTrueStartingAt: index [
+
+	| wordIndex bitIndex |
+	wordIndex := self wordIndexFor: index.
+	bitIndex := self bitIndexFor: index wordIndex: wordIndex.
+	
+	(((words at: wordIndex) >> (bitIndex-1)) = 0) ifFalse: [ ^ true ].
+	
+	wordIndex + 1 to: words size do: [ :each |
+		((words at: each) = 0) ifFalse: [ ^ true ] ].
+
+	^ false
+]
+
 { #category : 'initialization' }
 BooleanArray >> initialize: bitSize [
 

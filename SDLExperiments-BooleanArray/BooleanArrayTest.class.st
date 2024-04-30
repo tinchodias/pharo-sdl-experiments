@@ -121,6 +121,36 @@ BooleanArrayTest >> testGroupByRuns [
 ]
 
 { #category : 'tests' }
+BooleanArrayTest >> testIncludesTrueStartingAt [
+
+	| array |
+	array := BooleanArray withAll: #(false true false).
+	self assert: (array includesTrueStartingAt: 1).
+	self assert: (array includesTrueStartingAt: 2).
+	self deny: (array includesTrueStartingAt: 3).
+
+	array := BooleanArray new: BooleanArray wordSize + 2.
+	1 to: BooleanArray wordSize do: [ :index |
+		self deny: (array includesTrueStartingAt: index) ].
+	self deny: (array includesTrueStartingAt: BooleanArray wordSize + 1).
+	self deny: (array includesTrueStartingAt: BooleanArray wordSize + 2).
+
+	array at: 5 put: true.
+	1 to: 5 do: [ :index |
+		self assert: (array includesTrueStartingAt: index) ].
+	6 to: BooleanArray wordSize do: [ :index |
+		self deny: (array includesTrueStartingAt: index) ].
+
+
+	array at: BooleanArray wordSize + 1 put: true.
+	1 to: BooleanArray wordSize do: [ :index |
+		self assert: (array includesTrueStartingAt: index) ].
+	self assert: (array includesTrueStartingAt: BooleanArray wordSize + 1).
+	self deny:   (array includesTrueStartingAt: BooleanArray wordSize + 2)
+
+]
+
+{ #category : 'tests' }
 BooleanArrayTest >> testIsEmpty [
 
 	self assert: (BooleanArray new: 0) isEmpty.
