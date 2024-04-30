@@ -315,9 +315,12 @@ BooleanArray >> lastIndexOfTrueIfAbsent: absentBlock [
 	| word result |
 	result := size.
 	word := words last.
-	self bitSizeOfLastWord to: 1 by: -1 do: [ :bitIndex |
-		(word bitAt: bitIndex) = 1 ifTrue: [ ^ result ].
-		result := result - 1 ].
+	word = 0
+		ifTrue: [ result := result - self bitSizeOfLastWord ]
+		ifFalse: [
+			self bitSizeOfLastWord to: 1 by: -1 do: [ :bitIndex |
+				(word bitAt: bitIndex) = 1 ifTrue: [ ^ result ].
+				result := result - 1 ] ].
 
 	words size - 1 to: 1 by: -1 do: [ :wordIndex |
 		word := words at: wordIndex.
