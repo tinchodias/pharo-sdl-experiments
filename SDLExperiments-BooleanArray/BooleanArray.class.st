@@ -329,10 +329,57 @@ BooleanArray >> replaceFrom: start to: stop withAll: aBoolean [
 				put: aBoolean ]
 ]
 
+{ #category : 'updating' }
+BooleanArray >> shiftLeftBy: gap startingAt: start fillWithAll: fill [
+
+	"Copy items some positions to the left"
+	(start max: gap + 1) to: size do: [ :index |
+		self at: index - gap put: (self at: index) ].
+
+	"Fill old positions with the received object"
+	self
+		replaceFrom: (size - gap + 1 max: 1)
+		to: size
+		withAll: fill
+]
+
+{ #category : 'updating' }
+BooleanArray >> shiftRightBy: gap startingAt: start fillWithAll: fill [
+
+	self flag: #todo. "Take advantage of bit operations"
+
+	"Copy items some positions to the right"
+	size - gap to: start by: -1 do: [ :index |
+		self at: index + gap put: (self at: index) ].
+
+	"Fill old positions with the received object"
+	self
+		replaceFrom: start
+		to: (start + gap - 1 min: size)
+		withAll: fill
+]
+
 { #category : 'accessing' }
 BooleanArray >> size [
 
 	^ size
+]
+
+{ #category : 'updating' }
+BooleanArray >> toploShift: gap startingAt: start [
+
+	self isEmpty ifTrue: [ ^ self ].
+	gap = 0 ifTrue: [ ^ self ].
+"	gap < WordSize ifTrue: [
+		^ self shiftSubWord: gap from: start ].
+	gap % WordSize = 0 ifTrue: [
+		^ self shiftWord: gap // WordSize from: start ]."
+	gap > 0
+		ifTrue: [ self shiftRightBy: gap startingAt: start fillWithAll: false ]
+		ifFalse: [
+			"Special behavior when there isn't any true"
+			(self includesTrueStartingAt: start) ifFalse: [ ^self ].
+			self shiftLeftBy: gap negated startingAt: start fillWithAll: false ]
 ]
 
 { #category : 'private' }
