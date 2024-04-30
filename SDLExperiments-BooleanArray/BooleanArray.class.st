@@ -262,6 +262,32 @@ BooleanArray >> includesTrueStartingAt: index [
 	^ false
 ]
 
+{ #category : #accessing }
+BooleanArray >> indexOfTrueIfAbsent: absentBlock [
+
+	| word result |
+	result := 1.
+
+	1 to: words size - 1 do: [ :wordIndex |
+		word := words at: wordIndex.
+		word = 0
+			ifTrue: [ result := result + WordSize ]
+			ifFalse: [
+				WordSize timesRepeat: [
+					(word bitAnd: 1) = 1 ifTrue: [ ^ result ].
+					word := word bitShift: -1.
+					result := result + 1 ] ] ].
+
+	word := words last.
+	word = 0 ifFalse: [
+		self bitSizeOfLastWord timesRepeat: [
+			(word bitAnd: 1) = 1 ifTrue: [ ^ result ].
+			word := word bitShift: -1.
+			result := result + 1 ] ].
+
+	^ absentBlock value
+]
+
 { #category : #initialization }
 BooleanArray >> initialize: bitSize [
 

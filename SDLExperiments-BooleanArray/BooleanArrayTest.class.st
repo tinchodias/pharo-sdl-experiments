@@ -150,6 +150,31 @@ BooleanArrayTest >> testIncludesTrueStartingAt [
 ]
 
 { #category : #tests }
+BooleanArrayTest >> testIndexOfTrueIfAbsent [
+
+	| size array absent result |
+	size := 50.
+	array := BooleanArray new: size.
+
+	absent := false.
+	result := array indexOfTrueIfAbsent: [ absent := true. #no ].
+	self assert: absent.
+	self assert: result equals: #no.
+
+	absent := false.
+	array at: 7 put: true.
+	array at: 49 put: true.
+	result := array indexOfTrueIfAbsent: [ absent := true ].
+	self deny: absent.
+	self assert: result equals: 7.
+
+	array at: 7 put: false.
+	result := array indexOfTrueIfAbsent: [ absent := true ].
+	self deny: absent.
+	self assert: result equals: 49
+]
+
+{ #category : #tests }
 BooleanArrayTest >> testIsEmpty [
 
 	self assert: (BooleanArray new: 0) isEmpty.
