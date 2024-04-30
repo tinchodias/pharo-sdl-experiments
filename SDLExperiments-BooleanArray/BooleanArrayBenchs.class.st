@@ -2,16 +2,15 @@
 I know how to run benchmarks on a `BooleanArray`.
 "
 Class {
-	#name : 'BooleanArrayBenchs',
-	#superclass : 'Object',
+	#name : #BooleanArrayBenchs,
+	#superclass : #Object,
 	#instVars : [
 		'arraySize'
 	],
-	#category : 'SDLExperiments-BooleanArray',
-	#package : 'SDLExperiments-BooleanArray'
+	#category : 'SDLExperiments-BooleanArray'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 BooleanArrayBenchs >> benchTag: aString with: aBlock [
 
 	| benchResult |
@@ -24,7 +23,7 @@ BooleanArrayBenchs >> benchTag: aString with: aBlock [
 		aString }) traceCr
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 BooleanArrayBenchs >> runAll [
 	<script: 'self new runAll'>
 
@@ -59,7 +58,7 @@ BooleanArray w/ByteArray (1 byte):' traceCr.
 	self runWith: BooleanArray
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 
 	| array source fuzzyParameters |

@@ -1,13 +1,13 @@
-Extension { #name : 'SequenceableCollection' }
+Extension { #name : #SequenceableCollection }
 
-{ #category : '*SDLExperiments-BooleanArray' }
+{ #category : #'*SDLExperiments-BooleanArray' }
 SequenceableCollection >> includesTrueStartingAt: index [
 
 	self indexOf: true startingAt: index ifAbsent: [ ^ false ].
 	^ true
 ]
 
-{ #category : '*SDLExperiments-BooleanArray' }
+{ #category : #'*SDLExperiments-BooleanArray' }
 SequenceableCollection >> replaceFrom: first to: last withAll: aBoolean [
 	"Mainly for benchmarking purposes"
 
@@ -15,7 +15,7 @@ SequenceableCollection >> replaceFrom: first to: last withAll: aBoolean [
 	^ aBoolean
 ]
 
-{ #category : '*SDLExperiments-BooleanArray' }
+{ #category : #'*SDLExperiments-BooleanArray' }
 SequenceableCollection >> shiftLeftBy: gap startingAt: start fillWithAll: fill [
 
 	"Copy items some positions to the left"
@@ -29,7 +29,7 @@ SequenceableCollection >> shiftLeftBy: gap startingAt: start fillWithAll: fill [
 		withAll: fill
 ]
 
-{ #category : '*SDLExperiments-BooleanArray' }
+{ #category : #'*SDLExperiments-BooleanArray' }
 SequenceableCollection >> shiftRightBy: gap startingAt: start fillWithAll: fill [
 
 	"Copy items some positions to the right"
@@ -43,7 +43,7 @@ SequenceableCollection >> shiftRightBy: gap startingAt: start fillWithAll: fill 
 		withAll: fill
 ]
 
-{ #category : '*SDLExperiments-BooleanArray' }
+{ #category : #'*SDLExperiments-BooleanArray' }
 SequenceableCollection >> toploShift: gap startingAt: start [
 	"For testing and benchmarking purposes only"
 

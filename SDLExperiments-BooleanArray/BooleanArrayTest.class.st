@@ -2,13 +2,12 @@
 A BooleanArrayTest is a test class for testing the behavior of BooleanArray
 "
 Class {
-	#name : 'BooleanArrayTest',
-	#superclass : 'TestCase',
-	#category : 'SDLExperiments-BooleanArray',
-	#package : 'SDLExperiments-BooleanArray'
+	#name : #BooleanArrayTest,
+	#superclass : #TestCase,
+	#category : 'SDLExperiments-BooleanArray'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testAt [
 
 	| size array |
@@ -20,7 +19,7 @@ BooleanArrayTest >> testAt [
 		self deny: (array at: index) ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testAtAllPut [
 
 	| size array |
@@ -42,7 +41,7 @@ BooleanArrayTest >> testAtAllPut [
 		self deny: (array at: index) ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testAtPut [
 
 	| size array |
@@ -63,7 +62,7 @@ BooleanArrayTest >> testAtPut [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testCopy [
 
 	| size original copy |
@@ -82,7 +81,7 @@ BooleanArrayTest >> testCopy [
 	self deny: copy equals: original.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testDo [
 
 	1 to: 100 do: [ :size |
@@ -104,7 +103,7 @@ BooleanArrayTest >> testDo [
 			self assert: each equals: index even ] ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testGroupByRuns [
 
 	| array groups |
@@ -120,7 +119,7 @@ BooleanArrayTest >> testGroupByRuns [
 	self assert: groups equals: #(#(true true) #(false false) #(true))
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testIncludesTrueStartingAt [
 
 	| array |
@@ -150,14 +149,14 @@ BooleanArrayTest >> testIncludesTrueStartingAt [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testIsEmpty [
 
 	self assert: (BooleanArray new: 0) isEmpty.
 	self deny:   (BooleanArray new: 1) isEmpty.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testReplaceFromToWithAll [
 
 	0 to: 100 by: 7 do: [ :size |
@@ -172,7 +171,7 @@ BooleanArrayTest >> testReplaceFromToWithAll [
 			self deny: (array at: index) ] ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testReplaceFromToWithStartingAt [
 
 	| multiplesOf5 booleans size baseline random |
@@ -215,14 +214,14 @@ BooleanArrayTest >> testReplaceFromToWithStartingAt [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testSize [
 
 	0 to: 10 do: [ :size |
 		self assert: (BooleanArray new: size) size equals: size ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testStress [
 
 	| testItemSize testArray r randomIndices |
@@ -244,7 +243,7 @@ BooleanArrayTest >> testStress [
 			ifFalse: [ self deny: actual ] ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testWithAll [
 
 	| array |
@@ -267,7 +266,7 @@ BooleanArrayTest >> testWithAll [
 	1 to: 1000 do: [ :i | self assert: (array at: i) ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 BooleanArrayTest >> testWithStartStopAndValueDo [
 
 	| array booleans indexIntervals |
