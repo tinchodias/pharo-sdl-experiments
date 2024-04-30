@@ -1,1 +1,1 @@
-Package { #name : 'SDLExperiments-BooleanArray' }
+Package { #name : #'SDLExperiments-BooleanArray' }
