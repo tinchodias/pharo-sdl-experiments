@@ -112,7 +112,7 @@ BooleanArray >> atLastWordDo: aBlock [
 
 	| word |
 	word := words last.
-	(self bitIndexFor: self size wordIndex: words size) timesRepeat: [
+	self bitSizeOfLastWord timesRepeat: [
 		aBlock value: (word bitAnd: 1) ~= 0.
 		word := (word bitShift: -1) ]
 ]
@@ -164,6 +164,12 @@ BooleanArray >> bitIndexFor: index wordIndex: wordIndex [
 	"Same as bitIndexFor: but faster."
 
 	^ index - ((wordIndex - 1) * WordSize)
+]
+
+{ #category : 'private' }
+BooleanArray >> bitSizeOfLastWord [
+
+	^ self bitIndexFor: size wordIndex: words size
 ]
 
 { #category : 'enumerating' }
