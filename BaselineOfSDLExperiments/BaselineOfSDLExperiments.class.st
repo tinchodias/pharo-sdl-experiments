@@ -19,7 +19,8 @@ BaselineOfSDLExperiments >> baseline: spec [
 				package: 'SDLExperiments-Demo' with: [ spec requires: #('Alexandrie' 'SDLExperiments') ];
 				package: 'SDLExperiments-FFI';
 				package: 'SDLExperiments-Tests' with: [ spec requires: #('SDLExperiments') ];
-				package: 'SDLExperiments-RTree'
+				package: 'SDLExperiments-RTree';
+				package: 'SDLExperiments-BooleanArray'
 			]
 ]
 
