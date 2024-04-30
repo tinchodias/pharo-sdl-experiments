@@ -284,6 +284,25 @@ BooleanArray >> isEmpty [
 	^ size = 0
 ]
 
+{ #category : 'accessing' }
+BooleanArray >> lastIndexOfTrueIfAbsent: absentBlock [
+
+	| word result |
+	result := size.
+	word := words last.
+	self bitSizeOfLastWord to: 1 by: -1 do: [ :bitIndex |
+		(word bitAt: bitIndex) = 1 ifTrue: [ ^ result ].
+		result := result - 1 ].
+
+	words size - 1 to: 1 by: -1 do: [ :wordIndex |
+		word := words at: wordIndex.
+		WordSize to: 1 by: -1 do: [ :bitIndex |
+			(word bitAt: bitIndex) = 1 ifTrue: [ ^ result ].
+			result := result - 1 ] ].
+
+	^ absentBlock value
+]
+
 { #category : 'copying' }
 BooleanArray >> postCopy [
 

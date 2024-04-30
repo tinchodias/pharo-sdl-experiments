@@ -158,6 +158,31 @@ BooleanArrayTest >> testIsEmpty [
 ]
 
 { #category : 'tests' }
+BooleanArrayTest >> testLastIndexOfTrueIfAbsent [
+
+	| size array absent result |
+	size := 50.
+	array := BooleanArray new: size.
+
+	absent := false.
+	result := array lastIndexOfTrueIfAbsent: [ absent := true. #hi ].
+	self assert: absent.
+	self assert: result equals: #hi.
+
+	absent := false.
+	array at: 7 put: true.
+	array at: 49 put: true.
+	result := array lastIndexOfTrueIfAbsent: [ absent := true ].
+	self deny: absent.
+	self assert: result equals: 49.
+
+	array at: 49 put: false.
+	result := array lastIndexOfTrueIfAbsent: [ absent := true ].
+	self deny: absent.
+	self assert: result equals: 7
+]
+
+{ #category : 'tests' }
 BooleanArrayTest >> testReplaceFromToWithAll [
 
 	0 to: 100 by: 7 do: [ :size |
