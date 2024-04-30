@@ -67,6 +67,12 @@ BooleanArray class >> withAll: aCollection [
 	^ result
 ]
 
+{ #category : 'accessing' }
+BooleanArray class >> wordSize [
+
+	^ WordSize
+]
+
 { #category : 'comparing' }
 BooleanArray >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
