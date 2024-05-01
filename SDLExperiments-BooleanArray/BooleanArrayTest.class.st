@@ -284,6 +284,62 @@ BooleanArrayTest >> testReplaceFromToWithStartingAt [
 ]
 
 { #category : #tests }
+BooleanArrayTest >> testReverseDo [
+
+	| array input output |
+	array := BooleanArray new: 0.
+	array reverseDo: [ :each | self fail ].
+
+	input := #(true false).
+	array := BooleanArray withAll: input.
+	output := OrderedCollection new.
+	array reverseDo: [ :each | output add: each ].
+	self assert: output asArray equals: input reversed.
+	
+	input := #(true true false false true).
+	array := BooleanArray withAll: input.
+	output := OrderedCollection new.
+	array reverseDo: [ :each | output add: each ].
+	self assert: output asArray equals: input reversed.
+
+	input := Array new: 200 withAll: true.
+	array := BooleanArray withAll: input.
+	output := OrderedCollection new.
+	array reverseDo: [ :each | output add: each ].
+	self assert: output asArray equals: input reversed.
+
+	input := Array new: 200 withAll: false.
+	array := BooleanArray withAll: input.
+	output := OrderedCollection new.
+	array reverseDo: [ :each | output add: each ].
+	self assert: output asArray equals: input reversed
+]
+
+{ #category : #tests }
+BooleanArrayTest >> testReverseDoFuzzy [
+
+	| random |
+	random := Random seed: 0.
+
+	1 to: 1000 do: [ :size |
+		| array baseline baselineStream |
+		
+		"Create two arrays with same elements"
+		array := BooleanArray new: size.
+		baseline := Array new: size.
+		1 to: size do: [ :index |
+			| even |
+			even := (random nextInteger: 100) even.
+			array at: index put: even.
+			baseline at: index put: even ].
+		
+		"Iterate both arrays in reverse"
+		baselineStream := baseline reversed readStream.
+		array reverseDo: [ :each |
+			self assert: each equals: baselineStream next ] ]
+]
+
+{ #category : #tests }
 BooleanArrayTest >> testSize [
 
 	0 to: 10 do: [ :size |

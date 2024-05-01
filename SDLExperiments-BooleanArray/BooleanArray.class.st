@@ -408,12 +408,11 @@ BooleanArray >> replaceFrom: start to: stop withAll: aBoolean [
 
 { #category : #enumerating }
 BooleanArray >> reverseDo: aBlock [
-	"Evaluate aBlock with each of the receiver's elements as the argument,
-	starting with the last element and taking each in sequence up to the
-	first. For SequenceableCollections, this is the reverse of the enumeration
-	for do:."
 
-	self size to: 1 by: -1 do: [:index | (self at: index) ifTrue: [aBlock value: index ] ]
+	self atLastWordReverseDo: aBlock.
+	
+	words size - 1 to: 1 by: -1 do: [ :index |
+		self atNonLastWord: index reverseDo: aBlock ]
 ]
 
 { #category : #updating }
