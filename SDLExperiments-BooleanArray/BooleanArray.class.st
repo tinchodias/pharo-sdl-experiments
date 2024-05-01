@@ -122,6 +122,16 @@ BooleanArray >> atLastWordDo: aBlock [
 		word := (word bitShift: -1) ]
 ]
 
+{ #category : #private }
+BooleanArray >> atLastWordReverseDo: aBlock [
+	"Enumerate in reverse all booleans in the last word of the internal representation (some bits of such word may need to be ignored on purpose)."
+
+	| word |
+	word := words last.
+	self bitSizeOfLastWord to: 1 by: -1 do: [ :bitIndex |
+		aBlock value: (word bitAt: bitIndex) = 1 ]
+]
+
 { #category : #enumerating }
 BooleanArray >> atNonLastWord: wordIndex do: aBlock [
 	"Enumerate all booleans in certain word of the internal representation (assuming it's not last word)."
@@ -138,6 +148,23 @@ BooleanArray >> atNonLastWord: wordIndex do: aBlock [
 	WordSize timesRepeat: [
 		aBlock value: (word bitAnd: 1) ~= 0.
 		word := (word bitShift: -1) ]
+]
+
+{ #category : #enumerating }
+BooleanArray >> atNonLastWord: wordIndex reverseDo: aBlock [
+	"Enumerate in reverse all booleans in certain word of the internal representation (assuming it's not last word)."
+
+	| word |
+	word := words at: wordIndex.
+
+	word = 0 ifTrue: [
+		WordSize timesRepeat: [ aBlock value: false ]. ^self ].
+
+	word = WordOfOnes ifTrue: [
+		WordSize timesRepeat: [ aBlock value: true ]. ^self ].
+
+	WordSize to: 1 by: -1 do: [ :bitIndex |
+		aBlock value: (word bitAt: bitIndex) = 1 ]
 ]
 
 { #category : #private }
