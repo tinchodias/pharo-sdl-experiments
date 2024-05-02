@@ -101,13 +101,15 @@ ToBooleanArrayShiftTest >> test04LargerNegativeGap [
 ]
 
 { #category : #tests }
-ToBooleanArrayShiftTest >> test05FuzzyShiftRight [
+ToBooleanArrayShiftTest >> test05FuzzyShift [
 
+	| random |
 	self timeLimit: 2 minutes.
+
+	random := Random seed: 0.
 	
 	1 to: 10000 by: 5 do: [ :arraySize |
-		| random array baseline gap start |
-		random := Random seed: 0.
+		| array baseline gap start |
 		baseline := Array new: arraySize streamContents: [ :stream |
 			arraySize timesRepeat: [
 				stream nextPut: (random nextInteger: 1000) even ] ].

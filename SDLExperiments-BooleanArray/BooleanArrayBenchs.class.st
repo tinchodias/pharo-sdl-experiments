@@ -5,70 +5,24 @@ Class {
 	#name : #BooleanArrayBenchs,
 	#superclass : #Object,
 	#instVars : [
-		'arraySize'
+		'arraySize',
+		'arrayedCollectionClass'
 	],
 	#category : #'SDLExperiments-BooleanArray'
 }
 
 { #category : #running }
-BooleanArrayBenchs >> benchTag: aString with: aBlock [
-
-	| benchResult |
-	3 timesRepeat: [ Smalltalk garbageCollect ].
-
-	benchResult := aBlock bench.
-
-	('{1} ({2})' format: {
-		benchResult frequency rounded asStringWithCommas.
-		aString }) traceCr
-]
-
-{ #category : #running }
-BooleanArrayBenchs >> runAll [
-	<script: 'self new runAll'>
-
-	arraySize := 5000.
-
-	'--- size: ' trace.
-	arraySize trace.
-	'---' traceCr.
-	
-	'
-Array:' traceCr.
-	self runWith: Array.
-
-"	'
-BooleanArray w/DoubleWordArray (8 bytes):' traceCr.
-	BooleanArray initializeFor: DoubleWordArray.
-	self runWith: BooleanArray."
-
-	'
-BooleanArray w/WordArray (4 bytes):' traceCr.
-	BooleanArray initializeFor: WordArray.
-	self runWith: BooleanArray.
-
-"	'
-BooleanArray w/DoubleByteArray (2 bytes):' traceCr.
-	BooleanArray initializeFor: DoubleByteArray.
-	self runWith: BooleanArray.
-"
-	'
-BooleanArray w/ByteArray (1 byte):' traceCr.
-	BooleanArray initializeFor: ByteArray.
-	self runWith: BooleanArray
-]
-
-{ #category : #running }
-BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
+BooleanArrayBenchs >> benchAll [
 
 	| array source fuzzyParameters |
-	array := anArrayedCollectionClass new: arraySize.
-	source := Array new: arraySize withAll: true.
+	array := arrayedCollectionClass new: arraySize.
+	source := Array new: arraySize.
 	1 to: arraySize do: [ :i | source at: i put: i even ].
-	fuzzyParameters := Array new: arraySize streamContents: [ :stream |
-		| random from to start |
+	fuzzyParameters := Array streamContents: [ :stream |
+		| random |
 		random := Random seed: 0.
-		arraySize timesRepeat: [
+		50 timesRepeat: [
+			| from to start |
 			from := random nextIntegerBetween: 1 and: arraySize//3.
 			to := random nextIntegerBetween: arraySize//3 and: arraySize//2.
 			start := random nextIntegerBetween: 1 and: arraySize//3.
@@ -115,6 +69,53 @@ BooleanArrayBenchs >> runWith: anArrayedCollectionClass [
 					replaceFrom: a first
 					to: a second
 					with: source
-					startingAt: a third ] ]
+					startingAt: a third ] ].
+
+	self
+		benchTag: #shift
+		with: [
+			array
+				shiftRightBy: 65
+				startingAt: 1
+				fillWithAll: false.
+			array
+				shiftLeftBy: 65
+				startingAt: 1
+				fillWithAll: false ]
+]
+
+{ #category : #running }
+BooleanArrayBenchs >> benchTag: aString with: aBlock [
+
+	| benchResult |
+	3 timesRepeat: [ Smalltalk garbageCollect ].
+
+	benchResult := aBlock bench.
+
+	('{1} ({2})' format: {
+		benchResult frequency rounded asStringWithCommas.
+		aString }) traceCr
+]
+
+{ #category : #running }
+BooleanArrayBenchs >> runAll [
+	<script: 'self new runAll'>
+
+	arraySize := 100000.
+
+	'--- size: ' trace.
+	arraySize trace.
+	'---' traceCr.
+	
+	'
+Array:' traceCr.
+	arrayedCollectionClass := Array.
+	self benchAll.
+
+	'
+BooleanArray w/WordArray:' traceCr.
+	BooleanArray initializeFor: WordArray.
+	arrayedCollectionClass := BooleanArray.
+	self benchAll.
 
 ]
