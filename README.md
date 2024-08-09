@@ -15,7 +15,7 @@ Evaluate in Pharo 11 or 12:
 ```Smalltalk
 Metacello new
 	baseline: 'SDLExperiments';
-	repository: 'github://tinchodias/pharo-sdl-experiments:main/';
+	repository: 'github://tinchodias/pharo-sdl-experiments:master/';
 	load
 ```
 
