@@ -3,8 +3,8 @@ I handle frame stepping, provide time information, and know how to report.
 
 "
 Class {
-	#name : 'SceneTimeCounter',
-	#superclass : 'Object',
+	#name : #SceneTimeCounter,
+	#superclass : #Object,
 	#instVars : [
 		'lastMS',
 		'deltaMS',
@@ -12,35 +12,33 @@ Class {
 		'startMS',
 		'totalMS'
 	],
-	#category : 'SDLExperiments-Demo-Utility-Window',
-	#package : 'SDLExperiments-Demo',
-	#tag : 'Utility-Window'
+	#category : #'SDLExperiments-Demo-Utility-Window'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneTimeCounter >> deltaMS [
 	^ deltaMS
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneTimeCounter >> fps [
 
 	^ listOfDeltaMS size / self totalSeconds
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneTimeCounter >> fpsExceptFirst [
 
 	^ (listOfDeltaMS size - 1) / (self totalSeconds - (listOfDeltaMS first/1000))
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneTimeCounter >> listOfDeltaMS [
 
 	^ listOfDeltaMS
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 SceneTimeCounter >> reportString [
 
 	listOfDeltaMS ifEmpty: [ ^ 'Frame stats: no data' ].
@@ -73,7 +71,7 @@ SceneTimeCounter >> reportString [
 		 ]
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 SceneTimeCounter >> step [
 
 	lastMS
@@ -95,12 +93,12 @@ SceneTimeCounter >> step [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneTimeCounter >> totalMS [
 	^ totalMS
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneTimeCounter >> totalSeconds [
 
 	^ totalMS / 1000.0

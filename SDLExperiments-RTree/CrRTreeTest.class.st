@@ -1,11 +1,10 @@
 Class {
-	#name : 'CrRTreeTest',
-	#superclass : 'TestCase',
-	#category : 'SDLExperiments-RTree',
-	#package : 'SDLExperiments-RTree'
+	#name : #CrRTreeTest,
+	#superclass : #TestCase,
+	#category : #'SDLExperiments-RTree'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 CrRTreeTest >> test01SingleNode [
 
 	| rtree aRectangle |
@@ -29,7 +28,7 @@ CrRTreeTest >> test01SingleNode [
 		equals: #(1)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 CrRTreeTest >> test02SomeNodes [
 
 	| rectangles rtree |
@@ -56,7 +55,7 @@ CrRTreeTest >> test02SomeNodes [
 		equals: #(11)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 CrRTreeTest >> test03NonOverlappingNodes [
 
 	| rectangles rtree results |
@@ -89,7 +88,7 @@ CrRTreeTest >> test03NonOverlappingNodes [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 CrRTreeTest >> test04OverlappingNodes [
 
 	| rectangles rtree results |

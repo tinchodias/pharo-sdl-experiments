@@ -2,14 +2,13 @@
 I am a RTree node that has one or more children nodes.
 "
 Class {
-	#name : 'CrNonLeafNode',
-	#superclass : 'CrNode',
-	#type : 'variable',
-	#category : 'SDLExperiments-RTree',
-	#package : 'SDLExperiments-RTree'
+	#name : #CrNonLeafNode,
+	#superclass : #CrNode,
+	#type : #variable,
+	#category : #'SDLExperiments-RTree'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CrNonLeafNode class >> newFrom: nodeCollection startAt: startIndex size: aSize [
 
 	^ (self basicNew: aSize)
@@ -17,19 +16,19 @@ CrNonLeafNode class >> newFrom: nodeCollection startAt: startIndex size: aSize [
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrNonLeafNode >> childrenCount [
 
 	^ self size
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrNonLeafNode >> childrenDo: aBlock [
 
 	1 to: self size do: [ :index | aBlock value: (self at: index) ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CrNonLeafNode >> initializeFrom: nodeCollection startAt: startIndex [
 		
 	"First node"
@@ -53,7 +52,7 @@ CrNonLeafNode >> initializeFrom: nodeCollection startAt: startIndex [
 		aNode bottom > bottom ifTrue: [ bottom := aNode bottom ] ]
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrNonLeafNode >> intersectionAt: aRectangle do: aBlock [
 	
 	(self intersects: aRectangle) ifFalse: [ ^self ].
@@ -62,7 +61,7 @@ CrNonLeafNode >> intersectionAt: aRectangle do: aBlock [
 		each intersectionAt: aRectangle do: aBlock ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CrNonLeafNode >> printOn: aStream [
 
 	super printOn: aStream.
@@ -71,7 +70,7 @@ CrNonLeafNode >> printOn: aStream [
 		print: self childrenCount
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrNonLeafNode >> valuesAtX: x y: y do: aBlock [
 
 	(self containsX: x y: y) ifFalse: [ ^ self ].

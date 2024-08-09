@@ -1,6 +1,6 @@
 Class {
-	#name : 'SDL2Test',
-	#superclass : 'TestCase',
+	#name : #SDL2Test,
+	#superclass : #TestCase,
 	#instVars : [
 		'sdlWindow',
 		'windowPosition',
@@ -10,11 +10,10 @@ Class {
 		'SDL2Constants',
 		'SDL2Types'
 	],
-	#category : 'SDLExperiments-Tests',
-	#package : 'SDLExperiments-Tests'
+	#category : #'SDLExperiments-Tests'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 SDL2Test >> setUp [
 
 	super setUp.
@@ -32,7 +31,7 @@ SDL2Test >> setUp [
 			flags: SDL_WINDOW_HIDDEN
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 SDL2Test >> tearDown [
 
 	sdlWindow destroy.
@@ -40,7 +39,7 @@ SDL2Test >> tearDown [
 	super tearDown
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testCurrentDisplayMode [
 
 	| mode |
@@ -52,7 +51,7 @@ SDL2Test >> testCurrentDisplayMode [
 	self assert: mode h isInteger
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testDisplayMode [
 
 	| mode |
@@ -64,7 +63,7 @@ SDL2Test >> testDisplayMode [
 	self assert: mode h isInteger
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testExtent [
 
 	self assert: sdlWindow extent equals: windowExtent.
@@ -72,7 +71,7 @@ SDL2Test >> testExtent [
 	self assert: sdlWindow extent equals: 500 @ 600
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testFromByteToFloat [
 
 	self assert: (SDL2 fromByteToFloat: 1) closeTo: 1/255.0.
@@ -81,7 +80,7 @@ SDL2Test >> testFromByteToFloat [
 	self assert: (SDL2 fromByteToFloat: 256) closeTo: 1.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testFromFloatToByte [
 
 	self assert: (SDL2 fromFloatToByte: 1.0/255.0) equals: 1.
@@ -91,14 +90,14 @@ SDL2Test >> testFromFloatToByte [
 	self assert: (SDL2 fromFloatToByte:  1.5) equals: 255.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testPosition [
 
 	sdlWindow position: 200@300.
 	self assert: sdlWindow position equals: 200@300.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testRect [
 
 	| sdlRect aRectangle |
@@ -114,7 +113,7 @@ SDL2Test >> testRect [
 	self assert: aRectangle extent equals: 3@4
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testRenderDriverInfos [
 
 	| infos |
@@ -126,7 +125,7 @@ SDL2Test >> testRenderDriverInfos [
 	self assert: infos first maxTextureExtent isPoint
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testRendererAndVSync [
 	"Smoke test"
 
@@ -142,7 +141,7 @@ SDL2Test >> testRendererAndVSync [
 	sdlRenderer destroy
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testTicks [
 
 	| t1 t2 |
@@ -153,7 +152,7 @@ SDL2Test >> testTicks [
 	self assert: t1 < t2
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SDL2Test >> testTicks64 [
 
 	| t1 t2 |

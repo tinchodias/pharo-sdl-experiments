@@ -1,6 +1,6 @@
-Extension { #name : 'SDL2Handle' }
+Extension { #name : #SDL2Handle }
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL2Handle >> signalErrorIfNull [
 	"SDL2 object creation API tipically returns NULL on failure, and `SDL_GetError()` returns a string the error message."
 	

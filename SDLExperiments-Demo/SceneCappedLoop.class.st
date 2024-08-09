@@ -1,17 +1,15 @@
 Class {
-	#name : 'SceneCappedLoop',
-	#superclass : 'SceneLoop',
+	#name : #SceneCappedLoop,
+	#superclass : #SceneLoop,
 	#instVars : [
 		'waitingDelay',
 		'targetPeriodMS',
 		'lastMS'
 	],
-	#category : 'SDLExperiments-Demo-Utility-Window',
-	#package : 'SDLExperiments-Demo',
-	#tag : 'Utility-Window'
+	#category : #'SDLExperiments-Demo-Utility-Window'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SceneCappedLoop >> initialize [
 
 	super initialize.
@@ -23,7 +21,7 @@ SceneCappedLoop >> initialize [
 	waitingDelay := Delay forMilliseconds: 0
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 SceneCappedLoop >> preStep [
 
 	"Only for initial step"
@@ -33,20 +31,20 @@ SceneCappedLoop >> preStep [
 	super preStep.
 ]
 
-{ #category : 'api - lifecycle' }
+{ #category : #'api - lifecycle' }
 SceneCappedLoop >> targetHertz: aNumber [
 
 	targetPeriodMS := 1000.0 / aNumber
 ]
 
-{ #category : 'api - lifecycle' }
+{ #category : #'api - lifecycle' }
 SceneCappedLoop >> targetPeriod: aDuration [
 
 	targetPeriodMS := aDuration asMilliSeconds
 
 ]
 
-{ #category : 'stepping' }
+{ #category : #stepping }
 SceneCappedLoop >> waitIfNeeded [
 	"Wait the appropriate amount of time for the next step"
 

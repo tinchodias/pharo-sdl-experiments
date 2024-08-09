@@ -1,11 +1,10 @@
 Class {
-	#name : 'BaselineOfSDLExperiments',
-	#superclass : 'BaselineOf',
-	#category : 'BaselineOfSDLExperiments',
-	#package : 'BaselineOfSDLExperiments'
+	#name : #BaselineOfSDLExperiments,
+	#superclass : #BaselineOf,
+	#category : #BaselineOfSDLExperiments
 }
 
-{ #category : 'baseline' }
+{ #category : #baseline }
 BaselineOfSDLExperiments >> baseline: spec [
 	<baseline>
 	spec
@@ -24,7 +23,7 @@ BaselineOfSDLExperiments >> baseline: spec [
 			]
 ]
 
-{ #category : 'external projects' }
+{ #category : #'external projects' }
 BaselineOfSDLExperiments >> declareAlexandrieOn: spec [
 	spec 
 		baseline: 'Alexandrie'

@@ -1,13 +1,13 @@
-Extension { #name : 'SDL_Color' }
+Extension { #name : #'SDL_Color' }
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Color class >> autoReleasingNewFrom: aPharoColor [
 
 	^ self unownedNewFrom: aPharoColor
 
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Color class >> unownedNewFrom: aPharoColor [
 
 	^ self new
@@ -15,7 +15,7 @@ SDL_Color class >> unownedNewFrom: aPharoColor [
 		yourself
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Color class >> unownedNewR: r g: g b: b a: a [
 
 	^ self new
@@ -26,7 +26,7 @@ SDL_Color class >> unownedNewR: r g: g b: b a: a [
 		yourself
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Color >> updateFrom: aPharoColor [
 	
 	self

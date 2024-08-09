@@ -2,16 +2,15 @@
 I am a leaf RTree node that knows an associated value.
 "
 Class {
-	#name : 'CrLeafNode',
-	#superclass : 'CrNode',
+	#name : #CrLeafNode,
+	#superclass : #CrNode,
 	#instVars : [
 		'value'
 	],
-	#category : 'SDLExperiments-RTree',
-	#package : 'SDLExperiments-RTree'
+	#category : #'SDLExperiments-RTree'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CrLeafNode class >> bounds: aBounds value: anObject [
 
 	^ self basicNew
@@ -19,17 +18,17 @@ CrLeafNode class >> bounds: aBounds value: anObject [
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrLeafNode >> childrenCount [
 
 	^ 0
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrLeafNode >> childrenDo: aBlock [
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CrLeafNode >> initializeWith: anObject bounds: aBounds [
 
 	value := anObject.
@@ -40,7 +39,7 @@ CrLeafNode >> initializeWith: anObject bounds: aBounds [
 	bottom := aBounds bottom
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrLeafNode >> intersectionAt: aRectangle do: aBlock [
 
 	(self intersects: aRectangle) ifFalse: [ ^self ].
@@ -48,7 +47,7 @@ CrLeafNode >> intersectionAt: aRectangle do: aBlock [
 	aBlock value: value
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CrLeafNode >> printOn: aStream [
 
 	super printOn: aStream.
@@ -57,13 +56,13 @@ CrLeafNode >> printOn: aStream [
 		print: value
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrLeafNode >> value [
 
 	^ value
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrLeafNode >> valuesAtX: x y: y do: aBlock [
 
 	(self containsX: x y: y) ifFalse: [ ^ self ].

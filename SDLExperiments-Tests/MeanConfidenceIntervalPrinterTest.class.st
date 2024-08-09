@@ -2,13 +2,12 @@
 A DataSeriesStatisticsPrinterTest is a test class for testing the behavior of DataSeriesStatisticsPrinter
 "
 Class {
-	#name : 'MeanConfidenceIntervalPrinterTest',
-	#superclass : 'TestCase',
-	#category : 'SDLExperiments-Tests',
-	#package : 'SDLExperiments-Tests'
+	#name : #MeanConfidenceIntervalPrinterTest,
+	#superclass : #TestCase,
+	#category : #'SDLExperiments-Tests'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 MeanConfidenceIntervalPrinterTest >> testPrintMultipleExamples [
 
 	| printer |
@@ -29,7 +28,7 @@ MeanConfidenceIntervalPrinterTest >> testPrintMultipleExamples [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 MeanConfidenceIntervalPrinterTest >> testPrintWithUnit [
 
 	| printer |

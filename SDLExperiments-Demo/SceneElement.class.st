@@ -8,8 +8,8 @@ I know a rectangle that represents my position and extent on the scene.
 My tile variable may store a previously rendered tile, which can be used to save time if no changes happened.
 "
 Class {
-	#name : 'SceneElement',
-	#superclass : 'Object',
+	#name : #SceneElement,
+	#superclass : #Object,
 	#instVars : [
 		'sceneWindow',
 		'renderBlock',
@@ -22,18 +22,16 @@ Class {
 		'pixelExtent',
 		'opacityAsByte'
 	],
-	#category : 'SDLExperiments-Demo-Utility-Window',
-	#package : 'SDLExperiments-Demo',
-	#tag : 'Utility-Window'
+	#category : #'SDLExperiments-Demo-Utility-Window'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> boundingRectangle [
 
 	^ self position extent: self extent
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 SceneElement >> ensureDeviceScaledProperties [
 
 	pixelExtent ifNotNil: [ ^self ].
@@ -47,7 +45,7 @@ SceneElement >> ensureDeviceScaledProperties [
  
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 SceneElement >> ensureReadyToRender [
 
 	self ensureDeviceScaledProperties.
@@ -62,13 +60,13 @@ SceneElement >> ensureReadyToRender [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> extent [
 
 	^ logicalExtent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> extent: aLogicalPoint [
 
 	logicalExtent := aLogicalPoint.
@@ -76,7 +74,7 @@ SceneElement >> extent: aLogicalPoint [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SceneElement >> initialize [
 
 	super initialize.
@@ -95,20 +93,20 @@ SceneElement >> initialize [
 	self resetDeviceScaledProperties.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> isAnimated [
 
 	^ isAnimated
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> isAnimated: aBoolean [
 
 	isAnimated := aBoolean.
 	tile := nil.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SceneElement >> opacity: aFloat [
 	"Set a value in the [0..1] interval."
 	
@@ -116,20 +114,20 @@ SceneElement >> opacity: aFloat [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SceneElement >> opacityAsByte: aSmallInteger [
 	"Set an integer value in the [0..255] interval."
 	
 	opacityAsByte := aSmallInteger
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> position [
 
 	^ logicalPosition
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> position: aPoint [
 
 	logicalPosition := aPoint.
@@ -137,44 +135,44 @@ SceneElement >> position: aPoint [
 
 ]
 
-{ #category : 'public' }
+{ #category : #public }
 SceneElement >> render [
 
 	tile renderTo: dstFRect opacity: opacityAsByte
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> renderBlock [
 
 	^ renderBlock
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> renderBlock: aBlock [
 
 	renderBlock := aBlock
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 SceneElement >> resetDeviceScaledProperties [
 
 	pixelExtent := nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> sceneWindow: aSceneWindow [
 
 	sceneWindow := aSceneWindow
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> stepBlock [
 
 	^ stepBlock
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SceneElement >> stepBlock: aBlock [
 
 	stepBlock := aBlock

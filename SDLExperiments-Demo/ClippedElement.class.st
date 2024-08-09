@@ -1,6 +1,6 @@
 Class {
-	#name : 'ClippedElement',
-	#superclass : 'SceneElement',
+	#name : #ClippedElement,
+	#superclass : #SceneElement,
 	#instVars : [
 		'clipPathBlock',
 		'clipTile',
@@ -9,18 +9,16 @@ Class {
 	#pools : [
 		'SDL2Constants'
 	],
-	#category : 'SDLExperiments-Demo-Benchmarks',
-	#package : 'SDLExperiments-Demo',
-	#tag : 'Benchmarks'
+	#category : #'SDLExperiments-Demo-Benchmarks'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClippedElement >> clipPathBlock: aUnaryBlockClosure [
 
 	clipPathBlock := aUnaryBlockClosure
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ClippedElement >> ensureReadyToRender [
 
 	super ensureReadyToRender.
@@ -57,7 +55,7 @@ ClippedElement >> ensureReadyToRender [
 			renderTo: ExternalAddress null opacity: 255 ]
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 ClippedElement >> render [
 
 	clippedTargetTile renderTo: dstFRect opacity: opacityAsByte

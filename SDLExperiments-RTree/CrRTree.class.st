@@ -27,18 +27,17 @@ Inspired on Chrome's C++ implementation in rtree.h:
 
 "
 Class {
-	#name : 'CrRTree',
-	#superclass : 'Object',
+	#name : #CrRTree,
+	#superclass : #Object,
 	#instVars : [
 		'root',
 		'minChildren',
 		'maxChildren'
 	],
-	#category : 'SDLExperiments-RTree',
-	#package : 'SDLExperiments-RTree'
+	#category : #'SDLExperiments-RTree'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CrRTree class >> new: itemCount boundsBlock: boundsBlock valueBlock: valueBlock [
 
 	^ self basicNew
@@ -48,7 +47,7 @@ CrRTree class >> new: itemCount boundsBlock: boundsBlock valueBlock: valueBlock 
 		yourself
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CrRTree class >> withAll: aCollection [
 
 	^ self
@@ -57,7 +56,7 @@ CrRTree class >> withAll: aCollection [
 		valueBlock: [ :index | index ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrRTree >> allNodes [
 
 	| result |
@@ -66,13 +65,13 @@ CrRTree >> allNodes [
 	^ result
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrRTree >> bounds [
 
 	^ root bounds
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CrRTree >> bulkLoad: leaves until: lastIndex [
 
 	| remainder sourceIndex targetIndex |
@@ -115,7 +114,7 @@ CrRTree >> bulkLoad: leaves until: lastIndex [
 	^ targetIndex
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CrRTree >> initializeWith: itemCount boundsBlock: boundsBlock valueBlock: valueBlock [
 	"Create the structure from the leaves. Override the input
 	collection with new non-leaf nodes."
@@ -141,7 +140,7 @@ CrRTree >> initializeWith: itemCount boundsBlock: boundsBlock valueBlock: valueB
 	root := leaves first
 ]
 
-{ #category : 'inspector' }
+{ #category : #inspector }
 CrRTree >> inspectionTree: aBuilder [
 	<inspectorPresentationOrder: 1 title: 'Nodes'>
 
@@ -153,7 +152,7 @@ CrRTree >> inspectionTree: aBuilder [
 
 ]
 
-{ #category : 'searching' }
+{ #category : #searching }
 CrRTree >> intersectionAt: aRectangle [ 
 	
 	^ Array streamContents: [ :stream |
@@ -162,7 +161,7 @@ CrRTree >> intersectionAt: aRectangle [
 			do: [ :each | stream nextPut: each ] ]
 ]
 
-{ #category : 'searching' }
+{ #category : #searching }
 CrRTree >> intersectionAt: aRectangle do: aBlockClosure [
 
 	^ root
@@ -170,7 +169,7 @@ CrRTree >> intersectionAt: aRectangle do: aBlockClosure [
 		do: aBlockClosure
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrRTree >> nodeCount [
 
 	| count |
@@ -179,13 +178,13 @@ CrRTree >> nodeCount [
 	^ count
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrRTree >> reset [
 
   root := nil
 ]
 
-{ #category : 'searching' }
+{ #category : #searching }
 CrRTree >> valuesAtPoint: aPoint [
 	
 	^ Array streamContents: [ :stream |
@@ -194,7 +193,7 @@ CrRTree >> valuesAtPoint: aPoint [
 			do: [ :each | stream nextPut: each ] ]
 ]
 
-{ #category : 'searching' }
+{ #category : #searching }
 CrRTree >> valuesAtPoint: aPoint do: aBlock [
 
 	^ root valuesAtX: aPoint x y: aPoint y do: aBlock

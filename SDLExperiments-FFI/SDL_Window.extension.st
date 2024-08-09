@@ -1,11 +1,11 @@
-Extension { #name : 'SDL_Window' }
+Extension { #name : #'SDL_Window' }
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> createSoftwareRenderer [
 	^ self createRenderer: -1 flags: SDL_RENDERER_SOFTWARE 
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> currentDisplayMode [
 	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
 
@@ -20,7 +20,7 @@ SDL_Window >> currentDisplayMode [
 	^ aMode
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> displayMode [
 
 	| aMode |
@@ -34,7 +34,7 @@ SDL_Window >> displayMode [
 	^ aMode
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> extent [
 	"Answer the logical size of this window. See renderer's outputSize for the pixel size."
 
@@ -46,14 +46,14 @@ SDL_Window >> extent [
 
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> extent: aPoint [
 	"Set the logical size of this window. See renderer's outputSize for the pixel size."
 
 	self setSizeW: aPoint x h: aPoint y
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> getDisplayModeInto: mode [
 	"See: https://wiki.libsdl.org/SDL2/SDL_GetWindowDisplayMode"
 
@@ -64,7 +64,7 @@ SDL_Window >> getDisplayModeInto: mode [
 			SDL_DisplayMode * mode ) )
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> position [
 	"Answer the logical position of this window."
 
@@ -76,13 +76,13 @@ SDL_Window >> position [
 
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> position: aPoint [
 
 	self setPositionX: aPoint x y: aPoint y
 ]
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> setInputFocus [
 	"Explicitly set input focus to the window.
 	

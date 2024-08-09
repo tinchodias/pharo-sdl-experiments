@@ -1,6 +1,6 @@
 Class {
-	#name : 'SceneDragAndDropDemo',
-	#superclass : 'SceneInteractiveDemo',
+	#name : #SceneDragAndDropDemo,
+	#superclass : #SceneInteractiveDemo,
 	#instVars : [
 		'sceneWindowB',
 		'isDragging',
@@ -9,12 +9,10 @@ Class {
 		'cursorsByName',
 		'currentCursorName'
 	],
-	#category : 'SDLExperiments-Demo-Interactive',
-	#package : 'SDLExperiments-Demo',
-	#tag : 'Interactive'
+	#category : #'SDLExperiments-Demo-Interactive'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SceneDragAndDropDemo >> initialize [
 
 	super initialize.
@@ -24,7 +22,7 @@ SceneDragAndDropDemo >> initialize [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SceneDragAndDropDemo >> initializeCursors [ 
 	"Precondition: SDL2 is already initialized."
 
@@ -52,7 +50,7 @@ SceneDragAndDropDemo >> initializeCursors [
 
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 SceneDragAndDropDemo >> newSquareElement [
 
 	| newElement squareSide padding |
@@ -88,7 +86,7 @@ SceneDragAndDropDemo >> newSquareElement [
 	^ newElement
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 SceneDragAndDropDemo >> open [
 
 	| initialWindowSide gap |
@@ -127,7 +125,7 @@ SceneDragAndDropDemo >> open [
 	self initializeCursors
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 SceneDragAndDropDemo >> positionElementAt: aPoint relativeToWindowId: id [
 	"Position the elements according to a position expressed as relative to a window's coordinates origin."
 
@@ -145,13 +143,13 @@ SceneDragAndDropDemo >> positionElementAt: aPoint relativeToWindowId: id [
 
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 SceneDragAndDropDemo >> sceneWindowAt: id [
 	
 	^ windows detect: [ :each | each sdlWindow windowID = id ]
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 SceneDragAndDropDemo >> setCursorAccordingTo: aSDL_MouseMotionEvent [
 		
 	| currentWindow candidateElement isHoveringElement |
@@ -168,7 +166,7 @@ SceneDragAndDropDemo >> setCursorAccordingTo: aSDL_MouseMotionEvent [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SceneDragAndDropDemo >> setCursorNamed: aSymbol [ 
 
 	cursorsByName ifNil: [
@@ -180,7 +178,7 @@ SceneDragAndDropDemo >> setCursorNamed: aSymbol [
 
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 SceneDragAndDropDemo >> visitMouseButtonDownEvent: aSDL_MouseButtonDownEvent [
 
 	| id currentWindow cursorPosition candidateElement |
@@ -195,7 +193,7 @@ SceneDragAndDropDemo >> visitMouseButtonDownEvent: aSDL_MouseButtonDownEvent [
 	draggingOffset := cursorPosition - candidateElement position
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 SceneDragAndDropDemo >> visitMouseButtonUpEvent: aSDL_MouseButtonUpEvent [
 
 	| id windowScreenPosition cursorScreenPosition |
@@ -213,7 +211,7 @@ SceneDragAndDropDemo >> visitMouseButtonUpEvent: aSDL_MouseButtonUpEvent [
 
 ]
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 SceneDragAndDropDemo >> visitMouseMotionEvent: aSDL_MouseMotionEvent [
 
 	self setCursorAccordingTo: aSDL_MouseMotionEvent.

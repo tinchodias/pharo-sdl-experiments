@@ -2,13 +2,12 @@
 An AeSkylineAllocatorTest is a test class for testing the behavior of AeSkylineAllocator
 "
 Class {
-	#name : 'SkylinePackerTest',
-	#superclass : 'TestCase',
-	#category : 'SDLExperiments-Tests',
-	#package : 'SDLExperiments-Tests'
+	#name : #SkylinePackerTest,
+	#superclass : #TestCase,
+	#category : #'SDLExperiments-Tests'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> allocatedRandomRectanglesWith: random [
 
 	| aPacker allocatedRectangles done |
@@ -32,7 +31,7 @@ SkylinePackerTest >> allocatedRandomRectanglesWith: random [
 	^ allocatedRectangles
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> testAddDifferentHeightDoesNotMergeNodes [
 
 	| aPacker allocatedPosition |
@@ -53,7 +52,7 @@ SkylinePackerTest >> testAddDifferentHeightDoesNotMergeNodes [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> testAddSameHeightDoesMergeNodes [
 
 	| aPacker allocatedPosition |
@@ -74,7 +73,7 @@ SkylinePackerTest >> testAddSameHeightDoesMergeNodes [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> testAllocateEverything [
 
 	| aPacker atlasExtent |
@@ -89,7 +88,7 @@ SkylinePackerTest >> testAllocateEverything [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> testFillAllTall [
 
 	| aPacker allocatedPosition |
@@ -117,7 +116,7 @@ SkylinePackerTest >> testFillAllTall [
 	self assert: allocatedPosition equals: #noSpace
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> testFillAllWide [
 
 	| aPacker allocatedPosition |
@@ -145,7 +144,7 @@ SkylinePackerTest >> testFillAllWide [
 	self assert: allocatedPosition equals: #noSpace
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> testFuzzyAllocationsDoesNotIntersect [
 
 	| rectangles aRandom |
@@ -161,7 +160,7 @@ SkylinePackerTest >> testFuzzyAllocationsDoesNotIntersect [
 			self deny: (each first intersects: each second) ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> testNoSpace [
 
 	| aPacker atlasExtent noSpace |
@@ -184,7 +183,7 @@ SkylinePackerTest >> testNoSpace [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 SkylinePackerTest >> testSimpleAllocate [
 
 	| aPacker allocatedPosition |

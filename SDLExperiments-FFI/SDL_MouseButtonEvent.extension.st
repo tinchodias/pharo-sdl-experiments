@@ -1,6 +1,6 @@
-Extension { #name : 'SDL_MouseButtonEvent' }
+Extension { #name : #'SDL_MouseButtonEvent' }
 
-{ #category : '*SDLExperiments-FFI' }
+{ #category : #'*SDLExperiments-FFI' }
 SDL_MouseButtonEvent >> position [
 
 	^ self x @ self y

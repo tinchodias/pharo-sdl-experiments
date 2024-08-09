@@ -4,44 +4,43 @@ I'm an abstract R-Tree node that has rectangular bounds.
 My subclasses represent specific nodes that either have children nodes (non-leaf nodes) or an associated value (leaf nodes).
 "
 Class {
-	#name : 'CrNode',
-	#superclass : 'Object',
+	#name : #CrNode,
+	#superclass : #Object,
 	#instVars : [
 		'left',
 		'top',
 		'right',
 		'bottom'
 	],
-	#category : 'SDLExperiments-RTree',
-	#package : 'SDLExperiments-RTree'
+	#category : #'SDLExperiments-RTree'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrNode >> bottom [
 
 	^ bottom
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrNode >> bounds [
 
 	^ Rectangle left: left right: right top: top bottom: bottom
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrNode >> children [
 
 	^ Array new: self childrenCount streamContents: [ :stream |
 		self childrenDo: [ :each | stream nextPut: each ]]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrNode >> childrenCount [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrNode >> childrenDepthFirstDo: aBlock [
 
 	self childrenDo: [ :each |
@@ -49,20 +48,20 @@ CrNode >> childrenDepthFirstDo: aBlock [
 	aBlock value: self
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrNode >> childrenDo: aBlock [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CrNode >> containsPoint: aPoint [
 	"Answer whether aPoint is within the receiver. Pay attention the self origin is considered less than but the corner is strict"
 
 	^ self containsX: aPoint x y: aPoint y
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CrNode >> containsX: x y: y [
 	"Answer whether a point is within the receiver. Pay attention the self origin is considered less than but the corner is strict"
 
@@ -73,13 +72,13 @@ CrNode >> containsX: x y: y [
 	^ true
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 CrNode >> intersectionAt: aRectangle do: aBlock [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CrNode >> intersects: aRectangle [
 	"Answer whether aRectangle intersects the receiver anywhere."
 
@@ -90,7 +89,7 @@ CrNode >> intersects: aRectangle [
 		bottom: aRectangle bottom
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CrNode >> intersectsLeft: aLeft top: aTop right: aRight bottom: aBottom [
 
 	aRight  <= left   ifTrue: [ ^ false ].
@@ -100,13 +99,13 @@ CrNode >> intersectsLeft: aLeft top: aTop right: aRight bottom: aBottom [
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrNode >> left [
 
 	^ left
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CrNode >> printOn: aStream [
 
 	super printOn: aStream.
@@ -115,13 +114,13 @@ CrNode >> printOn: aStream [
 		print: self bounds
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrNode >> right [
 
 	^ right
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CrNode >> top [
 
 	^ top
