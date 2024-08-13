@@ -41,6 +41,24 @@ SDL2 class >> createRGBSurfaceWithFormat: aSDLPixelFormat depth: depth width: wi
 ]
 
 { #category : #'*SDLExperiments-FFI' }
+SDL2 class >> createThread: fnCallback name: threadName data: data [
+	"Create a new thread with a default stack size.
+	Returns an opaque pointer to the new thread object on success, or
+	NULL if the new thread could not be created. See `getErrorMessage`
+	for more information in case of error.
+	
+	See: https://wiki.libsdl.org/SDL2/SDL_CreateThread"
+
+	^ self ffiCall: #(
+		void *
+		SDL_CreateThread(
+			SDL_ThreadFunction fnCallback,
+			const char *threadName,
+			void *data) )
+
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL2 class >> ensureSuccessCode: aReturnCode description: aString [
 	"SDL2 API tipically specify: 'Returns 0 on success or a negative error code on failure; call SDL_GetError() for more information.'"
 	
