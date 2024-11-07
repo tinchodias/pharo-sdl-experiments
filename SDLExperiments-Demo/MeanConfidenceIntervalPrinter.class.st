@@ -22,6 +22,22 @@ Class {
 	#category : #'SDLExperiments-Demo-Utility-Print'
 }
 
+{ #category : #benchmarking }
+MeanConfidenceIntervalPrinter class >> bench: aBlock samples: count printOn: aStream [
+	"Run a block the a count of times and print the confidence interval on a stream.
+	This is convenience API and example on how to use the printer."
+
+	| allMSToRun |
+	allMSToRun := Array streamContents: [ :msStream |
+		count timesRepeat: [
+			msStream nextPut: aBlock timeToRun asMilliSeconds ] ].
+
+	self new
+		unitString: 'ms';
+		fixedDecimalPlaces: 1;
+		print: allMSToRun on: aStream
+]
+
 { #category : #statistics }
 MeanConfidenceIntervalPrinter >> confidenceIntervalFor: aCollectionOfNumbers [
 
