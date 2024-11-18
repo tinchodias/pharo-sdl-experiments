@@ -66,9 +66,11 @@ Atlas >> cairoContextToOverride: srcRect do: aBlock [
 	"Draw on the buffer"
 	aCairoSurface := AeCairoImageSurface
 		newForData: pixelsAddress
-			 extent: srcRect extent
+			 format: AeCairoSurfaceFormat argb32
+			  width: srcRect w
+			 height: srcRect h
 			 stride: (pitchAddress signedLongAt: 1)
-			 format: AeCairoSurfaceFormat argb32.
+.
 	aCairoSurface deviceScale: deviceScalePoint.
 
 	aCairoContext := aCairoSurface newContext.
