@@ -1,6 +1,26 @@
 Extension { #name : #'SDL_Window' }
 
 { #category : #'*SDLExperiments-FFI' }
+SDL_Window >> availableDisplayModes [
+
+	| numberOfDisplayModes modes |
+
+	(numberOfDisplayModes := SDL2 getNumDisplayModes: self getDisplayIndex) < 1
+		ifTrue: [ SDL2 checkForError ].
+
+	modes := Array new: numberOfDisplayModes.
+	
+	0 to: numberOfDisplayModes - 1 do: [ :index | | mode |
+		mode := SDL_DisplayMode new.
+		modes at: index + 1 put: mode.
+
+		(SDL2 getDisplayMode: self getDisplayIndex modeIndex: index into: mode ) ~= 0
+			ifTrue: [ SDL2 checkForError ] ].
+	
+	^ modes
+]
+
+{ #category : #'*SDLExperiments-FFI' }
 SDL_Window >> createSoftwareRenderer [
 	^ self createRenderer: -1 flags: SDL_RENDERER_SOFTWARE 
 ]
