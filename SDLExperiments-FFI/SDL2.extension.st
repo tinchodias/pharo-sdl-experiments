@@ -96,7 +96,7 @@ SDL2 class >> getCurrentDisplayMode: displayIndex into: mode [
 
 { #category : #'*SDLExperiments-FFI' }
 SDL2 class >> getDisplayMode: displayIndex modeIndex: modeIndex into: mode [
-	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
+	"See: https://wiki.libsdl.org/SDL2/SDL_GetDisplayMode"
 
 	^ self ffiCall: #(
 		int
@@ -114,7 +114,7 @@ SDL2 class >> getHint: aName [
 
 { #category : #'*SDLExperiments-FFI' }
 SDL2 class >> getNumDisplayModes: displayIndex [
-	"See: https://wiki.libsdl.org/SDL2/SDL_GetCurrentDisplayMode"
+	"See: https://wiki.libsdl.org/SDL2/SDL_GetNumDisplayModes"
 
 	^ self ffiCall: #(
 		int
